@@ -1,0 +1,35 @@
+---
+- name: deploy compute
+  hosts: compute
+  gather_facts: false
+  become: true
+  tasks:
+###
+#ansible managed_node -i hosts -m synchronize -a "src=hostname.sh dest=/tmp/hostname.sh" --extra-vars "ansible_user=vagrant ansible_password=vagrant"
+#
+#    - name: Copy the script 
+#      synchronize:
+#        src: ./compute_add.sh
+#        dest: /tmp/compute_add.sh
+#      vars:
+#        ansible_user: vagrant
+#        ansible_password: vagrant
+##
+#    - name: Change file ownership, group and permissions
+#      ansible.builtin.file:
+#        path: /tmp/compute_add.sh
+#        owner: vagrant
+#        group: vagrant
+#        mode: '0755'
+##
+    - name: "Joining Compute Nodes......."
+      ansible.builtin.script: ./compute_add.sh
+#
+#
+#      ansible.builtin.script: /Users/sudo/vagrant/ubuntu/scripts/01.1_all_install_docker.sh
+#
+#  handlers:
+#    - name: restart_sshd
+#      service:
+#        name: sshd
+#        state: restarted

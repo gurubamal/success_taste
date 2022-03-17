@@ -1,0 +1,46 @@
+---
+- name: deploy control
+  hosts: control
+  gather_facts: false
+#  become: true
+  tasks:
+#    - name: create user
+#      user:
+#        name: ram
+#        state: present
+#        shell: /bin/bash
+#        password: "{{ 'vagrant' | password_hash('sha512') }}"
+#        update_password: on_create
+#    - name: ssh password
+#      lineinfile:
+#        path: /etc/ssh/sshd_config
+#        regexp: '^PasswordAuthentication '
+#        insertafter: '#PasswordAuthentication'
+#        line: 'PasswordAuthentication yes'
+#      notify: restart_sshd
+#    - name: sudo
+#      copy:
+#        dest: /etc/sudoers.d/ram
+#        content: "ram ALL=(root) NOPASSWD: ALL"
+###
+#ansible managed_node -i hosts -m synchronize -a "src=hostname.sh dest=/tmp/hostname.sh" --extra-vars "ansible_user=vagrant ansible_password=vagrant"
+#
+#    - name: Copy the script 
+#      synchronize:
+#        src: /Users/sudo/vagrant/ubuntu/03_setup_control_post_init.sh
+#        dest: /tmp/03_setup_control_post_init.sh
+#      vars:
+#        ansible_user: vagrant
+#        ansible_password: vagrant
+#
+#    - name: Change file ownership, group and permissions
+#      ansible.builtin.file:
+#        path: /tmp/03_setup_control_post_init.sh
+#        owner: vagrant
+#        group: vagrant
+#        mode: '0755'
+##
+    - name: "Setting up base K8s control and compute nodes......."
+      ansible.builtin.script: ./03_setup_control_post_init.sh
+#
+#
