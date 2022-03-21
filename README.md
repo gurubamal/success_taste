@@ -1,5 +1,7 @@
 # success_taste
 
+#NOTE: Given that CODE is working fine at the moment, it installs the latest version of everything. Later versions may have massive changes in the code and installation method, and the code would need an update at some point in time!
+
 Pre-requisites:
 
 > Basic Linux Skills are expected
