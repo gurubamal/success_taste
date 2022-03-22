@@ -1,3 +1,7 @@
+# success_taste
+
+NOTE: Given that CODE is working fine at the moment (when uploaded), it installs the latest version of everything. Later versions may have massive changes in the code and installation method, and the code would need an update at some point in time!
+
 Pre-requisites:
 
 > Basic Linux Skills are expected
@@ -10,26 +14,13 @@ Pre-requisites:
 
     $ vagrant plugin install vagrant-vbguest
 
-    $ gunzip ae2cae1d-d99d-491f-b862-71afb5d46c0b.*
-
-    $ vagrant box add --name bento/ubuntu-20.04 ae2cae1d-d99d-491f-b862-71afb5d46c0b
-
     $ echo "export VAGRANT_DEFAULT_PROVIDER=virtualbox" >> ~/.bashrc ; source ~/.bashrc
 
     $ chmod +x *.sh
 
 NOTE: Most of the commands work in success_taste directory as the present working directory
 
-> Download success_taste folder from google drive Link: 
-https://drive.google.com/drive/folders/13L3BK8V3a6w5ET5Qacdevly4l8iGZ8ZQ
-
-OR
-
-https://drive.google.com/drive/folders/1ryF7vcrSj1B5Y4CT3LOzWdhwF4QKZRdF
-
-Request Anshul Srivastava for access to this folder.
-
-NOTE:You just need to run the above command once (you need not repeat them for the second time in the same environment).
+NOTE:You need to run the above command once (you need not repeat them for the second time in the same environment).
 
 ####### SEC - A #########################
 
@@ -91,6 +82,3 @@ To clean any previously implemented setup, use the below command:
 $vagrant destroy
 
 Ensure the right Vagrantfile for which you are running vagrant commands. Note that vagrant commands read  Vagrantfile for any of your sonarqube  actions.
-
-
-
