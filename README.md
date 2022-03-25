@@ -19,9 +19,6 @@ Pre-requisites:
 
 NOTE: Most of the commands work in success_taste directory as the present working directory
 
-> Download success_taste folder from google drive Link: 
-https://drive.google.com/drive/folders/13L3BK8V3a6w5ET5Qacdevly4l8iGZ8ZQ
-
 Request Anshul Srivastava for access to this folder.
 
 NOTE:You just need to run the above command once (you need not repeat them for the second time in the same environment).
