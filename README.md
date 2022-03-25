@@ -1,5 +1,5 @@
 NOTE:
-Given that CODE is working fine at the moment (when uploaded), it installs the latest version of everything. Later versions may have massive changes in the code and installation method, and the code would need an update at some point in time!
+Given CODE is working fine at the moment (when uploaded), it installs the latest version of everything. It is possible that later sonarqube or k8s versions may have massive changes in the code and installation method, and the code would need an update at that point in time!
 
 Pre-requisites:
 
@@ -13,10 +13,6 @@ Pre-requisites:
 
     $ vagrant plugin install vagrant-vbguest
 
-    $ gunzip ae2cae1d-d99d-491f-b862-71afb5d46c0b.*
-
-    $ vagrant box add --name bento/ubuntu-20.04 ae2cae1d-d99d-491f-b862-71afb5d46c0b
-
     $ echo "export VAGRANT_DEFAULT_PROVIDER=virtualbox" >> ~/.bashrc ; source ~/.bashrc
 
     $ chmod +x *.sh
@@ -25,10 +21,6 @@ NOTE: Most of the commands work in success_taste directory as the present workin
 
 > Download success_taste folder from google drive Link: 
 https://drive.google.com/drive/folders/13L3BK8V3a6w5ET5Qacdevly4l8iGZ8ZQ
-
-OR
-
-https://drive.google.com/drive/folders/1ryF7vcrSj1B5Y4CT3LOzWdhwF4QKZRdF
 
 Request Anshul Srivastava for access to this folder.
 
@@ -67,10 +59,11 @@ $chmod +x *.sh
 2) If you are executing these steps after SEC - A (sonarqube installation), rename  Vagrantfile to sonqube_Vagrantfile; and then rename Vagrantfile_k8s to Vagrantfile 
 
 
-3)  run âvagrant upâ
+3)  run #vagrant up
 
+and then
 
-4) ./final_touch.sh
+4) #./final_touch.sh
 
 
 Once you have completed the above commands, your Kubernetes cluster would be ready within the next 5 minutes.
@@ -92,7 +85,7 @@ Use below script from success_taste directory on a functional kubernetes cluster
 
 ./istio_install.sh
 
-You will find kiali services will be running at http://192.168.58.6:31000/ ,  fleet management app will be availabe at http://192.168.58.6:30080/ & Jaeger will be availabe at http://192.168.58.6:31001
+You will find kiali services will be running at http://192.168.58.6:31000/ ,  test fleet management app will be availabe at http://192.168.58.6:30080/ & Jaeger will be availabe at http://192.168.58.6:31001
 
 NOTE: It is best if you set Memory for k8s nodes to 4GB for istio setup (you can use Vagrantfile.istio as default Vagrantfile as an example)
 
