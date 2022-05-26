@@ -6,10 +6,16 @@ fi
 if [ "$HOSTNAME" = node6 ]; then
 	if ! [ -e /etc/kubernetes/pki/ca.crt ]
 	then
-	sudo kubeadm init --apiserver-advertise-address=192.168.58.6 --pod-network-cidr=10.244.0.0/16 |tee init.txt ; echo sudo $(tail -2 init.txt|head -1| cut -d'\' -f1)  $(tail -1 init.txt| cut -d'[' -f1) |tee compute_add.sh
+	sudo rm /etc/containerd/config.toml
+	sudo systemctl restart containerd
+	sudo systemctl enable containerd
+	sudo kubeadm init --apiserver-advertise-address=192.168.58.6 --pod-network-cidr=10.244.0.0/16 |tee init.txt ; echo sudo $(tail -2 init.txt|head -1| cut -d'\' -f1)  $(tail -1 init.txt| cut -d'[' -f1) |tee -a  compute_add.sh
 	JOIN_CMD=$(cat compute_add.sh)
 	echo   "if ! [ $HOSTNAME = node6 ]; then
 	if ! [ -e /etc/kubernetes/kubelet.conf ] ; then
+	sudo rm /etc/containerd/config.toml
+	sudo systemctl restart containerd
+	sudo systemctl enable containerd
 	$JOIN_CMD
 	fi
 	else exit 0
