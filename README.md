@@ -9,6 +9,8 @@ Pre-requisites:
 
 > Vagrant, VirtualBox, and git should be pre-installed
 
+> It is expected that you are connected to internet 
+
 > Run the following commands from success_taste Directory:
 
     $ vagrant plugin install vagrant-vbguest
@@ -17,7 +19,9 @@ Pre-requisites:
 
     $ chmod +x *.sh
 
-NOTE: Most of the commands work in success_taste directory as the present working directory
+NOTE: Most of the commands work in success_taste directory as the present working directory. Complete setup downloads packages from internet. 
+
+NOTE: Linux admin User (with sudo perms) & password will be vagrant (password is vagrant as well) (K8s VM IPs : 192.168.58.6 - master node/ 192.168.58.7 - compute node / 192.168.58.8 - compute node)
 
 NOTE:You just need to run the above commands once (you need not repeat them for the second time in the same environment).
 
