@@ -14,6 +14,8 @@ Pre-requisites:
 > Run the following commands from success_taste Directory:
 
      vagrant plugin install vagrant-vbguest
+ 
+> RUN below only if you are in Linux or Mac terminal:
 
      echo "export VAGRANT_DEFAULT_PROVIDER=virtualbox" >> ~/.bashrc ; source ~/.bashrc
 
