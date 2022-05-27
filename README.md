@@ -19,9 +19,7 @@ Pre-requisites:
 
 NOTE: Most of the commands work in success_taste directory as the present working directory
 
-Request Anshul Srivastava for access to this folder.
-
-NOTE:You just need to run the above command once (you need not repeat them for the second time in the same environment).
+NOTE:You just need to run the above commands once (you need not repeat them for the second time in the same environment).
 
 ####### SEC - A #########################
 
