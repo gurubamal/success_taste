@@ -5,7 +5,7 @@ Pre-requisites:
 
 > Basic Linux Skills are expected
 
-> Secure boot must be disabled from BIOS; also, virtualization should be enabled.
+> On your hardware (laptop, desktop, server) Secure boot must be disabled from BIOS; also, virtualization should be enabled.
 
 > Vagrant, VirtualBox, and git should be pre-installed
 
@@ -66,7 +66,9 @@ and then
 
 4) #./final_touch.sh
 
-
+NOTE: in case you are using windows, instead of using ./final_touch.sh use  below command (from command line):
+vagrant ssh node6  -c '/vagrant/05_post_join_control.sh'
+    
 Once you have completed the above commands, your Kubernetes cluster would be ready within the next 5 minutes.
 
 
