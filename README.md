@@ -69,8 +69,8 @@ and then
 NOTE: in case you are using windows, instead of using ./final_touch.sh use  following command (from command line):
 FROM WINDOWS COMMANDLINE:
     vagrant ssh node6  -c '/vagrant/05_post_join_control.sh'
-    
-    I have observed that script sometimes can return with issue in windows, so you can directly use following commands in node6 (ssh to node6 using "vagrant ssh node6" from you local machine):
+	
+I have observed that script sometimes can return with issue in windows, so you can directly use following commands in node6 (ssh to node6 using "vagrant ssh node6" from you local machine):
 FROM node6  COMMANDLINE:
     $sudo mkdir -p /home/vagrant/.kube
 	$sudo chown vagrant:vagrant /home/vagrant/.kube
