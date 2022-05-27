@@ -23,7 +23,7 @@ NOTE: Most of the commands work in success_taste directory as the present workin
 
 NOTE: Linux admin User (with sudo perms) & password will be vagrant (password is vagrant as well) (K8s VM IPs : 192.168.58.6 - master node/ 192.168.58.7 - compute node / 192.168.58.8 - compute node)
 
-NOTE:You just need to run the above commands once (you need not repeat them for the second time in the same environment).
+NOTE:You just need to run the above commands once (you need not repeat them for the second time in the same environment). It can take upto 30-60 minutes if time to run it completely (based on your internet speed).
 
 ####### SEC - A #########################
 
