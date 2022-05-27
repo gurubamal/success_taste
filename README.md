@@ -66,8 +66,8 @@ and then
 
 4) #./final_touch.sh
 
-NOTE: in case you are using windows, instead of using ./final_touch.sh use  following command (from command line):
-FROM WINDOWS COMMANDLINE:
+NOTE: in case you are using windows, instead of using ./final_touch.sh use  following command (FROM WINDOWS COMMANDLINE):
+	
     vagrant ssh node6  -c '/vagrant/05_post_join_control.sh'
 	
 I have observed that script sometimes can return with issue in windows, so you can directly use following commands in node6 (ssh to node6 using "vagrant ssh node6" from you local machine):
