@@ -72,11 +72,8 @@ FROM WINDOWS COMMANDLINE:
 	
 I have observed that script sometimes can return with issue in windows, so you can directly use following commands in node6 (ssh to node6 using "vagrant ssh node6" from you local machine):
 FROM node6  COMMANDLINE:
-    $sudo mkdir -p /home/vagrant/.kube
-	$sudo chown vagrant:vagrant /home/vagrant/.kube
-    $sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
-    $sudo chown vagrant:vagrant  /home/vagrant/.kube/config
-    $kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
+
+sudo mkdir -p /home/vagrant/.kube ; sudo chown vagrant:vagrant /home/vagrant/.kube ; sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config ; sudo chown vagrant:vagrant  /home/vagrant/.kube/config ; kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 
 
  (Rest for next 3-5 minutes after all commands; Once you have completed the above commands, your Kubernetes cluster would be ready within the next 5 minutes.
