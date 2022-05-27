@@ -13,11 +13,11 @@ Pre-requisites:
 
 > Run the following commands from success_taste Directory:
 
-    $ vagrant plugin install vagrant-vbguest
+     vagrant plugin install vagrant-vbguest
 
-    $ echo "export VAGRANT_DEFAULT_PROVIDER=virtualbox" >> ~/.bashrc ; source ~/.bashrc
+     echo "export VAGRANT_DEFAULT_PROVIDER=virtualbox" >> ~/.bashrc ; source ~/.bashrc
 
-    $ chmod +x *.sh
+     chmod +x *.sh
 
 NOTE: Most of the commands work in success_taste directory as the present working directory. Complete setup downloads packages from internet. 
 
