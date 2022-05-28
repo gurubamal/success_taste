@@ -14,6 +14,8 @@ Pre-requisites:
 
 > It is expected that you are connected to internet 
 
+> If you are here for k8s setup then use ###### SEC - B ####  mentioned below 
+
 > Run the following commands from success_taste Directory:
 
      vagrant plugin install vagrant-vbguest
