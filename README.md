@@ -1,6 +1,9 @@
 NOTE:
 Given CODE is working fine at the moment (when uploaded), it installs the latest version of everything. It is possible that later sonarqube or k8s versions may have massive changes in the code and installation method, and the code would need an update at that point in time!
 
+Tutorial video:
+https://youtu.be/BNnTaX3cR2k
+
 Pre-requisites:
 
 > Basic Linux Skills are expected
