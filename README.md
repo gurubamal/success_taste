@@ -36,7 +36,7 @@ NOTE: In each section, It can take upto 30-60 minutes of time to run it complete
 
 For sonarqube node installation:
 
-1) In case you have run K8s installation steps recently, then rename Vagrantfile to Vagrantfile_k8s and also rename sonqube_Vagrantfile to Vagrantfile
+1) Rename sonqube_Vagrantfile to Vagrantfile
 
 2) Run following for sonarqube installation now :
 	
