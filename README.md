@@ -14,8 +14,6 @@ Pre-requisites:
 
 > It is expected that you are connected to internet 
 
-> If you are here for k8s setup then use ###### SEC - B ####  mentioned below 
-
 > Run the following commands from success_taste Directory:
 
      vagrant plugin install vagrant-vbguest
@@ -25,6 +23,8 @@ Pre-requisites:
      echo "export VAGRANT_DEFAULT_PROVIDER=virtualbox" >> ~/.bashrc ; source ~/.bashrc
 
      chmod +x *.sh
+     
+> If you are here for k8s setup then use ###### SEC - B ####  mentioned below 
 
 NOTE: Most of the commands work in success_taste directory as the present working directory. Complete setup downloads packages from internet. 
 
