@@ -13,7 +13,7 @@ Pre-requisites:
 
 > On your hardware (laptop, desktop, server) Secure boot must be disabled from BIOS; also, virtualization should be enabled.
 
-> Vagrant, VirtualBox, and git should be pre-installed (restart device after virtual box install)
+> Vagrant, VirtualBox, and git should be pre-installed (restart device once after virtual box install)
 
 > It is expected that you are connected to internet 
 
