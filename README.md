@@ -84,7 +84,7 @@ RUN FOLLOWING IN node6 COMMANDLINE:
 	kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 
 
- (Rest for next 3-5 minutes after all commands; Once you have completed the above commands, your Kubernetes cluster would be ready within the next 5 minutes.
+ (Rest for next 3-5 minutes after all commands; Once you have completed the above commands, your Kubernetes cluster would be ready.
 
 
 ######################### SEC - C #########################
