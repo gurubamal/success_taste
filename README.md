@@ -26,8 +26,6 @@ Pre-requisites:
      echo "export VAGRANT_DEFAULT_PROVIDER=virtualbox" >> ~/.bashrc ; source ~/.bashrc
 
      chmod +x *.sh
-     
-> If you are here for k8s setup then use ###### SEC - B ####  mentioned below 
 
 NOTE: Most of the commands work in success_taste directory as the present working directory. Complete setup downloads packages from internet. 
 
@@ -38,6 +36,8 @@ NOTE: You just need to run the above commands once (you need not repeat them for
 NOTE: In each section, It can take upto 30-60 minutes of time to run it completely (based on your internet speed).
 
 ####### SEC - A #########################
+
+NOTE: If you are here for k8s setup then use ###### SEC - B ####  mentioned next 
 
 For sonarqube node installation:
 
