@@ -17,7 +17,7 @@ Pre-requisites:
 
 > It is expected that you are connected to internet 
 
-> Run the following commands from success_taste Directory:
+> Run the all the commands from success_taste Directory (clone it using: git clone https://github.com/gurubamal/success_taste.git)
 
      vagrant plugin install vagrant-vbguest
  
