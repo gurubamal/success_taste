@@ -49,7 +49,7 @@ CEPH (v15) MULTINODE VMS Install SETUP:
 3) Setup install node6 (node01, admin+mon node), node7 (osd node02) and node8 (osd node03)
 4) Post setup Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
 
-NOTE: All ceph commands will need sudo privileges
+NOTE: All ceph commands will need sudo privileges. Scripts creates & uses "/dev/sdb" in each node (while installation) for ceph storage pool 
 
 NOTE (For WINDOWS Hosts):
 If you are running "vagrant up" in windows, then you need to ssh to node6 (vagrant ssh node6) and then execute "sudo /vagrant/03ceph.sh" once to setup ceph
