@@ -35,27 +35,25 @@ NOTE: You just need to run the above commands once (you need not repeat them for
 
 NOTE: In each section, It can take upto 30-60 minutes of time to run it completely (based on your internet speed).
 
-####### SEC - A #########################
+############# SEC - A - CEPH (v15) MULTINODE VMS Install#########################
 
 NOTE: If you are here for k8s setup then use ###### SEC - B ####  mentioned next 
 
-For sonarqube node installation:
+CEPH (v15) MULTINODE VMS Install SETUP:
 
-1) Rename sonqube_Vagrantfile to Vagrantfile
+1) Rename Vagrantfile.ceph to Vagrantfile in success_taste directory
+2) Now run the below commands:
 
-2) Run following for sonarqube installation now :
-	
-	vagrant up
+    vagrant up ; ./ceph_final_touch.sh
 
->>sonarquube server should be ready within 30 minutes, depending on your internet connection.
+3) Setup install node6 (node01, admin+mon node), node7 (osd node02) and node8 (osd node03)
+4) Post setup Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
 
-Now use http://192.168.58.5:9000; use admin as user and admin as password.
+NOTE: All ceph commands will need sudo privileges
 
-NOTE: You can run any code scan for the latest vulnerabilities using the following command:
-	
-	sudo /home/vagrant/dependency-check/bin/dependency-check.sh --noupdate --prettyPrint --format HTML -scan ./<your project code>
-
-######################### SEC - B #########################
+NOTE (For WINDOWS Hosts):
+If you are running "vagrant up" in windows, then you need to ssh to node6 (vagrant ssh node6) and then execute "sudo /vagrant/03ceph.sh" once to setup ceph
+######################### SEC - B K8s Multinode Install #########################
 
 Instructions for K8s Installation:
 
@@ -116,6 +114,25 @@ You will find kiali services will be running at http://192.168.58.6:31000/ ,  te
 NOTE: It is best if you set Memory for k8s nodes to 4GB for istio setup (you can use Vagrantfile.istio as default Vagrantfile as an example)
 
 ######################### SEC - E #########################
+
+For sonarqube node installation:
+
+1) Rename sonqube_Vagrantfile to Vagrantfile
+
+2) Run following for sonarqube installation now :
+	
+	vagrant up
+
+>>sonarquube server should be ready within 30 minutes, depending on your internet connection.
+
+Now use http://192.168.58.5:9000; use admin as user and admin as password.
+
+NOTE: You can run any code scan for the latest vulnerabilities using the following command:
+	
+	sudo /home/vagrant/dependency-check/bin/dependency-check.sh --noupdate --prettyPrint --format HTML -scan ./<your project code>
+
+
+######################### SEC - F #########################
 
 VAGRANT CLEAN UP:
 
