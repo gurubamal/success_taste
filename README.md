@@ -35,6 +35,8 @@ NOTE: You just need to run the above commands once (you need not repeat them for
 
 NOTE: In each section, It can take upto 30-60 minutes of time to run it completely (based on your internet speed).
 
+You can get in touch with me at : gurubamal@gmail.com
+
 ############# SEC - A - CEPH (v15) MULTINODE VMS Install#########################
 
 NOTE: If you are here for k8s setup then use ###### SEC - B ####  mentioned next 
