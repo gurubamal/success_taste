@@ -54,7 +54,7 @@ CEPH (v15) MULTINODE VMS Install SETUP:
 NOTE: All ceph commands will need sudo privileges. Scripts creates & uses "/dev/sdb" in each node (while installation) for ceph storage pool 
 
 NOTE (For WINDOWS Hosts):
-If you are running "vagrant up" in windows, then you need to ssh to node6 (vagrant ssh node6) and then execute "sudo /vagrant/03ceph.sh" once to setup ceph
+If you are running "vagrant up" in windows, then you need to ssh to node6 (vagrant ssh node6) and then execute "sudo bash /vagrant/03ceph.sh" once to setup ceph
 
 
 ######################### SEC - B K8s Multinode Install #########################
