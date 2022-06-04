@@ -1,1 +1,1 @@
-vagrant ssh node6  -c 'sudo /vagrant/03ceph.sh'
+vagrant ssh node6  -c 'sudo bash  /vagrant/03ceph.sh'
