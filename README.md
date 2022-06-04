@@ -61,9 +61,6 @@ If you are running "vagrant up" in windows, then you need to ssh to node6 (vagra
 
 Instructions for K8s Installation:
 
-NOTE: if you have freshly downloaded the code and want to Install Kubernetes first, then go ahead with default Vagrantfile (it is for kubernetes already)
-
-
 1) Switch to success_taste directory and ensure all scripts are executable already:
 	
 	chmod +x *.sh
