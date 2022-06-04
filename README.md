@@ -55,6 +55,8 @@ NOTE: All ceph commands will need sudo privileges. Scripts creates & uses "/dev/
 
 NOTE (For WINDOWS Hosts):
 If you are running "vagrant up" in windows, then you need to ssh to node6 (vagrant ssh node6) and then execute "sudo /vagrant/03ceph.sh" once to setup ceph
+
+
 ######################### SEC - B K8s Multinode Install #########################
 
 Instructions for K8s Installation:
