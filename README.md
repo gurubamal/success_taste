@@ -37,7 +37,7 @@ NOTE: In each section, It can take upto 30-60 minutes of time to run it complete
 
 You can get in touch with me at : gurubamal@gmail.com
 
-############# SEC - A - CEPH (v15) MULTINODE VMS Install#########################
+############# SEC - A - CEPH (v15) MULTINODE Install#########################
 
 NOTE: If you are here for k8s setup then use ###### SEC - B ####  mentioned next 
 
@@ -48,8 +48,8 @@ CEPH (v15) MULTINODE VMS Install SETUP:
 
     vagrant up ; ./ceph_final_touch.sh
 
-3) Setup install node6 (node01, admin+mon node), node7 (osd node02) and node8 (osd node03)
-4) Post setup Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
+3)  Post setup Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
+4)  Setup install node6 (acts as node01, admin+mon node), node7 (acts as osd node02) and node8 (acts as osd node03)  
 
 NOTE: All ceph commands will need sudo privileges. Scripts creates & uses "/dev/sdb" in each node (while installation) for ceph storage pool 
 
