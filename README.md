@@ -66,7 +66,7 @@ Instructions for K8s Installation:
 	chmod +x *.sh
 
 
-2) If you are executing these steps after SEC - A (sonarqube installation), rename  Vagrantfile to sonqube_Vagrantfile; and then rename Vagrantfile_k8s to Vagrantfile 
+2) Rename or copy (i.e. use cp or mv commands) Vagrantfile_k8s to Vagrantfile 
 
 
 3)  run :
