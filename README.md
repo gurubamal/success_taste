@@ -69,13 +69,10 @@ Instructions for K8s Installation:
 2) Rename or copy (i.e. use cp or mv commands) Vagrantfile_k8s to Vagrantfile 
 
 
-3)  run :
+3)  Run :
 	
-	vagrant up
-
-4) and then on your linux or mac terminal:
-
-	./final_touch.sh
+	vagrant up ; vagrant ssh node6  -c '/vagrant/05_post_join_control.sh'
+	
 
 NOTE: in case you are using windows, instead of using ./final_touch.sh use  following command (FROM WINDOWS COMMANDLINE):
 	
