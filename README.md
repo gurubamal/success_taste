@@ -74,11 +74,7 @@ Instructions for K8s Installation:
 	vagrant up ; vagrant ssh node6  -c '/vagrant/05_post_join_control.sh'
 	
 
-NOTE: in case you are using windows, instead of using ./final_touch.sh use  following command (FROM WINDOWS COMMANDLINE):
-	
-    vagrant ssh node6  -c '/vagrant/05_post_join_control.sh'
-	
-I have observed that script sometimes can return with issue in windows, so you can directly use following commands in node6 (ssh to node6 using "vagrant ssh node6" from you local machine):
+NOTE: I have observed that script (2nd command "vagrant ssh node6  -c '/vagrant/05_post_join_control.sh'" ) sometimes can have issue in windows, so you can directly use following commands in node6 (ssh to node6 using "vagrant ssh node6" from you local machine):
 RUN FOLLOWING IN node6 COMMANDLINE:
 
 	sudo mkdir -p /home/vagrant/.kube
