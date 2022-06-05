@@ -9,8 +9,9 @@ if [ "$HOSTNAME" = node6 ]; then
         sudo chown vagrant:vagrant  /home/vagrant/.kube/config
 #echo "sleeping for 2 minutes"
 #sleep 120
+	sudo snap install helm --classic
         kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
-        sudo snap install helm --classic
+#sudo snap install helm --classic
         else exit 0
         fi
 fi
