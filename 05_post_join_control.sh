@@ -15,5 +15,5 @@
 #       else echo "Now Installing calico Netwrok Plugin......."
 #        fi
 #fi
-kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
+#kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 #kubectl apply -f https://raw.githubusercontent.com/cisco-open/kubei/main/deploy/kubei.yaml
