@@ -1,5 +1,5 @@
 IP=$(ip r s|grep 192.168.58|awk '{print $NF}')
-hostnamectl set-hostname node$(ip r s|grep 192.168.58|awk '{print $NF}'|cut -d"." -f4)
+sudo hostnamectl set-hostname node$(ip r s|grep 192.168.58|awk '{print $NF}'|cut -d"." -f4)
 #
 
 if ! 192.168.58 /etc/hosts
@@ -10,14 +10,8 @@ if ! 192.168.58 /etc/hosts
         echo 192.168.58.5        node5  controller| sudo tee -a /etc/hosts
 fi
 
-sudo sed -i 's/PasswordAuthentication\ no/PasswordAuthentication\ yes/g' /etc/ssh/sshd_config
 
-if ! grep "PermitRootLogin yes" /etc/ssh/sshd_config
-	then echo "PermitRootLogin yes" |sudo tee -a /etc/ssh/sshd_config
-fi
-if ! grep "StrictHostKeyChecking no" /etc/ssh/ssh_config
-        then echo "StrictHostKeyChecking no" |sudo tee -a /etc/ssh/ssh_config
-fi
+sudo sed -i 's/PasswordAuthentication\ no/PasswordAuthentication\ yes/g' /etc/ssh/sshd_config
 sudo systemctl restart ssh
 #echo "vagrant /vagrant vboxsf uid=1000,gid=1000,_netdev 0 0" |sudo tee -a /etc/fstab
 #

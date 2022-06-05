@@ -74,10 +74,8 @@ sudo sed -i "5i my_ip = $MYIP" /etc/nova/nova.conf
 sudo chmod 640 /etc/nova/nova.conf
 sudo chgrp nova /etc/nova/nova.conf
 sudo systemctl restart nova-compute
+
 echo "
-
-
-
 RUN FOLLWING COMMANDS ON CONTROL NODE FOR NEW HOSTS LIST REFRESH:
 
 sudo su -s /bin/bash nova -c "nova-manage cell_v2 discover_hosts"
