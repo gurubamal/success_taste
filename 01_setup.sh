@@ -1,9 +1,16 @@
 IP=$(ip r s|grep 192.168.58|awk '{print $NF}')
 sudo hostnamectl set-hostname node$(ip r s|grep 192.168.58|awk '{print $NF}'|cut -d"." -f4)
 #
-echo 192.168.58.7        node7 | tee -a /etc/hosts  
-echo 192.168.58.8        node8 | tee -a /etc/hosts 
-echo 192.168.58.6        node6 | tee -a /etc/hosts 
+for IPS in 5 6 7 8
+ do
+ if ! sudo grep 192.168.58.$IPS /etc/hosts
+ then
+  echo 192.168.58.$IPS      node$IPS | sudo tee -a  /etc/hosts
+ fi
+done
+  #echo 192.168.58.7        node7 | tee -a /etc/hosts  
+  #echo 192.168.58.8        node8 | tee -a /etc/hosts 
+  #echo 192.168.58.6        node6 | tee -a /etc/hosts 
 
 sudo sed -i 's/PasswordAuthentication\ no/PasswordAuthentication\ yes/g' /etc/ssh/sshd_config
 sudo systemctl restart ssh
