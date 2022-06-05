@@ -63,7 +63,7 @@ username = placement
 password = servicepassword
 
 [wsgi]
-api_paste_config = /etc/nova/api-paste.ini | sudo tee /etc/nova/nova.conf
+api_paste_config = /etc/nova/api-paste.ini" | sudo tee /etc/nova/nova.conf
 
 sudo sed -i 's/10.0.0.30/controller/g' /etc/nova/nova.conf
 
