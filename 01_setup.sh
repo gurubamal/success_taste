@@ -1,5 +1,5 @@
 IP=$(ip r s|grep 192.168.58|awk '{print $NF}')
-hostnamectl set-hostname node$(ip r s|grep 192.168.58|awk '{print $NF}'|cut -d"." -f4)
+sudo hostnamectl set-hostname node$(ip r s|grep 192.168.58|awk '{print $NF}'|cut -d"." -f4)
 #
 echo 192.168.58.7        node7 | tee -a /etc/hosts  
 echo 192.168.58.8        node8 | tee -a /etc/hosts 
