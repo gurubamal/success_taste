@@ -1,11 +1,17 @@
 IP=$(ip r s|grep 192.168.58|awk '{print $NF}')
 hostnamectl set-hostname node$(ip r s|grep 192.168.58|awk '{print $NF}'|cut -d"." -f4)
 #
-echo 192.168.58.7        node7 | tee -a /etc/hosts  
-echo 192.168.58.8        node8 | tee -a /etc/hosts 
-echo 192.168.58.6        node6 | tee -a /etc/hosts 
+
+if ! 192.168.58 /etc/hosts
+        then
+        echo 192.168.58.7        node7   node02| sudo tee -a /etc/hosts
+        echo 192.168.58.8        node8   node03| sudo tee -a /etc/hosts      
+        echo 192.168.58.6        node6   node01| sudo tee -a /etc/hosts
+        echo 192.168.58.5        node5  controller| sudo tee -a /etc/hosts
+fi
 
 sudo sed -i 's/PasswordAuthentication\ no/PasswordAuthentication\ yes/g' /etc/ssh/sshd_config
+
 if ! grep "PermitRootLogin yes" /etc/ssh/sshd_config
 	then echo "PermitRootLogin yes" |sudo tee -a /etc/ssh/sshd_config
 fi

@@ -63,18 +63,31 @@ if ! /root/.ssh/id_rsa
 fi
 apt update
 apt -y install ceph sshpass
-echo "127.0.0.1 localhost
-127.0.1.1 vagrant
+
+
+
+if ! 192.168.58 /etc/hosts
+	then
+	echo 192.168.58.7        node7   node02| sudo tee -a /etc/hosts  
+	echo 192.168.58.8        node8   node03| sudo tee -a /etc/hosts 
+	echo 192.168.58.6        node6   node01| sudo tee -a /etc/hosts 
+	echo 192.168.58.5        node5 	controller| sudo tee -a /etc/hosts
+fi
+
+
+
+#echo "127.0.0.1 localhost
+#127.0.1.1 vagrant
 
 # The following lines are desirable for IPv6 capable hosts
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-192.168.58.7 node7 node02
-192.168.58.8 node8 node03
-192.168.58.6 node6 node01" |sudo tee /etc/hosts
+#::1     ip6-localhost ip6-loopback
+#fe00::0 ip6-localnet
+#ff00::0 ip6-mcastprefix
+#ff02::1 ip6-allnodes
+#ff02::2 ip6-allrouters
+#192.168.58.7 node7 node02
+#192.168.58.8 node8 node03
+#192.168.58.6 node6 node01" |sudo tee /etc/hosts
 
 FILEX=/home/vagrant/x.txt
 if test -f "$FILEX"; then
