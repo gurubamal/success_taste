@@ -12,7 +12,7 @@ if [ "$HOSTNAME" = node6 ]; then
 	sudo snap install helm --classic
 #        kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 #sudo snap install helm --classic
-        else exit 0
+        else echo "Now Installing calico Netwrok Plugin......."
         fi
 fi
 kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
