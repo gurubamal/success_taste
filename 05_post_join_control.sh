@@ -10,9 +10,10 @@ if [ "$HOSTNAME" = node6 ]; then
 #echo "sleeping for 2 minutes"
 #sleep 120
 	sudo snap install helm --classic
-        kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
+#        kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 #sudo snap install helm --classic
         else exit 0
         fi
 fi
+kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 #kubectl apply -f https://raw.githubusercontent.com/cisco-open/kubei/main/deploy/kubei.yaml
