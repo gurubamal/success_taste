@@ -58,7 +58,7 @@ sudo systemctl restart cinder-scheduler
 sudo systemctl enable cinder-scheduler
 echo "export OS_VOLUME_API_VERSION=3" |sudo tee -a  ~/keystonerc
 source ~/keystonerc
-$openstack volume service list
+openstack volume service list
 
 
 
