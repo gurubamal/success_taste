@@ -1,3 +1,8 @@
+echo "
+127.0.0.1 localhost vagrant
+192.168.58.7 node7 node02
+192.168.58.6 node6 node01
+192.168.58.8 node8 node03 controller" |sudo tee /etc/hosts
 sudo apt update
 sudo apt -y install mariadb-server
 sudo systemctl restart mariadb
