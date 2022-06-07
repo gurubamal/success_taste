@@ -1,3 +1,4 @@
+source  ~/keystonerc
 openstack user create --domain default --project service --password servicepassword nova
 openstack role add --project service --user nova admin
 openstack user create --domain default --project service --password servicepassword placement
