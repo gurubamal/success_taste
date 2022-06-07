@@ -1,4 +1,4 @@
-CONTROLNODEIP=192.168.58.5
+CONTROLNODEIP=$(grep controller  /etc/hosts|awk '{print $1}')
 MYIP=192.168.58.7
 
 #echo "$CONTROLNODEIP node5 controller" |sudo tee -a /etc/hosts
