@@ -5,7 +5,7 @@ SUBNET1=192.168.58
 
 sudo apt -y install neutron-server neutron-plugin-ml2 neutron-linuxbridge-agent neutron-l3-agent neutron-dhcp-agent neutron-metadata-agent python3-neutronclient
 sudo mv /etc/neutron/neutron.conf /etc/neutron/neutron.conf.org
-
+source  ~/keystonerc
 echo "# create new
 [DEFAULT]
 core_plugin = ml2
