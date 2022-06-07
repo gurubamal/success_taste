@@ -11,7 +11,8 @@ novncproxy_base_url = http://controller:6080/vnc_auto.html "|sudo tee -a /etc/no
 
 sudo systemctl restart nova-compute
 
-sudo su -s /bin/bash nova -c "nova-manage cell_v2 discover_hosts"
+#On Control Node Run
+#sudo su -s /bin/bash nova -c "nova-manage cell_v2 discover_hosts"
 
 #openstack compute service list
 
