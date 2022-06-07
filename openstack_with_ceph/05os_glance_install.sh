@@ -1,3 +1,4 @@
+source  ~/keystonerc
 sudo mkdir -p /var/kvm/images
 wget http://cloud-images.ubuntu.com/releases/20.04/release/ubuntu-20.04-server-cloudimg-amd64.img -P /var/kvm/images
 sudo modprobe nbd
