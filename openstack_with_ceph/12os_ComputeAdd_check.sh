@@ -1,5 +1,5 @@
 CONTROLNODEIP=$(grep controller  /etc/hosts|awk '{print $1}')
-MYIP=192.168.58.7
+MYIP=$(hostname -I|awk '{print $NF}')
 
 #echo "$CONTROLNODEIP node5 controller" |sudo tee -a /etc/hosts
 source  ~/keystonerc
