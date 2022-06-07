@@ -1,4 +1,6 @@
 COUNT=5
+
+source  ~/keystonerc
 openstack flavor list
 openstack network list
 openstack security group create secgroup01
