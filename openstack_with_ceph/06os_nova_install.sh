@@ -33,6 +33,8 @@ sudo mysql -uroot -proot -e "grant all privileges on nova_cell0.* to nova@'%' id
 sudo mysql -uroot -proot -e "flush privileges";
 
 sudo apt -y install nova-api nova-conductor nova-scheduler nova-novncproxy placement-api python3-novaclient
+sudo apt -y install qemu-kvm libvirt-daemon-system libvirt-daemon virtinst bridge-utils libosinfo-bin libguestfs-tools virt-top
+sudo apt -y install nova-compute nova-compute-kvm
 
 sudo mv /etc/nova/nova.conf /etc/nova/nova.conf.org
 
