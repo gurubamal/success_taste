@@ -4,7 +4,7 @@ sudo apt -y install openstack-dashboard
 sudo sed -i "s/LOCATION': '127.0.0.1:11211/LOCATION': '$CONTROLNODE:11211/g"  /etc/openstack-dashboard/local_settings.py
 sudo sed -i '113i SESSION_ENGINE = "django.contrib.sessions.backends.cache"' /etc/openstack-dashboard/local_settings.py
 
-
+source  ~/keystonerc
 # line 126 : set Openstack Host
 # line 127 : comment out and add a line to specify URL of Keystone Host
 sudo sed -i "s/127.0.0.1/$CONTROLNODE/g" /etc/openstack-dashboard/local_settings.py
