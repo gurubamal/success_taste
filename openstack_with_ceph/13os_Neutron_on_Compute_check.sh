@@ -1,7 +1,7 @@
 ETH1=eth1
 controller_ip=$(grep controller  /etc/hosts|awk '{print $1}')
 controller=controller
-SUBNET1=192.168.58
+SUBNET1=$(grep controller  /etc/hosts|cut -d"." -f1,2,3)
 MYIP=$(hostname -I|awk '{print $NF}')
 CONTROLNODEIP=$(grep controller  /etc/hosts|awk '{print $1}')
 
