@@ -43,11 +43,17 @@ NOTE: If you are here for k8s setup then use ###### SEC - B ####  mentioned next
 
 CEPH (v15) MULTINODE VMS Install SETUP:
 
-1) Rename Vagrantfile.ceph to Vagrantfile in success_taste directory
+1) Rename Vagrantfile.ceph to Vagrantfile in success_taste directory and run:
+ 
+
+     chmod +x *.sh #make all scripts executable
+     
+	
 2) Now run the below commands:
 
-    chmod +x *.sh #make all scripts executable
+
     vagrant up ; ./ceph_final_touch.sh
+
 
 3)  Post setup Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
 4)  Setup install node6 (acts as node01, admin+mon node), node7 (acts as osd node02) and node8 (acts as osd node03)  
