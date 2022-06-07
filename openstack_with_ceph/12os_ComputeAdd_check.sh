@@ -1,8 +1,8 @@
 CONTROLNODEIP=192.168.58.5
 MYIP=192.168.58.7
 
-echo "$CONTROLNODEIP node5 controller" |sudo tee -a /etc/hosts
-
+#echo "$CONTROLNODEIP node5 controller" |sudo tee -a /etc/hosts
+source  ~/keystonerc
 sudo apt -y install software-properties-common
 sudo add-apt-repository -y cloud-archive:wallaby
 sudo apt update
