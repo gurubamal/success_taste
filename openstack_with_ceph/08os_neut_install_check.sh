@@ -1,7 +1,7 @@
 ETH1=eth1
 controller_ip=$(grep controller  /etc/hosts|awk '{print $1}')
 controller=controller
-SUBNET1=192.168.58
+SUBNET1=$(grep controller  /etc/hosts|cut -d"." -f1,2,3)
 
 sudo apt -y install neutron-server neutron-plugin-ml2 neutron-linuxbridge-agent neutron-l3-agent neutron-dhcp-agent neutron-metadata-agent python3-neutronclient
 sudo mv /etc/neutron/neutron.conf /etc/neutron/neutron.conf.org
