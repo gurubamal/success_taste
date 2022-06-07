@@ -1,5 +1,5 @@
 ETH1=eth1
-controller_ip=192.168.58.5
+controller_ip=$(grep controller  /etc/hosts|awk '{print $1}')
 controller=controller
 SUBNET1=192.168.58
 
