@@ -1,5 +1,5 @@
 DRIVE=sdb
-MYNODEIP=192.168.58.5
+MYNODEIP=$(hostname -I|awk '{print $NF}')
 
 (
 echo o # Create a new empty DOS partition table
