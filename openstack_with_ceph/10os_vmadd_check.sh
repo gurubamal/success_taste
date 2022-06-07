@@ -1,4 +1,4 @@
-COUNT=5
+COUNT=2
 
 source  ~/keystonerc
 openstack flavor list
@@ -6,9 +6,9 @@ openstack network list
 openstack security group create secgroup01
 openstack security group list
 
-ssh-keygen -q -N "" -f ~/.ssh/id_rsa_$COUNT
+ssh-keygen -q -N "" -f ~/.ssh/id_rsa$COUNT
 
-openstack keypair create --public-key ~/.ssh/id_rsa2.pub  mykey
+openstack keypair create --public-key ~/.ssh/id_rsa$COUNT.pub  mykey
 openstack keypair list
 netID=$(openstack network list | grep sharednet1 | awk '{ print $2 }')
 openstack server create --flavor m1.small --image Ubuntu2004 --security-group secgroup01 --nic net-id=$netID --key-name mykey Ubuntu-2004
