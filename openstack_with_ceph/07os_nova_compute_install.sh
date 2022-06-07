@@ -1,4 +1,4 @@
-
+source  ~/keystonerc
 sudo apt -y install qemu-kvm libvirt-daemon-system libvirt-daemon virtinst bridge-utils libosinfo-bin libguestfs-tools virt-top
 sudo apt -y install nova-compute nova-compute-kvm
 
