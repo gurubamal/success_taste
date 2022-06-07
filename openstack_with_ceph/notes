@@ -1,0 +1,409 @@
+
+
+
+
+
+git clone https://github.com/gurubamal/success_taste
+cd success_taste/openstack_with_ceph/
+
+#Check Controller resources and add if needed, Change "check" (scripts with check in it's name) variables wherever needed
+
+#check /etc/hosts for controller node IP and other compute names change "01os_db_install.sh" based on your IP schema
+
+# Change root password on each node, it should be able to copy files over the internet via ssh ("PermitRootLogin yes"ssh_config should allow it)
+sudo passwd
+
+#Check 05 glance script to check how and what all to edit in a cloud iso image
+
+#Change script with "check" in it's name, change variables wherever needed, check for ETH1, controller node, subnet and MYNODEIP & then run
+
+ls -1|grep os|grep -v 05_post_join_control.sh|grep -v 11os_BoardAdd_check.s|grep -v 12 |grep -v 13|grep -v 14 |grep -v 15|grep -v hosts |grep -v Vagrantfile_ostack |while read i; do ./$i; done
+
+
+#skip 12 13 scripts meant for compute
+#script 15 is for lvm for cinder, so skip it
+
+
+
+
+
+
+
+#install ceph client in all nodes
+sudo apt update  
+sudo apt install -y python3-rbd ceph-common
+
+
+On ceph master (node6):
+
+#sudo ceph osd pool create volumes 128 128
+#sudo ceph osd pool create vms 128 128
+#sudo ceph osd pool create images 128 128
+#sudo ceph osd pool create backups 128 128
+
+sudo ceph osd pool create volumes
+sudo ceph osd pool create vms 
+#sudo ceph osd pool create images 128 128
+
+sudo rbd pool init volumes
+sudo rbd pool init vms
+sudo rbd pool init images
+#sudo rbd pool init backups
+
+
+
+#Compute1: 
+#- Manager_api_horizon_network: 10.10.10.72
+#Controller: 
+#- Manager_api_horizon_network: 10.10.10.71
+#ompute2: 
+#- Manager_api_horizon_network: 10.10.10.73
+#from ceph master
+#ssh 10.10.10.71 sudo tee /etc/ceph/ceph.conf < /etc/ceph/ceph.conf
+#ssh 10.10.10.72 sudo tee /etc/ceph/ceph.conf < /etc/ceph/ceph.conf
+#ssh 10.10.10.73 sudo tee /etc/ceph/ceph.conf < /etc/ceph/ceph.conf
+
+
+#ssh 10.10.10.71 sudo tee /etc/ceph/ceph.conf < /etc/ceph/ceph.conf
+#ssh 10.10.10.72 sudo tee /etc/ceph/ceph.conf < /etc/ceph/ceph.conf
+#ssh 10.10.10.73 sudo tee /etc/ceph/ceph.conf < /etc/ceph/ceph.conf
+
+#In my case I am running them on top of ceph nodes so it can be neglected
+#ssh 192.168.58.8 sudo tee /etc/ceph/ceph.conf < /etc/ceph/ceph.conf
+#ssh 192.168.58.7 sudo tee /etc/ceph/ceph.conf < /etc/ceph/ceph.conf
+#ssh 192.168.58.6 sudo tee /etc/ceph/ceph.conf < /etc/ceph/ceph.conf
+
+
+
+
+
+For Glance-Images on ceph master node:
+sudo mkdir /ceph-deploy ; cd /ceph-deploy
+sudo ceph auth get-or-create client.glance mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=images' > ceph.client.glance.keyring
+
+for i in 6 7 8
+    do
+    sudo ceph auth get-or-create client.glance | ssh root@192.168.58.$i sudo tee /etc/ceph/ceph.client.glance.keyring
+done
+
+#####################INSTALL OPENSTCAK FIRST################
+
+Implementation on Node Controller node:
+
+
+# Run Where Opnetsack is ready already, change IP
+ssh root@192.168.58.8 \ "sudo chown glance:glance /etc/ceph/ceph.client.glance.keyring ; sudo chmod 0640 /etc/ceph/ceph.client.glance.keyring"
+
+#for i in 6 7 8
+#    do
+#    ssh root@192.168.58.$i \ "sudo chown glance:glance /etc/ceph/ceph.client.glance.keyring ; sudo chmod 0640 /etc/ceph/ceph.client.glance.keyring ; ls -rtl /etc/ceph/#ceph.client.glance.keyring"
+#done
+
+
+#Rerun this on all nodes where you have added glance 
+
+
+Add configuration /etc/glance/glance-api.conf on node Controller
+[DEFAULT]
+show_image_direct_url = True
+...
+
+[glance_store]
+#stores = file,http
+#default_store = file
+#filesystem_store_datadir = /var/lib/glance/images/
+default_store = rbd
+stores = file,http,rbd
+rbd_store_pool = images
+rbd_store_user = glance
+rbd_store_ceph_conf = /etc/ceph/ceph.conf
+rbd_store_chunk_size = 8
+
+
+sudo systemctl restart openstack-glance-*
+source admin-openrc
+
+
+Now test Images:
+
+wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
+openstack image create "cirros-ceph" \
+--file cirros-0.3.4-x86_64-disk.img \
+--disk-format qcow2 --container-format bare \
+--public
+
+rbd -p images ls
+
+
+
+
+
+
+Configure CEPH as backend for Cinder-Volume and Cinder-backup
+
+cd ceph-deploy
+
+#key cinder
+
+sudo ceph auth get-or-create client.cinder mon 'allow r, allow command "osd blacklist", allow command "blacklistop"' osd 'allow class-read object_prefix rbd_children, allow rwx pool=volumes, allow rwx pool=images' > ceph.client.cinder.keyring
+
+# key cinder-backup
+ceph auth get-or-create client.cinder-backup mon 'profile rbd' osd 'profile rbd pool=backups' > ceph.client.cinder-backup.keyring
+
+
+#Send the cinder key and cinder-backup key to the Cinder installation nodes (Here are the Controller nodes):
+
+ceph auth get-or-create client.cinder | ssh 10.10.10.71 sudo tee /etc/ceph/ceph.client.cinder.keyring
+ceph auth get-or-create client.cinder-backup | ssh 10.10.10.71 sudo tee /etc/ceph/ceph.client.cinder-backup.keyring
+
+
+#Transfer cinder key to Compute nodes
+
+ceph auth get-or-create client.cinder | ssh 10.10.10.72 sudo tee /etc/ceph/ceph.client.cinder.keyring
+ceph auth get-or-create client.cinder | ssh 10.10.10.73 sudo tee /etc/ceph/ceph.client.cinder.keyring
+
+ceph auth get-key client.cinder | ssh 10.10.10.72 tee /root/client.cinder
+ceph auth get-key client.cinder | ssh 10.10.10.73 tee /root/client.cinder
+
+
+Operation on Node Controller
+Set permissions for keys
+
+sudo chown cinder:cinder /etc/ceph/ceph.client.cinder*
+sudo chmod 0640 /etc/ceph/ceph.client.cinder*
+
+
+Operations on Node Compute:
+
+uuidgen
+
+Note that this UUID will be used for all Computes, so just create it the first time
+Create an xml file that allows Ceph RBD (Rados Block Device) to authenticate with libvirt through the newly created uuid
+
+UUID=$(uuidgen)
+
+
+echo "<secret ephemeral='no' private='no'>
+<uuid>$UUID</uuid>
+<usage type='ceph'>
+    <name>client.cinder secret</name>
+</usage>
+</secret>" |tee ceph-secret.xml
+
+sudo virsh secret-define --file ceph-secret.xml
+
+#Assign the value of client.cinder to uuid
+sudo virsh secret-set-value --secret $UUID --base64 $(cat /root/client.cinder)
+
+source admin-openrc
+
+cinder type-create ceph
+cinder type-key ceph set volume_backend_name=ceph
+
+
+
+
+
+
+Back to the Controller node
+Add /etc/cinder/cinder.conf configuration on node controllers
+[DEFAULT] Item added, Item [ceph] added new
+
+[DEFAULT]
+notification_driver = messagingv2
+enabled_backends = ceph
+glance_api_version = 2
+backup_driver = cinder.backup.drivers.ceph
+backup_ceph_conf = /etc/ceph/ceph.conf
+backup_ceph_user = cinder-backup
+backup_ceph_chunk_size = 134217728
+backup_ceph_pool = backups
+backup_ceph_stripe_unit = 0
+backup_ceph_stripe_count = 0
+restore_discard_excess_bytes = true
+host=ceph
+
+[ceph]
+volume_driver = cinder.volume.drivers.rbd.RBDDriver
+volume_backend_name = ceph
+rbd_pool = volumes
+rbd_ceph_conf = /etc/ceph/ceph.conf
+rbd_flatten_volume_from_snapshot = false
+rbd_max_clone_depth = 5
+rbd_store_chunk_size = 4
+rados_connect_timeout = -1
+rbd_user = cinder
+rbd_secret_uuid = 414ba151-4068-40c6-9d7b-84998ce6a5a6
+report_discard_supported = true
+
+#################### cat /etc/cinder/cinder.conf########## on Control Node
+
+
+# create new
+[DEFAULT]
+# define own IP address
+my_ip = 192.168.58.8
+notification_driver = messagingv2
+enabled_backends = ceph
+#glance_api_version = 2
+#backup_driver = cinder.backup.drivers.ceph
+#backup_ceph_conf = /etc/ceph/ceph.conf
+#backup_ceph_user = cinder-backup
+#backup_ceph_chunk_size = 134217728
+#backup_ceph_pool = backups
+#backup_ceph_stripe_unit = 0
+#backup_ceph_stripe_count = 0
+#restore_discard_excess_bytes = true
+#host=ceph
+rootwrap_config = /etc/cinder/rootwrap.conf
+api_paste_confg = /etc/cinder/api-paste.ini
+state_path = /var/lib/cinder
+auth_strategy = keystone
+# RabbitMQ connection info
+transport_url = rabbit://openstack:password@controller
+enable_v3_api = True
+glance_api_servers = http://controller:9292
+
+[ceph]
+volume_driver = cinder.volume.drivers.rbd.RBDDriver
+volume_backend_name = ceph
+rbd_pool = volumes
+rbd_ceph_conf = /etc/ceph/ceph.conf
+rbd_flatten_volume_from_snapshot = false
+rbd_max_clone_depth = 5
+rbd_store_chunk_size = 4
+rados_connect_timeout = -1
+rbd_user = cinder
+rbd_secret_uuid = 69489b08-5707-4bc5-a919-f5a04906916f
+report_discard_supported = true
+
+
+
+# MariaDB connection info
+[database]
+connection = mysql+pymysql://cinder:password@controller/cinder
+
+# Keystone auth info
+[keystone_authtoken]
+www_authenticate_uri = http://controller:5000
+auth_url = http://controller:5000
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = cinder
+password = servicepassword
+
+[oslo_concurrency]
+lock_path = /tmp
+
+########################
+
+
+Enable cinder-backup and restart the cinder service
+
+
+systemctl enable openstack-cinder-backup.service
+systemctl start openstack-cinder-backup.service
+
+
+Restart the service on Node Controller
+
+systemctl restart openstack-cinder-api.service openstack-cinder-volume.service openstack-cinder-scheduler.service openstack-cinder-backup.service
+
+
+
+
+Restart the nova-compute service on the Compute node
+
+systemctl restart openstack-nova-compute
+
+######
+
+
+Configure CEPH as backend for Nova-Compute
+By default, VMs created from Images will save the disk file right on Compute, This integration allows this disk file to be created a symlink stored under Ceph instead of saving it locally.
+
+Create keyring for nova
+
+ceph auth get-or-create client.nova mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=vms, allow rx pool=images' -o /etc/ceph/ceph.client.nova.keyring 
+
+
+
+Copy nova key to Compute nodes
+
+ceph auth get-or-create client.nova | ssh 10.10.10.72 sudo tee /etc/ceph/ceph.client.nova.keyring 
+ceph auth get-or-create client.nova | ssh 10.10.10.73 sudo tee /etc/ceph/ceph.client.nova.keyring 
+
+ceph auth get-key client.nova | ssh 10.10.10.72 tee /root/client.nova
+ceph auth get-key client.nova | ssh 10.10.10.73 tee /root/client.nova
+
+
+
+Operations on Node Compute
+Set permissions on the COM . node
+
+
+chgrp nova /etc/ceph/ceph.client.nova.keyring
+
+chmod 0640 /etc/ceph/ceph.client.nova.keyring
+
+#########COMPUTE CINDER ##############
+Genkey UUID
+uuidgen
+
+Note that this UUID will be used for all Computes, so just create it the first time
+
+Create an xml file that allows Ceph RBD (Rados Block Device) to authenticate with libvirt through the newly created uuid
+
+cat << EOF > nova-ceph.xml
+<secret ephemeral="no" private="no">
+<uuid>805b9716-7fe8-45dd-8e1e-5dfdeff8b9be</uuid>
+<usage type="ceph">
+<name>client.nova secret</name>
+</usage>
+</secret>
+EOF
+
+sudo virsh secret-define --file nova-ceph.xml
+
+
+
+Assign the value of client.nova to uuid
+
+virsh secret-set-value --secret 805b9716-7fe8-45dd-8e1e-5dfdeff8b9be --base64 $(cat /root/client.nova)
+
+
+
+Edit nova.conf on COM /etc/nova/nova.conf
+
+
+[libvirt]
+images_rbd_pool=vms
+images_type=rbd
+rbd_secret_uuid=805b9716-7fe8-45dd-8e1e-5dfdeff8b9be
+rbd_user=nova
+images_rbd_ceph_conf = /etc/ceph/ceph.conf
+
+
+Restart service
+systemctl restart openstack-nova-compute 
+
+
+
+Create virtual machine (Create boot from images) and test
+
+
+rbd -p vms ls
+rbd -p compute info c0f90bd2-9f8a_disk
+
+
+
+
+
+
+
+
+
+
