@@ -43,12 +43,8 @@ NOTE: If you are here for k8s setup then use ###### SEC - B ####  mentioned next
 
 CEPH (v15) MULTINODE VMS Install SETUP:
 
-1) Rename Vagrantfile.ceph to Vagrantfile in success_taste directory and run:
- 
-
-     chmod +x *.sh #make all scripts executable
-     
-	
+1) Rename Vagrantfile.ceph to Vagrantfile in success_taste directory and make all scripts executable
+     	
 2) Now run the below commands:
 
 
