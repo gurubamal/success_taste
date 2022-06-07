@@ -1,9 +1,9 @@
 ETH1=eth1
-controller_ip=192.168.58.5
+controller_ip=$(grep controller  /etc/hosts|awk '{print $1}')
 controller=controller
 SUBNET1=192.168.58
 MYIP=192.168.58.7
-CONTROLNODEIP=192.168.58.5
+CONTROLNODEIP=$(grep controller  /etc/hosts|awk '{print $1}')
 
 source  ~/keystonerc
 sudo apt -y install neutron-common neutron-plugin-ml2 neutron-linuxbridge-agent
