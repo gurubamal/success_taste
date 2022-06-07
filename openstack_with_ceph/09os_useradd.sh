@@ -3,6 +3,7 @@ CLOUDPROJECT=pvagrant
 CLOUDROLE=vagrantl
 USERPASSWD=vagrant
 
+source  ~/keystonerc
 openstack project create --domain default --description "Project for Cloud User $CloudUser" $CLOUDPROJECT
 openstack user create --domain default --project $CLOUDPROJECT --password $USERPASSWD $CloudUser
 openstack role create $CLOUDROLE
