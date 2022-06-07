@@ -1,5 +1,6 @@
 MYIP=$(hostname -I|awk '{print $NF}')
 
+source  ~/keystonerc
 openstack user create --domain default --project service --password servicepassword cinder
 openstack role add --project service --user cinder admin
 openstack service create --name cinderv3 --description "OpenStack Block Storage" volumev3
