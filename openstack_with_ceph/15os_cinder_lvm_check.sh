@@ -40,5 +40,5 @@ os_region_name = RegionOne" | sudo tee -a /etc/nova/nova.conf
 
 
 echo "export OS_VOLUME_API_VERSION=3" |sudo tee -a  ~/keystonerc
-source ~/keystonerc
+#source ~/keystonerc
 
