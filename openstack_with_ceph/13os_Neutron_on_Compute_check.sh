@@ -5,6 +5,7 @@ SUBNET1=192.168.58
 MYIP=192.168.58.7
 CONTROLNODEIP=192.168.58.5
 
+source  ~/keystonerc
 sudo apt -y install neutron-common neutron-plugin-ml2 neutron-linuxbridge-agent
 sudo mv /etc/neutron/neutron.conf /etc/neutron/neutron.conf.org
 
