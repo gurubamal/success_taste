@@ -1,5 +1,5 @@
 NOTE:
-Given CODE is working fine at the moment (when uploaded), it installs the latest version of everything. It is possible that later sonarqube or k8s versions may have massive changes in the code and installation method, and the code would need an update at that point in time!
+Given CODE (only with instructions below) is working fine now (when uploaded), it installs the latest version of everything. Later some software versions may have significant changes or updates from the provider in the code, and these scripts would also need updates at that time!
 
 Tutorial videos:
 
