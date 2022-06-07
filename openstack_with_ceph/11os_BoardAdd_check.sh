@@ -1,4 +1,4 @@
-CONTROLNODE=192.168.58.5
+CONTROLNODE=$(grep controller  /etc/hosts|awk '{print $1}')
 
 sudo apt -y install openstack-dashboard
 sudo sed -i "s/LOCATION': '127.0.0.1:11211/LOCATION': '$CONTROLNODE:11211/g"  /etc/openstack-dashboard/local_settings.py
