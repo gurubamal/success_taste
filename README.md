@@ -46,6 +46,7 @@ CEPH (v15) MULTINODE VMS Install SETUP:
 1) Rename Vagrantfile.ceph to Vagrantfile in success_taste directory
 2) Now run the below commands:
 
+    chmod +x *.sh #make all scripts executable
     vagrant up ; ./ceph_final_touch.sh
 
 3)  Post setup Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
