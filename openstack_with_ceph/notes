@@ -1,5 +1,49 @@
 
 
+git clone https://github.com/gurubamal/success_taste
+cd success_taste/openstack_with_ceph/
+
+#Check Controller resources and add if needed, Change "check" (scripts with check in it's name) variables wherever needed
+
+#check /etc/hosts for controller node IP and other compute names change "01os_db_install.sh" based on your IP schema
+
+# Change root password on each node, it should be able to copy files over the internet via ssh ("PermitRootLogin yes"ssh_config should allow it)
+sudo passwd
+
+#Check 05 glance script to check how and what all to edit in a cloud iso image
+
+#Change script with "check" in it's name, change variables wherever needed, check for ETH1, controller node, subnet and MYNODEIP & then run
+
+ls -1|grep os|grep -v 05_post_join_control.sh|grep -v 11os_BoardAdd_check.s|grep -v 12 |grep -v 13|grep -v 14 |grep -v 15|grep -v hosts |grep -v Vagrantfile_ostack |while read i; do ./$i; done
+
+
+#skip 12 13 scripts meant for compute
+#script 15 is for lvm for cinder, so skip it
+
+
+#######Alternative#########
+cat stack_set.sh 
+git clone https://opendev.org/openstack/devstack
+cd devstack/
+export HOST_IP=192.168.58.8
+echo "[[local|localrc]]
+ADMIN_PASSWORD=secretpassword
+DATABASE_PASSWORD=secretpassword
+RABBIT_PASSWORD=secretpassword
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+HOST_IP=$(hostname -I|awk '{print $2}')
+LOGFILE=$DEST/logs/stack.sh.log
+LOGDAYS=2" | tee devstack/local.conf
+./stack.sh
+
+
+##
+cat stack_install.sh 
+cat stack_set.sh | vagrant ssh node8  -c 'tee stack_set.sh'
+vagrant ssh node8  -c 'chmod +x stack_set.sh'
+vagrant ssh node8  -c './stack_set.sh'
+
+#########################
 
 
 
