@@ -1,49 +1,49 @@
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-add-apt-repository \
-"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-$(lsb_release -cs) \
-stable"
+#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+#add-apt-repository \
+#"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+#$(lsb_release -cs) \
+#stable"
 #
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-cat << EOF |  tee /etc/apt/sources.list.d/kubernetes.list
-deb https://apt.kubernetes.io/ kubernetes-xenial main
-EOF
+#curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+#cat << EOF |  tee /etc/apt/sources.list.d/kubernetes.list
+#deb https://apt.kubernetes.io/ kubernetes-xenial main
+#EOF
 apt-get update
-apt-get install -y docker-ce kubelet kubeadm kubectl
+#apt-get install -y docker-ce kubelet kubeadm kubectl
 #
 #
 echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
 sysctl -p
-usermod -aG docker vagrant
-sudo swapoff -a
-sudo sed -i 's/\/swap.img/#\/swap.img/g' /etc/fstab
-echo overlay br_netfilter|sudo tee -a  /etc/modules-load.d/containerd.conf  
-FILE=/etc/docker/daemon.json
-if test -f "$FILE"; then
-    echo "$FILE exists."
-else echo '{
-  "exec-opts": ["native.cgroupdriver=systemd"]
-}'|sudo tee /etc/docker/daemon.json
-sudo systemctl daemon-reload && sudo systemctl restart docker && sudo systemctl restart kubelet
-fi
+#usermod -aG docker vagrant
+#sudo swapoff -a
+#sudo sed -i 's/\/swap.img/#\/swap.img/g' /etc/fstab
+#echo overlay br_netfilter|sudo tee -a  /etc/modules-load.d/containerd.conf  
+#FILE=/etc/docker/daemon.json
+#if test -f "$FILE"; then
+#    echo "$FILE exists."
+#else echo '{
+#  "exec-opts": ["native.cgroupdriver=systemd"]
+#}'|sudo tee /etc/docker/daemon.json
+#sudo systemctl daemon-reload && sudo systemctl restart docker && sudo systemctl restart kubelet
+#fi
 
-FILE=/etc/docker/daemon.json
-if test -f "$FILE"; then
-    echo "$FILE exists."
-else echo '{
-  "exec-opts": ["native.cgroupdriver=systemd"]
-}'|sudo tee /etc/docker/daemon.json
-sudo systemctl daemon-reload && sudo systemctl restart docker && sudo systemctl restart kubelet
-fi
+#FILE=/etc/docker/daemon.json
+#if test -f "$FILE"; then
+#    echo "$FILE exists."
+#else echo '{
+#  "exec-opts": ["native.cgroupdriver=systemd"]
+#}'|sudo tee /etc/docker/daemon.json
+#sudo systemctl daemon-reload && sudo systemctl restart docker && sudo systemctl restart kubelet
+#fi
 
-if ! grep native.cgroupdriver=systemd /etc/systemd/system/multi-user.target.wants/docker.service
-then
-	sudo systemctl stop docker
-	sudo sed -i 's/containerd.sock/containerd.sock --exec-opt native.cgroupdriver=systemd/g' /etc/systemd/system/multi-user.target.wants/docker.service
-	sudo systemctl daemon-reload
-	sudo systemctl daemon-reload && sudo systemctl restart docker && sudo systemctl restart kubelet
-fi
-echo -e "vagrant\nvagrant" | sudo passwd root
+#if ! grep native.cgroupdriver=systemd /etc/systemd/system/multi-user.target.wants/docker.service
+#then
+#	sudo systemctl stop docker
+#	sudo sed -i 's/containerd.sock/containerd.sock --exec-opt native.cgroupdriver=systemd/g' /etc/systemd/system/multi-user.target.wants/docker.service
+#	sudo systemctl daemon-reload
+#	sudo systemctl daemon-reload && sudo systemctl restart docker && sudo systemctl restart kubelet
+#fi
+#echo -e "vagrant\nvagrant" | sudo passwd root
 if  [ "$HOSTNAME" = node6 ]; then
 	echo "Host node01
     Hostname node6
@@ -58,7 +58,7 @@ Host node03
 fi
 if ! /root/.ssh/id_rsa
 	then
-	ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
+	sudo ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
 	else echo "All Set"
 fi
 apt update
@@ -66,13 +66,13 @@ apt -y install ceph sshpass
 
 
 
-if ! 192.168.58 /etc/hosts
-	then
-	echo 192.168.58.7        node7   node02| sudo tee -a /etc/hosts  
-	echo 192.168.58.8        node8   node03| sudo tee -a /etc/hosts 
-	echo 192.168.58.6        node6   node01| sudo tee -a /etc/hosts 
-	echo 192.168.58.5        node5 	controller| sudo tee -a /etc/hosts
-fi
+#if ! 192.168.58 /etc/hosts
+#	then
+#	echo 192.168.58.7        node7   node02| sudo tee -a /etc/hosts  
+#	echo 192.168.58.8        node8   node03| sudo tee -a /etc/hosts 
+#	echo 192.168.58.6        node6   node01| sudo tee -a /etc/hosts 
+#	echo 192.168.58.5        node5 	controller| sudo tee -a /etc/hosts
+#fi
 
 
 
@@ -89,12 +89,12 @@ fi
 #192.168.58.8 node8 node03
 #192.168.58.6 node6 node01" |sudo tee /etc/hosts
 
-FILEX=/home/vagrant/x.txt
-if test -f "$FILEX"; then
-     echo "Password was reset already"
-else
-    echo -e "vagrant\nvagrant" | sudo passwd root ; touch $FILEX
-fi
+#FILEX=/home/vagrant/x.txt
+#if test -f "$FILEX"; then
+#     echo "Password was reset already"
+#else
+#    echo -e "vagrant\nvagrant" | sudo passwd root ; touch $FILEX
+#fi
 
 if  [ "$HOSTNAME" = node6 ]; then
 	UUID=$(uuidgen)
