@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
 #
        config.vm.provision 'shell', path: './01ceph.sh', run: 'always'
        config.vm.provision 'shell', path: './02ceph.sh', run: 'always'
-#       config.vm.provision "shell", path: './04_setup_init_control.sh', run: 'always'
+       config.vm.provision "shell", path: './set_ssh.sh', run: 'always'
 #       config.vm.provision "shell", path: './compute_add.sh', run: 'always'
 #       config.vm.provision "shell", path: './05_post_join_control.sh', run: 'always'
 #       config.vm.provision 'shell', path: './03.sonqube.sh', run: 'always'
