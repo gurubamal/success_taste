@@ -22,26 +22,18 @@ ls -1|grep os|grep -v 05_post_join_control.sh|grep -v 11os_BoardAdd_check.s|grep
 
 
 #######Alternative#########
-cat stack_set.sh 
 git clone https://opendev.org/openstack/devstack
 cd devstack/
 export HOST_IP=192.168.58.8
-echo "[[local|localrc]]
-ADMIN_PASSWORD=secretpassword
-DATABASE_PASSWORD=secretpassword
-RABBIT_PASSWORD=secretpassword
-SERVICE_PASSWORD=$ADMIN_PASSWORD
+
+echo "[[local|localr]]
 HOST_IP=$(hostname -I|awk '{print $2}')
-LOGFILE=$DEST/logs/stack.sh.log
-LOGDAYS=2" | tee devstack/local.conf
+ADMIN_PASSWORD=STLtech@123best
+DATABASE_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+enable_plugin mariadb https://github.com/rafaelfolco/devstack-plugin-mariadb"| tee local.conf
 ./stack.sh
-
-
-##
-cat stack_install.sh 
-cat stack_set.sh | vagrant ssh node8  -c 'tee stack_set.sh'
-vagrant ssh node8  -c 'chmod +x stack_set.sh'
-vagrant ssh node8  -c './stack_set.sh'
 
 #########################
 
