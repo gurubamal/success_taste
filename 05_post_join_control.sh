@@ -15,5 +15,7 @@
 #       else echo "Now Installing calico Netwrok Plugin......."
 #        fi
 #fi
+echo "waiting for cluster to be ready for final script..........."
+sleep 60
 #kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 #kubectl apply -f https://raw.githubusercontent.com/cisco-open/kubei/main/deploy/kubei.yaml
