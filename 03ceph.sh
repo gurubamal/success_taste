@@ -60,9 +60,9 @@ do
     fi
     ssh $NODE \
     "chown ceph. /etc/ceph/ceph.* /var/lib/ceph/bootstrap-osd/*; \
-    parted --script /dev/sdb 'mklabel gpt'; \
-    parted --script /dev/sdb "mkpart primary 0% 100%"; \
-    ceph-volume lvm create --data /dev/sdb1"
+    parted --script /dev/sdc 'mklabel gpt'; \
+    parted --script /dev/sdc "mkpart primary 0% 100%"; \
+    ceph-volume lvm create --data /dev/sdc1"
 done
 #ceph config set mon auth_allow_insecure_global_id_reclaim false
 echo password > pass.txt
