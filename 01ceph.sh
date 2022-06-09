@@ -2,7 +2,7 @@ IP=$(ip r s|grep 192.168.58|awk '{print $NF}')
 hostnamectl set-hostname node$(ip r s|grep 192.168.58|awk '{print $NF}'|cut -d"." -f4)
 #
 
-if ! 192.168.58 /etc/hosts
+if ! grep 192.168.58 /etc/hosts
         then
         echo 192.168.58.7        node7   node02| sudo tee -a /etc/hosts
         echo 192.168.58.8        node8   node03| sudo tee -a /etc/hosts      
