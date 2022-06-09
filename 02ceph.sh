@@ -8,12 +8,12 @@
 #cat << EOF |  tee /etc/apt/sources.list.d/kubernetes.list
 #deb https://apt.kubernetes.io/ kubernetes-xenial main
 #EOF
-apt-get update
+sudo apt-get update
 #apt-get install -y docker-ce kubelet kubeadm kubectl
 #
 #
 echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
-sysctl -p
+sudo sysctl -p
 #usermod -aG docker vagrant
 #sudo swapoff -a
 #sudo sed -i 's/\/swap.img/#\/swap.img/g' /etc/fstab
