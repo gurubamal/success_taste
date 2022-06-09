@@ -89,7 +89,7 @@ RUN FOLLOWING IN node6 COMMANDLINE:
 
  (Rest for next 3-5 minutes after all commands; Once you have completed the above commands, your Kubernetes cluster would be ready.
  
- IMPORTANT_NOTE: I have observed that node stay in not-ready only if network plugin image was not pulled from internet (may be they keep it down for some updates), in that case delete existing net-plugin deployment and respective pods and deploy alternative plugin:
+ IMPORTANT_NOTE: I have observed that if all nodes stay in not-ready only if network plugin image was not pulled from internet (may be they keep it down for some updates), in that case delete existing net-plugin deployment and respective pods and deploy alternative network plugin:
  
 kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 
