@@ -56,7 +56,7 @@ Host node03
     User root" |sudo tee /root/.ssh/config
     sudo chmod 600 /root/.ssh/config
 fi
-if ! /root/.ssh/id_rsa
+if  test -f /root/.ssh/id_rsa
 	then
 	sudo ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
 	else echo "All Set"
