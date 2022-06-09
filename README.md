@@ -75,7 +75,7 @@ Instructions for K8s Installation:
 3)  Run :
 	
 	vagrant up ; ./final_touch.sh
-	
+		
 
 NOTE: I have observed that script (2nd command "vagrant ssh node6  -c '/vagrant/05_post_join_control.sh'" ) sometimes can have issue in windows, so you can directly use following commands in node6 (ssh to node6 using "vagrant ssh node6" from you local machine):
 RUN FOLLOWING IN node6 COMMANDLINE:
@@ -84,10 +84,15 @@ RUN FOLLOWING IN node6 COMMANDLINE:
 	sudo chown vagrant:vagrant /home/vagrant/.kube
 	sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
 	sudo chown vagrant:vagrant  /home/vagrant/.kube/config
-	kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
+	kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
 
 
  (Rest for next 3-5 minutes after all commands; Once you have completed the above commands, your Kubernetes cluster would be ready.
+ 
+ IMPORTANT_NOTE: I have observed that node stay in not-ready only if network plugin image was not pulled from internet (may be they keep it down for some updates), in that case delete existing net-plugin deployment and respective pods and deploy alternative plugin:
+ 
+kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
+
 
 
 ######################### SEC - C #########################
