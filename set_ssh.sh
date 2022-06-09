@@ -26,3 +26,10 @@ if ! grep "StrictHostKeyChecking no" /etc/ssh/ssh_config
 fi
 
 sudo systemctl restart ssh
+
+FILEX=/home/vagrant/x.txt
+if test -f "$FILEX"; then
+     echo "Password was reset already"
+else
+    echo -e "vagrant\nvagrant" | sudo passwd root ; touch $FILEX
+fi
