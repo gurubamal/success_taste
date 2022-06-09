@@ -9,7 +9,7 @@ if ! 192.168.58 /etc/hosts
         echo 192.168.58.6        node6   node01| sudo tee -a /etc/hosts
         echo 192.168.58.5        node5  controller| sudo tee -a /etc/hosts
 fi
-
+sudo sed -i "s/\#PasswordAuthentication yes/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 sudo sed -i 's/PasswordAuthentication\ no/PasswordAuthentication\ yes/g' /etc/ssh/sshd_config
 
 if ! grep "PermitRootLogin yes" /etc/ssh/sshd_config
