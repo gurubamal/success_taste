@@ -12,8 +12,8 @@ sudo apt-get update
 #apt-get install -y docker-ce kubelet kubeadm kubectl
 #
 #
-echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
-sudo sysctl -p
+#echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
+#sudo sysctl -p
 #usermod -aG docker vagrant
 #sudo swapoff -a
 #sudo sed -i 's/\/swap.img/#\/swap.img/g' /etc/fstab
@@ -61,8 +61,8 @@ if ! test -f /root/.ssh/id_rsa
 	sudo ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
 	else echo "All Set"
 fi
-apt update
-apt -y install ceph sshpass
+sudo apt update
+sudo apt -y install ceph sshpass
 
 
 
