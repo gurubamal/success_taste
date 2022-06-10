@@ -33,7 +33,7 @@ DATABASE_PASSWORD=$ADMIN_PASSWORD
 RABBIT_PASSWORD=$ADMIN_PASSWORD
 SERVICE_PASSWORD=$ADMIN_PASSWORD
 enable_plugin mariadb https://github.com/rafaelfolco/devstack-plugin-mariadb"| tee local.conf
-./stack.sh
+./stack.sh ; if [ $(echo $?) == 0 ] ; then echo success; else  ./stack.sh; fi
 
 #########################
 
