@@ -8,7 +8,7 @@
 #cat << EOF |  tee /etc/apt/sources.list.d/kubernetes.list
 #deb https://apt.kubernetes.io/ kubernetes-xenial main
 #EOF
-sudo apt-get update
+sudo apt-get install -y net-tools software-properties-commonsudo apt-get update
 #apt-get install -y docker-ce kubelet kubeadm kubectl
 #
 #
@@ -62,6 +62,7 @@ if ! test -f /root/.ssh/id_rsa
 	else echo "All Set"
 fi
 sudo apt update
+sudo apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade
 sudo apt -y install ceph sshpass
 
 
