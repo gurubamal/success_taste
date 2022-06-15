@@ -1,0 +1,978 @@
+# Decides what is required for the 'is_admin:True' check to succeed.
+#"context_is_admin": "role:admin"
+#
+"aviadmin_role": "role:aviadmin"
+
+# Default rule for most non-Admin APIs.
+#"admin_or_owner": "is_admin:True or project_id:%(project_id)s"
+
+# Default rule for most Admin APIs.
+#"admin_api": "is_admin:True"
+
+# Reset the state of a given server
+# POST  /servers/{server_id}/action (os-resetState)
+#"os_compute_api:os-admin-actions:reset_state": "rule:admin_api"
+
+# Inject network information into the server
+# POST  /servers/{server_id}/action (injectNetworkInfo)
+#"os_compute_api:os-admin-actions:inject_network_info": "rule:admin_api"
+
+# Reset networking on a server
+# POST  /servers/{server_id}/action (resetNetwork)
+#"os_compute_api:os-admin-actions:reset_network": "rule:admin_api"
+
+# Change the administrative password for a server
+# POST  /servers/{server_id}/action (changePassword)
+#"os_compute_api:os-admin-password": "rule:admin_or_owner"
+
+# Create, list, update, and delete guest agent builds
+#
+# This is XenAPI driver specific.
+# It is used to force the upgrade of the XenAPI guest agent on
+# instance boot.
+# GET  /os-agents
+# POST  /os-agents
+# PUT  /os-agents/{agent_build_id}
+# DELETE  /os-agents/{agent_build_id}
+#"os_compute_api:os-agents": "rule:admin_api"
+
+# Create or replace metadata for an aggregate
+# POST  /os-aggregates/{aggregate_id}/action (set_metadata)
+#"os_compute_api:os-aggregates:set_metadata": "rule:admin_api"
+
+# Add a host to an aggregate
+# POST  /os-aggregates/{aggregate_id}/action (add_host)
+#"os_compute_api:os-aggregates:add_host": "rule:admin_api"
+
+# Create an aggregate
+# POST  /os-aggregates
+#"os_compute_api:os-aggregates:create": "rule:admin_api"
+
+# Remove a host from an aggregate
+# POST  /os-aggregates/{aggregate_id}/action (remove_host)
+#"os_compute_api:os-aggregates:remove_host": "rule:admin_api"
+
+# Update name and/or availability zone for an aggregate
+# PUT  /os-aggregates/{aggregate_id}
+#"os_compute_api:os-aggregates:update": "rule:admin_api"
+
+# List all aggregates
+# GET  /os-aggregates
+"os_compute_api:os-aggregates:index": "rule:admin_api or rule:aviadmin_role"
+
+# Delete an aggregate
+# DELETE  /os-aggregates/{aggregate_id}
+#"os_compute_api:os-aggregates:delete": "rule:admin_api"
+
+# Show details for an aggregate
+# GET  /os-aggregates/{aggregate_id}
+"os_compute_api:os-aggregates:show": "rule:admin_api or rule:aviadmin_role"
+
+# Create an assisted volume snapshot
+# POST  /os-assisted-volume-snapshots
+#"os_compute_api:os-assisted-volume-snapshots:create": "rule:admin_api"
+
+# Delete an assisted volume snapshot
+# DELETE  /os-assisted-volume-snapshots/{snapshot_id}
+#"os_compute_api:os-assisted-volume-snapshots:delete": "rule:admin_api"
+
+# List port interfaces or show details of a port interface attached to
+# a server
+# GET  /servers/{server_id}/os-interface
+# GET  /servers/{server_id}/os-interface/{port_id}
+#"os_compute_api:os-attach-interfaces": "rule:admin_or_owner"
+
+# Attach an interface to a server
+# POST  /servers/{server_id}/os-interface
+#"os_compute_api:os-attach-interfaces:create": "rule:admin_or_owner"
+
+# Detach an interface from a server
+# DELETE  /servers/{server_id}/os-interface/{port_id}
+#"os_compute_api:os-attach-interfaces:delete": "rule:admin_or_owner"
+
+# List availability zone information without host information
+# GET  /os-availability-zone
+"os_compute_api:os-availability-zone:list": "rule:admin_or_owner or rule:aviadmin_role"
+
+# List detailed availability zone information with host information
+# GET  /os-availability-zone/detail
+"os_compute_api:os-availability-zone:detail": "rule:admin_api or rule:aviadmin_role"
+
+# List and show details of bare metal nodes.
+#
+# These APIs are proxy calls to the Ironic service and are deprecated.
+# GET  /os-baremetal-nodes
+# GET  /os-baremetal-nodes/{node_id}
+#"os_compute_api:os-baremetal-nodes": "rule:admin_api"
+
+# Update an existing cell
+# PUT  /os-cells/{cell_id}
+#"os_compute_api:os-cells:update": "rule:admin_api"
+
+# Create a new cell
+# POST  /os-cells
+#"os_compute_api:os-cells:create": "rule:admin_api"
+
+# List and show detailed info for a given cell or all cells
+# GET  /os-cells
+# GET  /os-cells/detail
+# GET  /os-cells/info
+# GET  /os-cells/capacities
+# GET  /os-cells/{cell_id}
+#"os_compute_api:os-cells": "rule:admin_api"
+
+# Sync instances info in all cells
+# POST  /os-cells/sync_instances
+#"os_compute_api:os-cells:sync_instances": "rule:admin_api"
+
+# Remove a cell
+# DELETE  /os-cells/{cell_id}
+#"os_compute_api:os-cells:delete": "rule:admin_api"
+
+# Different cell filter to route a build away from a particular cell
+#
+# This policy is read by nova-scheduler process.
+#"cells_scheduler_filter:DifferentCellFilter": "is_admin:True"
+
+# Target cell filter to route a build to a particular cell
+#
+# This policy is read by nova-scheduler process.
+#"cells_scheduler_filter:TargetCellFilter": "is_admin:True"
+
+# DEPRECATED
+# "os_compute_api:os-config-drive" has been deprecated since 17.0.0.
+# Nova API extension concept has been removed in Pike. Those
+# extensions have their own policies enforcement. As there is no
+# extensions now, "os_compute_api:os-config-drive" policy which was
+# added for extensions is not needed any more
+# Add 'config_drive' attribute in the server response
+# GET  /servers/{id}
+# GET  /servers/detail
+#"os_compute_api:os-config-drive": "rule:admin_or_owner"
+
+# Show console connection information for a given console
+# authentication token
+# GET  /os-console-auth-tokens/{console_token}
+#"os_compute_api:os-console-auth-tokens": "rule:admin_api"
+
+# Show console output for a server
+# POST  /servers/{server_id}/action (os-getConsoleOutput)
+#"os_compute_api:os-console-output": "rule:admin_or_owner"
+
+# Create a console for a server instance
+# POST  /servers/{server_id}/consoles
+#"os_compute_api:os-consoles:create": "rule:admin_or_owner"
+
+# Show console details for a server instance
+# GET  /servers/{server_id}/consoles/{console_id}
+#"os_compute_api:os-consoles:show": "rule:admin_or_owner"
+
+# Delete a console for a server instance
+# DELETE  /servers/{server_id}/consoles/{console_id}
+#"os_compute_api:os-consoles:delete": "rule:admin_or_owner"
+
+# List all consoles for a server instance
+# GET  /servers/{server_id}/consoles
+#"os_compute_api:os-consoles:index": "rule:admin_or_owner"
+
+# Create a back up of a server
+# POST  /servers/{server_id}/action (createBackup)
+#"os_compute_api:os-create-backup": "rule:admin_or_owner"
+
+# Restore a soft deleted server or force delete a server before
+# deferred cleanup
+# POST  /servers/{server_id}/action (restore)
+# POST  /servers/{server_id}/action (forceDelete)
+#"os_compute_api:os-deferred-delete": "rule:admin_or_owner"
+
+# Evacuate a server from a failed host to a new host
+# POST  /servers/{server_id}/action (evacuate)
+#"os_compute_api:os-evacuate": "rule:admin_api"
+
+# DEPRECATED
+# "os_compute_api:os-extended-availability-zone" has been deprecated since 17.0.0.
+# Nova API extension concept has been removed in Pike. Those
+# extensions have their own policies enforcement. As there is no
+# extensions now, "os_compute_api:os-extended-availability-zone"
+# policy which was added for extensions is not needed any more
+# Add `OS-EXT-AZ:availability_zone` into the server response
+# GET  /servers/{id}
+# GET  /servers/detail
+#"os_compute_api:os-extended-availability-zone": "rule:admin_or_owner"
+
+# Return extended attributes for server.
+#
+# This rule will control the visibility for a set of servers
+# attributes:
+#
+# - ``OS-EXT-SRV-ATTR:host``
+# - ``OS-EXT-SRV-ATTR:instance_name``
+# - ``OS-EXT-SRV-ATTR:reservation_id`` (since microversion 2.3)
+# - ``OS-EXT-SRV-ATTR:launch_index`` (since microversion 2.3)
+# - ``OS-EXT-SRV-ATTR:hostname`` (since microversion 2.3)
+# - ``OS-EXT-SRV-ATTR:kernel_id`` (since microversion 2.3)
+# - ``OS-EXT-SRV-ATTR:ramdisk_id`` (since microversion 2.3)
+# - ``OS-EXT-SRV-ATTR:root_device_name`` (since microversion 2.3)
+# - ``OS-EXT-SRV-ATTR:user_data`` (since microversion 2.3)
+# GET  /servers/{id}
+# GET  /servers/detail
+#"os_compute_api:os-extended-server-attributes": "rule:admin_api"
+
+# DEPRECATED
+# "os_compute_api:os-extended-status" has been deprecated since 17.0.0.
+# Nova API extension concept has been removed in Pike. Those
+# extensions have their own policies enforcement. As there is no
+# extensions now, "os_compute_api:os-extended-status" policy which was
+# added for extensions is not needed any more
+# Return extended status in the response of server.
+#
+# This policy will control the visibility for a set of attributes:
+#
+# - ``OS-EXT-STS:task_state``
+# - ``OS-EXT-STS:vm_state``
+# - ``OS-EXT-STS:power_state``
+# GET  /servers/{id}
+# GET  /servers/detail
+#"os_compute_api:os-extended-status": "rule:admin_or_owner"
+
+# DEPRECATED
+# "os_compute_api:os-extended-volumes" has been deprecated since 17.0.0.
+# Nova API extension concept has been removed in Pike. Those
+# extensions have their own policies enforcement. As there is no
+# extensions now, "os_compute_api:os-extended-volumes" policy which
+# was added for extensions is not needed any more
+# Return 'os-extended-volumes:volumes_attached' in the response of
+# server
+# GET  /servers/{id}
+# GET  /servers/detail
+#"os_compute_api:os-extended-volumes": "rule:admin_or_owner"
+
+# List available extensions and show information for an extension by
+# alias
+# GET  /extensions
+# GET  /extensions/{alias}
+"os_compute_api:extensions": "rule:admin_or_owner or rule:aviadmin_role"
+
+# Add flavor access to a tenant
+# POST  /flavors/{flavor_id}/action (addTenantAccess)
+#"os_compute_api:os-flavor-access:add_tenant_access": "rule:admin_api"
+
+# Remove flavor access from a tenant
+# POST  /flavors/{flavor_id}/action (removeTenantAccess)
+#"os_compute_api:os-flavor-access:remove_tenant_access": "rule:admin_api"
+
+# DEPRECATED
+# "os_compute_api:os-flavor-access" has been deprecated since 17.0.0.
+# Nova API extension concept has been removed in Pike. Those
+# extensions have their own policies enforcement. As there is no
+# extensions now, "os_compute_api:os-flavor-access" policy for POST,
+# PUT, GET /flavors which was added for extensions is not needed any
+# more. NOTE: This policy is deprecated only for POST /flavors, PUT
+# /flavors, GET /flavors/{flavor_id} & GET /flavors/detail. This
+# policy for other API operations is still valid and not deprecated
+# List flavor access information
+#
+# Adds the os-flavor-access:is_public key into several flavor APIs.
+#
+# It also allows access to the full list of tenants that have access
+# to a flavor via an os-flavor-access API.
+# GET  /flavors/{flavor_id}/os-flavor-access
+# GET  /flavors/detail
+# GET  /flavors/{flavor_id}
+# POST  /flavors
+# PUT  /flavors/{flavor_id}
+"os_compute_api:os-flavor-access": "rule:admin_or_owner or rule:aviadmin_role"
+
+# Show an extra spec for a flavor
+# GET  /flavors/{flavor_id}/os-extra_specs/{flavor_extra_spec_key}
+#"os_compute_api:os-flavor-extra-specs:show": "rule:admin_or_owner"
+
+# Create extra specs for a flavor
+# POST  /flavors/{flavor_id}/os-extra_specs/
+#"os_compute_api:os-flavor-extra-specs:create": "rule:admin_api"
+
+# Update an extra spec for a flavor
+# PUT  /flavors/{flavor_id}/os-extra_specs/{flavor_extra_spec_key}
+#"os_compute_api:os-flavor-extra-specs:update": "rule:admin_api"
+
+# Delete an extra spec for a flavor
+# DELETE  /flavors/{flavor_id}/os-extra_specs/{flavor_extra_spec_key}
+#"os_compute_api:os-flavor-extra-specs:delete": "rule:admin_api"
+
+# List extra specs for a flavor. Starting with microversion 2.47, the
+# flavor used for a server is also returned in the response when
+# showing server details, updating a server or rebuilding a server.
+# Starting with microversion 2.61, extra specs may be returned in
+# responses for the flavor resource.
+# GET  /flavors/{flavor_id}/os-extra_specs/
+# GET  /servers/detail
+# GET  /servers/{server_id}
+# PUT  /servers/{server_id}
+# POST  /servers/{server_id}/action (rebuild)
+# POST  /flavors
+# GET  /flavors/detail
+# GET  /flavors/{flavor_id}
+# PUT  /flavors/{flavor_id}
+#"os_compute_api:os-flavor-extra-specs:index": "rule:admin_or_owner"
+
+# Create and delete Flavors. Deprecated in Pike and will be removed in
+# future release
+# POST  /flavors
+# DELETE  /flavors/{flavor_id}
+#"os_compute_api:os-flavor-manage": "rule:admin_api"
+
+# Create a flavor
+# POST  /flavors
+#"os_compute_api:os-flavor-manage:create": "rule:os_compute_api:os-flavor-manage"
+
+# Update a flavor
+# PUT  /flavors/{flavor_id}
+#"os_compute_api:os-flavor-manage:update": "rule:admin_api"
+
+# Delete a flavor
+# DELETE  /flavors/{flavor_id}
+#"os_compute_api:os-flavor-manage:delete": "rule:os_compute_api:os-flavor-manage"
+
+# DEPRECATED
+# "os_compute_api:os-flavor-rxtx" has been deprecated since 17.0.0.
+# Nova API extension concept has been removed in Pike. Those
+# extensions have their own policies enforcement. As there is no
+# extensions now, "os_compute_api:os-flavor-rxtx" policy which was
+# added for extensions is not needed any more
+# Add the rxtx_factor key into some Flavor APIs
+# GET  /flavors/detail
+# GET  /flavors/{flavor_id}
+# POST  /flavors
+# PUT  /flavors/{flavor_id}
+#"os_compute_api:os-flavor-rxtx": "rule:admin_or_owner"
+
+# Deprecated in Pike and will be removed in next release
+#"os_compute_api:flavors": "rule:admin_or_owner"
+
+# List floating IP pools. This API is deprecated.
+# GET  /os-floating-ip-pools
+#"os_compute_api:os-floating-ip-pools": "rule:admin_or_owner"
+
+# Manage a project's floating IPs. These APIs are all deprecated.
+# POST  /servers/{server_id}/action (addFloatingIp)
+# POST  /servers/{server_id}/action (removeFloatingIp)
+# GET  /os-floating-ips
+# POST  /os-floating-ips
+# GET  /os-floating-ips/{floating_ip_id}
+# DELETE  /os-floating-ips/{floating_ip_id}
+#"os_compute_api:os-floating-ips": "rule:admin_or_owner"
+
+# DEPRECATED
+# "os_compute_api:os-hide-server-addresses" has been deprecated since 17.0.0.
+# Capability of configuring the server states to hide the address has
+# been deprecated for removal. Now this policy is not needed to
+# control the server address
+# Hide server's 'addresses' key in the server response.
+#
+# This set the 'addresses' key in the server response to an empty
+# dictionary when the server is in a specific set of states as
+# defined in CONF.api.hide_server_address_states.
+# By default 'addresses' is hidden only when the server is in
+# 'BUILDING' state.
+# GET  /servers/{id}
+# GET  /servers/detail
+#"os_compute_api:os-hide-server-addresses": "is_admin:False"
+
+# List, show and manage physical hosts.
+#
+# These APIs are all deprecated in favor of os-hypervisors and os-
+# services.
+# GET  /os-hosts
+# GET  /os-hosts/{host_name}
+# PUT  /os-hosts/{host_name}
+# GET  /os-hosts/{host_name}/reboot
+# GET  /os-hosts/{host_name}/shutdown
+# GET  /os-hosts/{host_name}/startup
+#"os_compute_api:os-hosts": "rule:admin_api"
+
+# Policy rule for hypervisor related APIs.
+#
+# This rule will be checked for the following APIs:
+#
+# List all hypervisors, list all hypervisors with details, show
+# summary statistics for all hypervisors over all compute nodes,
+# show details for a hypervisor, show the uptime of a hypervisor,
+# search hypervisor by hypervisor_hostname pattern and list all
+# servers on hypervisors that can match the provided
+# hypervisor_hostname pattern.
+# GET  /os-hypervisors
+# GET  /os-hypervisors/details
+# GET  /os-hypervisors/statistics
+# GET  /os-hypervisors/{hypervisor_id}
+# GET  /os-hypervisors/{hypervisor_id}/uptime
+# GET  /os-hypervisors/{hypervisor_hostname_pattern}/search
+# GET  /os-hypervisors/{hypervisor_hostname_pattern}/servers
+#"os_compute_api:os-hypervisors": "rule:admin_api"
+
+# DEPRECATED
+# "os_compute_api:image-size" has been deprecated since 17.0.0.
+# Nova API extension concept has been removed in Pike. Those
+# extensions have their own policies enforcement. As there is no
+# extensions now, "os_compute_api:image-size" policy which was added
+# for extensions is not needed any more
+# Add 'OS-EXT-IMG-SIZE:size' attribute in the image response.
+# GET  /images/{id}
+# GET  /images/detail
+#"os_compute_api:image-size": "rule:admin_or_owner"
+
+# Add events details in action details for a server.
+#
+# This check is performed only after the check
+# os_compute_api:os-instance-actions passes. Beginning with
+# Microversion 2.51, events details are always included; traceback
+# information is provided per event if policy enforcement passes.
+# Beginning with Microversion 2.62, each event includes a hashed
+# host identifier and, if policy enforcement passes, the name of
+# the host.
+# GET  /servers/{server_id}/os-instance-actions/{request_id}
+#"os_compute_api:os-instance-actions:events": "rule:admin_api"
+
+# List actions and show action details for a server.
+# GET  /servers/{server_id}/os-instance-actions
+# GET  /servers/{server_id}/os-instance-actions/{request_id}
+#"os_compute_api:os-instance-actions": "rule:admin_or_owner"
+
+# List all usage audits and that occurred before a specified time for
+# all servers on all compute hosts where usage auditing is configured
+# GET  /os-instance_usage_audit_log
+# GET  /os-instance_usage_audit_log/{before_timestamp}
+#"os_compute_api:os-instance-usage-audit-log": "rule:admin_api"
+
+# Show IP addresses details for a network label of a server
+# GET  /servers/{server_id}/ips/{network_label}
+#"os_compute_api:ips:show": "rule:admin_or_owner"
+
+# List IP addresses that are assigned to a server
+# GET  /servers/{server_id}/ips
+#"os_compute_api:ips:index": "rule:admin_or_owner"
+
+# List all keypairs
+# GET  /os-keypairs
+#"os_compute_api:os-keypairs:index": "rule:admin_api or user_id:%(user_id)s"
+
+# Create a keypair
+# POST  /os-keypairs
+#"os_compute_api:os-keypairs:create": "rule:admin_api or user_id:%(user_id)s"
+
+# Delete a keypair
+# DELETE  /os-keypairs/{keypair_name}
+#"os_compute_api:os-keypairs:delete": "rule:admin_api or user_id:%(user_id)s"
+
+# Show details of a keypair
+# GET  /os-keypairs/{keypair_name}
+#"os_compute_api:os-keypairs:show": "rule:admin_api or user_id:%(user_id)s"
+
+# DEPRECATED
+# "os_compute_api:os-keypairs" has been deprecated since 17.0.0.
+# Nova API extension concept has been removed in Pike. Those
+# extensions have their own policies enforcement. As there is no
+# extensions now, "os_compute_api:os-keypairs" policy which was added
+# for extensions is not needed any more
+# Return 'key_name' in the response of server.
+# GET  /servers/{id}
+# GET  /servers/detail
+#"os_compute_api:os-keypairs": "rule:admin_or_owner"
+
+# Show rate and absolute limits for the project
+# GET  /limits
+#"os_compute_api:limits": "rule:admin_or_owner"
+
+# Lock a server
+# POST  /servers/{server_id}/action (lock)
+#"os_compute_api:os-lock-server:lock": "rule:admin_or_owner"
+
+# Unlock a server
+# POST  /servers/{server_id}/action (unlock)
+#"os_compute_api:os-lock-server:unlock": "rule:admin_or_owner"
+
+# Unlock a server, regardless who locked the server.
+#
+# This check is performed only after the check
+# os_compute_api:os-lock-server:unlock passes
+# POST  /servers/{server_id}/action (unlock)
+#"os_compute_api:os-lock-server:unlock:unlock_override": "rule:admin_api"
+
+# Cold migrate a server to a host
+# POST  /servers/{server_id}/action (migrate)
+#"os_compute_api:os-migrate-server:migrate": "rule:admin_api"
+
+# Live migrate a server to a new host without a reboot
+# POST  /servers/{server_id}/action (os-migrateLive)
+#"os_compute_api:os-migrate-server:migrate_live": "rule:admin_api"
+
+# List migrations
+# GET  /os-migrations
+#"os_compute_api:os-migrations:index": "rule:admin_api"
+
+# Add or remove a fixed IP address from a server.
+#
+# These APIs are proxy calls to the Network service. These are all
+# deprecated.
+# POST  /servers/{server_id}/action (addFixedIp)
+# POST  /servers/{server_id}/action (removeFixedIp)
+#"os_compute_api:os-multinic": "rule:admin_or_owner"
+
+# Create and delete a network, add and disassociate a network
+# from a project.
+#
+# These APIs are only available with nova-network which is deprecated.
+# POST  /os-networks
+# POST  /os-networks/add
+# DELETE  /os-networks/{network_id}
+# POST  /os-networks/{network_id}/action (disassociate)
+#"os_compute_api:os-networks": "rule:admin_api"
+
+# List networks for the project and show details for a network.
+#
+# These APIs are proxy calls to the Network service. These are all
+# deprecated.
+# GET  /os-networks
+# GET  /os-networks/{network_id}
+#"os_compute_api:os-networks:view": "rule:admin_or_owner"
+
+# Associate or disassociate a network from a host or project.
+#
+# These APIs are only available with nova-network which is deprecated.
+# POST  /os-networks/{network_id}/action (disassociate_host)
+# POST  /os-networks/{network_id}/action (disassociate_project)
+# POST  /os-networks/{network_id}/action (associate_host)
+#"os_compute_api:os-networks-associate": "rule:admin_api"
+
+# Pause a server
+# POST  /servers/{server_id}/action (pause)
+#"os_compute_api:os-pause-server:pause": "rule:admin_or_owner"
+
+# Unpause a paused server
+# POST  /servers/{server_id}/action (unpause)
+#"os_compute_api:os-pause-server:unpause": "rule:admin_or_owner"
+
+# List quotas for specific quota classs
+# GET  /os-quota-class-sets/{quota_class}
+#"os_compute_api:os-quota-class-sets:show": "is_admin:True or quota_class:%(quota_class)s"
+
+# Update quotas for specific quota class
+# PUT  /os-quota-class-sets/{quota_class}
+#"os_compute_api:os-quota-class-sets:update": "rule:admin_api"
+
+# Update the quotas
+# PUT  /os-quota-sets/{tenant_id}
+#"os_compute_api:os-quota-sets:update": "rule:admin_api"
+
+# List default quotas
+# GET  /os-quota-sets/{tenant_id}/defaults
+#"os_compute_api:os-quota-sets:defaults": "@"
+
+# Show a quota
+# GET  /os-quota-sets/{tenant_id}
+#"os_compute_api:os-quota-sets:show": "rule:admin_or_owner"
+
+# Revert quotas to defaults
+# DELETE  /os-quota-sets/{tenant_id}
+#"os_compute_api:os-quota-sets:delete": "rule:admin_api"
+
+# Show the detail of quota
+# GET  /os-quota-sets/{tenant_id}/detail
+#"os_compute_api:os-quota-sets:detail": "rule:admin_or_owner"
+
+# Generate a URL to access remove server console
+# POST  /servers/{server_id}/action (os-getRDPConsole)
+# POST  /servers/{server_id}/action (os-getSerialConsole)
+# POST  /servers/{server_id}/action (os-getSPICEConsole)
+# POST  /servers/{server_id}/action (os-getVNCConsole)
+# POST  /servers/{server_id}/remote-consoles
+#"os_compute_api:os-remote-consoles": "rule:admin_or_owner"
+
+# Rescue/unrescue a server
+# POST  /servers/{server_id}/action (rescue)
+# POST  /servers/{server_id}/action (unrescue)
+#"os_compute_api:os-rescue": "rule:admin_or_owner"
+
+# List, show information for, create, or delete default security
+# group rules.
+#
+# These APIs are only available with nova-network which is now
+# deprecated.
+# GET  /os-security-group-default-rules
+# GET  /os-security-group-default-rules/{security_group_default_rule_id}
+# POST  /os-security-group-default-rules
+# DELETE  /os-security-group-default-rules/{security_group_default_rule_id}
+#"os_compute_api:os-security-group-default-rules": "rule:admin_api"
+
+# DEPRECATED
+# "os_compute_api:os-security-groups" has been deprecated since 17.0.0.
+# Nova API extension concept has been removed in Pike. Those
+# extensions have their own policies enforcement. As there is no
+# extensions now, "os_compute_api:os-security-groups" policy for POST,
+# GET /servers which was added for extensions is not needed any more.
+# NOTE: This policy is deprecated only for POST /servers, GET
+# /servers/{server_id} & GET /servers/detail. This policy for other
+# API operations is still valid and not deprecated
+# List, show, add, or remove security groups.
+#
+# APIs which are directly related to security groups resource are
+# deprecated:
+# Lists, shows information for, creates, updates and deletes
+# security groups. Creates and deletes security group rules. All these
+# APIs are deprecated.
+#
+# APIs which are related to server resource are not deprecated:
+# Lists Security Groups for a server. Add Security Group to a server
+# and remove security group from a server. Expand security_groups in
+# server representation
+# GET  /os-security-groups
+# GET  /os-security-groups/{security_group_id}
+# POST  /os-security-groups
+# PUT  /os-security-groups/{security_group_id}
+# DELETE  /os-security-groups/{security_group_id}
+# GET  /servers/{server_id}/os-security-groups
+# POST  /servers/{server_id}/action (addSecurityGroup)
+# POST  /servers/{server_id}/action (removeSecurityGroup)
+# POST  /servers
+# GET  /servers/{server_id}
+# GET  /servers/detail
+#"os_compute_api:os-security-groups": "rule:admin_or_owner"
+
+# Show the usage data for a server
+# GET  /servers/{server_id}/diagnostics
+#"os_compute_api:os-server-diagnostics": "rule:admin_api"
+
+# Create one or more external events
+# POST  /os-server-external-events
+#"os_compute_api:os-server-external-events:create": "rule:admin_api"
+
+# Deprecated in Pike and will be removed in next release
+#"os_compute_api:os-server-groups": "rule:admin_or_owner"
+
+# Create a new server group
+# POST  /os-server-groups
+#"os_compute_api:os-server-groups:create": "rule:os_compute_api:os-server-groups"
+
+# Delete a server group
+# DELETE  /os-server-groups/{server_group_id}
+#"os_compute_api:os-server-groups:delete": "rule:os_compute_api:os-server-groups"
+
+# List all server groups
+# GET  /os-server-groups
+#"os_compute_api:os-server-groups:index": "rule:os_compute_api:os-server-groups"
+
+# Show details of a server group
+# GET  /os-server-groups/{server_group_id}
+#"os_compute_api:os-server-groups:show": "rule:os_compute_api:os-server-groups"
+
+# List all metadata of a server
+# GET  /servers/{server_id}/metadata
+#"os_compute_api:server-metadata:index": "rule:admin_or_owner"
+
+# Show metadata for a server
+# GET  /servers/{server_id}/metadata/{key}
+#"os_compute_api:server-metadata:show": "rule:admin_or_owner"
+
+# Create metadata for a server
+# POST  /servers/{server_id}/metadata
+#"os_compute_api:server-metadata:create": "rule:admin_or_owner"
+
+# Replace metadata for a server
+# PUT  /servers/{server_id}/metadata
+#"os_compute_api:server-metadata:update_all": "rule:admin_or_owner"
+
+# Update metadata from a server
+# PUT  /servers/{server_id}/metadata/{key}
+#"os_compute_api:server-metadata:update": "rule:admin_or_owner"
+
+# Delete metadata from a server
+# DELETE  /servers/{server_id}/metadata/{key}
+#"os_compute_api:server-metadata:delete": "rule:admin_or_owner"
+
+# Show and clear the encrypted administrative password of a server
+# GET  /servers/{server_id}/os-server-password
+# DELETE  /servers/{server_id}/os-server-password
+#"os_compute_api:os-server-password": "rule:admin_or_owner"
+
+# Delete all the server tags
+# DELETE  /servers/{server_id}/tags
+#"os_compute_api:os-server-tags:delete_all": "rule:admin_or_owner"
+
+# List all tags for given server
+# GET  /servers/{server_id}/tags
+#"os_compute_api:os-server-tags:index": "rule:admin_or_owner"
+
+# Replace all tags on specified server with the new set of tags.
+# PUT  /servers/{server_id}/tags
+#"os_compute_api:os-server-tags:update_all": "rule:admin_or_owner"
+
+# Delete a single tag from the specified server
+# DELETE  /servers/{server_id}/tags/{tag}
+#"os_compute_api:os-server-tags:delete": "rule:admin_or_owner"
+
+# Add a single tag to the server if server has no specified tag
+# PUT  /servers/{server_id}/tags/{tag}
+#"os_compute_api:os-server-tags:update": "rule:admin_or_owner"
+
+# Check tag existence on the server.
+# GET  /servers/{server_id}/tags/{tag}
+#"os_compute_api:os-server-tags:show": "rule:admin_or_owner"
+
+# DEPRECATED
+# "os_compute_api:os-server-usage" has been deprecated since 17.0.0.
+# Nova API extension concept has been removed in Pike. Those
+# extensions have their own policies enforcement. As there is no
+# extensions now, "os_compute_api:os-server-usage" policy which was
+# added for extensions is not needed any more
+# Add 'OS-SRV-USG:launched_at' & 'OS-SRV-USG:terminated_at' attribute
+# in the server response.
+#
+# This check is performed only after the check
+# 'os_compute_api:servers:show' for GET /servers/{id} and
+# 'os_compute_api:servers:detail' for GET /servers/detail passes
+# GET  /servers/{id}
+# GET  /servers/detail
+#"os_compute_api:os-server-usage": "rule:admin_or_owner"
+
+# List all servers
+# GET  /servers
+"os_compute_api:servers:index": "rule:admin_or_owner or rule:aviadmin_role"
+
+# List all servers with detailed information
+# GET  /servers/detail
+"os_compute_api:servers:detail": "rule:admin_or_owner or rule:aviadmin_role"
+
+# List all servers for all projects
+# GET  /servers
+"os_compute_api:servers:index:get_all_tenants": "rule:admin_api or rule:aviadmin_role"
+
+# List all servers with detailed information for all projects
+# GET  /servers/detail
+"os_compute_api:servers:detail:get_all_tenants": "rule:admin_api or rule:aviadmin_role"
+
+# Show a server
+# GET  /servers/{server_id}
+#"os_compute_api:servers:show": "rule:admin_or_owner"
+
+# Show a server with additional host status information
+# GET  /servers/{server_id}
+# GET  /servers/detail
+#"os_compute_api:servers:show:host_status": "rule:admin_api"
+
+# Create a server
+# POST  /servers
+#"os_compute_api:servers:create": "rule:admin_or_owner"
+
+# Create a server on the specified host
+# POST  /servers
+#"os_compute_api:servers:create:forced_host": "rule:admin_api"
+
+# Create a server with the requested volume attached to it
+# POST  /servers
+#"os_compute_api:servers:create:attach_volume": "rule:admin_or_owner"
+
+# Create a server with the requested network attached to it
+# POST  /servers
+#"os_compute_api:servers:create:attach_network": "rule:admin_or_owner"
+
+# Create a server with trusted image certificate IDs
+# POST  /servers
+#"os_compute_api:servers:create:trusted_certs": "rule:admin_or_owner"
+
+#
+# This rule controls the compute API validation behavior of creating a
+# server
+# with a flavor that has 0 disk, indicating the server should be
+# volume-backed.
+#
+# For a flavor with disk=0, the root disk will be set to exactly the
+# size of the
+# image used to deploy the instance. However, in this case the
+# filter_scheduler
+# cannot select the compute host based on the virtual image size.
+# Therefore, 0
+# should only be used for volume booted instances or for testing
+# purposes.
+#
+# WARNING: It is a potential security exposure to enable this policy
+# rule
+# if users can upload their own images since repeated attempts to
+# create a disk=0 flavor instance with a large image can exhaust
+# the local disk of the compute (or shared storage cluster). See bug
+# https://bugs.launchpad.net/nova/+bug/1739646 for details.
+#
+# This rule defaults to ``rule:admin_or_owner`` for backward
+# compatibility but
+# will be changed to default to ``rule:admin_api`` in a subsequent
+# release.
+# POST  /servers
+#"os_compute_api:servers:create:zero_disk_flavor": "rule:admin_or_owner"
+
+# Attach an unshared external network to a server
+# POST  /servers
+# POST  /servers/{server_id}/os-interface
+#"network:attach_external_network": "is_admin:True"
+
+# Delete a server
+# DELETE  /servers/{server_id}
+#"os_compute_api:servers:delete": "rule:admin_or_owner"
+
+# Update a server
+# PUT  /servers/{server_id}
+#"os_compute_api:servers:update": "rule:admin_or_owner"
+
+# Confirm a server resize
+# POST  /servers/{server_id}/action (confirmResize)
+#"os_compute_api:servers:confirm_resize": "rule:admin_or_owner"
+
+# Revert a server resize
+# POST  /servers/{server_id}/action (revertResize)
+#"os_compute_api:servers:revert_resize": "rule:admin_or_owner"
+
+# Reboot a server
+# POST  /servers/{server_id}/action (reboot)
+#"os_compute_api:servers:reboot": "rule:admin_or_owner"
+
+# Resize a server
+# POST  /servers/{server_id}/action (resize)
+#"os_compute_api:servers:resize": "rule:admin_or_owner"
+
+# Rebuild a server
+# POST  /servers/{server_id}/action (rebuild)
+#"os_compute_api:servers:rebuild": "rule:admin_or_owner"
+
+# Rebuild a server with trusted image certificate IDs
+# POST  /servers/{server_id}/action (rebuild)
+#"os_compute_api:servers:rebuild:trusted_certs": "rule:admin_or_owner"
+
+# Create an image from a server
+# POST  /servers/{server_id}/action (createImage)
+#"os_compute_api:servers:create_image": "rule:admin_or_owner"
+
+# Create an image from a volume backed server
+# POST  /servers/{server_id}/action (createImage)
+#"os_compute_api:servers:create_image:allow_volume_backed": "rule:admin_or_owner"
+
+# Start a server
+# POST  /servers/{server_id}/action (os-start)
+#"os_compute_api:servers:start": "rule:admin_or_owner"
+
+# Stop a server
+# POST  /servers/{server_id}/action (os-stop)
+#"os_compute_api:servers:stop": "rule:admin_or_owner"
+
+# Trigger crash dump in a server
+# POST  /servers/{server_id}/action (trigger_crash_dump)
+#"os_compute_api:servers:trigger_crash_dump": "rule:admin_or_owner"
+
+# Show details for an in-progress live migration for a given server
+# GET  /servers/{server_id}/migrations/{migration_id}
+#"os_compute_api:servers:migrations:show": "rule:admin_api"
+
+# Force an in-progress live migration for a given server to complete
+# POST  /servers/{server_id}/migrations/{migration_id}/action (force_complete)
+#"os_compute_api:servers:migrations:force_complete": "rule:admin_api"
+
+# Delete(Abort) an in-progress live migration
+# DELETE  /servers/{server_id}/migrations/{migration_id}
+#"os_compute_api:servers:migrations:delete": "rule:admin_api"
+
+# Lists in-progress live migrations for a given server
+# GET  /servers/{server_id}/migrations
+#"os_compute_api:servers:migrations:index": "rule:admin_api"
+
+# List all running Compute services in a region, enables or disable
+# scheduling for a Compute service, logs disabled Compute service
+# information, set or unset forced_down flag for the compute service
+# and delete a Compute service
+# GET  /os-services
+# PUT  /os-services/enable
+# PUT  /os-services/disable
+# PUT  /os-services/disable-log-reason
+# PUT  /os-services/force-down
+# PUT  /os-services/{service_id}
+# DELETE  /os-services/{service_id}
+#"os_compute_api:os-services": "rule:admin_api"
+
+# Shelve server
+# POST  /servers/{server_id}/action (shelve)
+#"os_compute_api:os-shelve:shelve": "rule:admin_or_owner"
+
+# Unshelve (restore) shelved server
+# POST  /servers/{server_id}/action (unshelve)
+#"os_compute_api:os-shelve:unshelve": "rule:admin_or_owner"
+
+# Shelf-offload (remove) server
+# POST  /servers/{server_id}/action (shelveOffload)
+#"os_compute_api:os-shelve:shelve_offload": "rule:admin_api"
+
+# Show usage statistics for a specific tenant
+# GET  /os-simple-tenant-usage/{tenant_id}
+#"os_compute_api:os-simple-tenant-usage:show": "rule:admin_or_owner"
+
+# List per tenant usage statistics for all tenants
+# GET  /os-simple-tenant-usage
+#"os_compute_api:os-simple-tenant-usage:list": "rule:admin_api"
+
+# Resume suspended server
+# POST  /servers/{server_id}/action (resume)
+#"os_compute_api:os-suspend-server:resume": "rule:admin_or_owner"
+
+# Suspend server
+# POST  /servers/{server_id}/action (suspend)
+#"os_compute_api:os-suspend-server:suspend": "rule:admin_or_owner"
+
+# Create, list, show information for, and delete project networks.
+#
+# These APIs are proxy calls to the Network service. These are all
+# deprecated.
+# GET  /os-tenant-networks
+# POST  /os-tenant-networks
+# GET  /os-tenant-networks/{network_id}
+# DELETE  /os-tenant-networks/{network_id}
+#"os_compute_api:os-tenant-networks": "rule:admin_or_owner"
+
+# Show rate and absolute limits for the project.
+#
+# This policy only checks if the user has access to the requested
+# project limits. And this check is performed only after the check
+# os_compute_api:limits passes
+# GET  /limits
+#"os_compute_api:os-used-limits": "rule:admin_api"
+
+# Manage volumes for use with the Compute API.
+#
+# Lists, shows details, creates, and deletes volumes and
+# snapshots. These APIs are proxy calls to the Volume service.
+# These are all deprecated.
+# GET  /os-volumes
+# POST  /os-volumes
+# GET  /os-volumes/detail
+# GET  /os-volumes/{volume_id}
+# DELETE  /os-volumes/{volume_id}
+# GET  /os-snapshots
+# POST  /os-snapshots
+# GET  /os-snapshots/detail
+# GET  /os-snapshots/{snapshot_id}
+# DELETE  /os-snapshots/{snapshot_id}
+#"os_compute_api:os-volumes": "rule:admin_or_owner"
+
+# List volume attachments for an instance
+# GET  /servers/{server_id}/os-volume_attachments
+#"os_compute_api:os-volumes-attachments:index": "rule:admin_or_owner"
+
+# Attach a volume to an instance
+# POST  /servers/{server_id}/os-volume_attachments
+#"os_compute_api:os-volumes-attachments:create": "rule:admin_or_owner"
+
+# Show details of a volume attachment
+# GET  /servers/{server_id}/os-volume_attachments/{attachment_id}
+#"os_compute_api:os-volumes-attachments:show": "rule:admin_or_owner"
+
+# Update a volume attachment
+# PUT  /servers/{server_id}/os-volume_attachments/{attachment_id}
+#"os_compute_api:os-volumes-attachments:update": "rule:admin_api"
+
+# Detach a volume from an instance
+# DELETE  /servers/{server_id}/os-volume_attachments/{attachment_id}
+#"os_compute_api:os-volumes-attachments:delete": "rule:admin_or_owner"
+
