@@ -1,8 +1,0 @@
----
-network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    enp0s9:
-      addresses:
-      - 192.168.68.6/24
