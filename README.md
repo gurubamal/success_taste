@@ -1,5 +1,8 @@
 NOTE:
-Given CODE (only with instructions below) is working fine now (when uploaded), it installs the latest version of everything. Later some software versions may have significant changes or updates from the provider in the code, and these scripts would also need updates at that time!
+Given CODE (only with instructions below) is working fine now (when uploaded), it installs the latest version of everything. Later some software versions may have significant changes or updates from the provider in the code, and these scripts would also need updates at that time! 
+
+NOTE: Following is just for hands-on and learning practicals. In production, you will have to follow security in scripts and implementations (which is not applicable in these practicals).
+
 
 Tutorial videos:
 
@@ -48,7 +51,9 @@ CEPH (v15) MULTINODE VMS Install SETUP:
 2) Now run the below commands:
 
 
-    vagrant up ; ./ceph_final_touch.sh
+    vagrant up 
+    
+    ./ceph_final_touch.sh
 
 If it gets interrupted, it will be some issue at your end (scripts are already ok tested); check for its output; it is either a resources issue in your device or vagrant related most of the time. You can re-run commands if it looks intermittent. 
 
