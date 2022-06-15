@@ -8,7 +8,8 @@
 #cat << EOF |  tee /etc/apt/sources.list.d/kubernetes.list
 #deb https://apt.kubernetes.io/ kubernetes-xenial main
 #EOF
-sudo apt-get install -y net-tools software-properties-commonsudo apt-get update
+sudo apt-get install -y net-tools software-properties-common
+sudo apt-get update
 #apt-get install -y docker-ce kubelet kubeadm kubectl
 #
 #
