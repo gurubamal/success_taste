@@ -7,8 +7,8 @@ set -x
 set -e
 
 export LC_ALL=C
+#cp -ar openstack_with_ceph/files /root/
 cp -ar /vagrant/openstack_with_ceph/files /root/files
-#cp -ar /root/openstack-installer/wallaby /root/files
 cd  /root/files
 apt-get install -y net-tools software-properties-common
 interface=enp0s3
@@ -48,7 +48,14 @@ apt-get install -y ssh-client
 #add-apt-repository 'deb [arch=amd64,arm64,ppc64el] https://mirror.vpsfree.cz/mariadb/repo/10.4/ubuntu bionic main'
 apt-get update && apt-get -y install mariadb-server
 apt-get -y install python3-pymysql && service mysql restart
-mysqladmin -u root password guru123
+echo "UPDATE mysql.user SET Password=PASSWORD('root') WHERE User='root';
+DELETE FROM mysql.user WHERE User='';
+DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+FLUSH PRIVILEGES;" | sudo tee mysql_secure_installation.sql
+sudo mysql -sfu root < "mysql_secure_installation.sql"
+#mysqladmin -u root password guru123
 cp /root/files/mysqld_openstack.cnf /etc/mysql/mariadb.conf.d/99-openstack.cnf
 service mysql restart
 
@@ -271,7 +278,8 @@ openstack role add --project demo --user demo heat_stack_owner
 openstack role create heat_stack_user
 apt-get install heat-api heat-api-cfn heat-engine python3-zunclient python3-vitrageclient -y
 cp /root/files/heat.conf /etc/heat/
-su -s /bin/sh -c "heat-manage db_sync" heat
+#su -s /bin/sh -c "heat-manage db_sync" heat
+su -s /bin/bash heat -c "heat-manage db_sync"
 
 service heat-api restart
 service heat-api-cfn restart
