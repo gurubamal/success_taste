@@ -7,7 +7,7 @@ set -x
 set -e
 
 export LC_ALL=C
-cp -ar success_taste/openstack_with_ceph/files /root/
+cp -ar /vagrant/openstack_with_ceph/files /root/files
 #cp -ar /root/openstack-installer/wallaby /root/files
 cd  /root/files
 apt-get install -y net-tools software-properties-common
