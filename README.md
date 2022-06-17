@@ -1,5 +1,5 @@
 NOTE:
-Given CODE (only with instructions below) is working fine now (when uploaded), it installs the latest version of everything. Later some software versions may have significant changes or updates from the provider in the code, and these scripts would also need updates at that time! 
+Given CODE (only with instructions below) is working fine now (when uploaded), it installs the latest version of everything. In future if software versions get significant changes or updates from the provider in the code, and these scripts would also need updates at that time! 
 
 NOTE: Following is just for hands-on and learning practicals. In production, you will have to follow security in scripts and implementations (which is not applicable in these practicals).
 
