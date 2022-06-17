@@ -149,7 +149,7 @@ To clean any previously implemented setup, use the below command:
 
 	vagrant destroy
 
-Ensure the right Vagrantfile for which you are running vagrant commands. Note that vagrant commands read  Vagrantfile for any of your sonarqube  actions.
+Ensure the right Vagrantfile for which you are running vagrant commands. Note that vagrant commands read  Vagrantfile for any of your vagrant actions.
 
 
 
