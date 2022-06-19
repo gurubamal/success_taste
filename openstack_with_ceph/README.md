@@ -64,7 +64,7 @@ Script will configure openstack that can be accessed from http://192.168.58.7/ho
 
 You would be able to see that glance has been confirgured by the script to make use of ceph storage as an example already
 
-    Post setup Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
+    Post setup ceph storage Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
     Setup install node6 (acts as node01, admin+mon node), node7 (acts as osd node02) and node8 (acts as osd node03)
 
 NOTE: All ceph commands will need sudo privileges. Scripts creates & uses "/dev/sdb" in each node (while installation) for ceph storage pool
