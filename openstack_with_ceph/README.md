@@ -49,6 +49,7 @@ CEPH (v15) MULTINODE VMS Install SETUP:
 and then login to node7 using "vagrant ssh node7" and run following commands:
 
       sudo -i
+      
       /root/openstack_final.sh
       
 
