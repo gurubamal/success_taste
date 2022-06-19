@@ -60,8 +60,9 @@ CEPH (v15) MULTINODE VMS Install SETUP:
 
 If it gets interrupted, it will be some issue at your end (scripts are already ok tested); check for its output; it is either a resources issue in your device or vagrant related most of the time. You can re-run commands if it looks intermittent. 
 
-3)  Post setup Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
-4)  Setup install node6 (acts as node01, admin+mon node), node7 (acts as osd node02) and node8 (acts as osd node03)  
+3)  Post setup Ceph Dashboard "https://192.168.58.6:8443/#/dashboard" will be available 
+	"ubuntu will be user and password will be password"
+5)  Setup install node6 (acts as node01, admin+mon node), node7 (acts as osd node02) and node8 (acts as osd node03)  
 
 NOTE: All ceph commands will need sudo privileges. Scripts creates & uses "/dev/sdc" in each node (while installation) for ceph storage pool 
 
