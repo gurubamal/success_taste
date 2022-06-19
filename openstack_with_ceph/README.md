@@ -44,7 +44,7 @@ NOTE: If you are here for k8s setup then use ###### SEC - B #### mentioned next
 
 CEPH (v15) MULTINODE VMS Install SETUP:
 
-    Rename Vagrantfile.ceph to Vagrantfile in success_taste directory and make all scripts executable
+   Switch directory to success_taste/openstack_with_ceph/
 
     Now run the below commands:
 
@@ -57,7 +57,7 @@ CEPH (v15) MULTINODE VMS Install SETUP:
 and then login to node7 using "vagrant ssh node7" and run following commands:
 
       sudo -i
-      ./openstack_final.sh
+      /root/openstack_final.sh
       
 
 Script will configure openstack that can be accessed from http://192.168.58.7/horizon using user - admin | password - avi123  | Domain  - default
