@@ -54,7 +54,8 @@ and then login to node7 using "vagrant ssh node7" and run following commands:
 
 Script will configure openstack that can be accessed from http://192.168.58.7/horizon using user - admin | password - avi123  | Domain  - default
 
-You would be able to see that glance has been confirgured by the script to make use of ceph storage as an example already
+You would be able to see that glance has been confirgured by the script to make use of ceph storage as an example already. it can be checked at:
+https://192.168.58.6:8443/#/block/rbd (ceph storage dashboard)
 
     Post setup ceph storage Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
     Setup install node6 (acts as node01, admin+mon node), node7 (acts as osd node02) and node8 (acts as osd node03)
