@@ -2,12 +2,6 @@ NOTE: Given CODE (only with instructions below) is working fine now (when upload
 
 NOTE: Following is just for hands-on and learning practicals. In production, you will have to follow security in scripts and implementations (which is not applicable in these practicals).
 
-Tutorial videos:
-
-Part 1 - https://youtu.be/BNnTaX3cR2k
-
-Part 2 (final) - https://youtu.be/UJlWT4wgpSw
-
 Pre-requisites:
 
     Basic Linux Skills are expected
@@ -39,8 +33,6 @@ NOTE: In each section, It can take upto 30-60 minutes of time to run it complete
 You can get in touch with me at : gurubamal@gmail.com
 
 ############# Openstack with Ceph - (Glance as an example) Install#########################
-
-NOTE: If you are here for k8s setup then use ###### SEC - B #### mentioned next
 
 CEPH (v15) MULTINODE VMS Install SETUP:
 
