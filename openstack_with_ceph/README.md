@@ -38,7 +38,7 @@ NOTE: In each section, It can take upto 30-60 minutes of time to run it complete
 
 You can get in touch with me at : gurubamal@gmail.com
 
-############# SEC - A - CEPH (v15) MULTINODE Install#########################
+############# Openstack with Ceph - (Glance as an example) Install#########################
 
 NOTE: If you are here for k8s setup then use ###### SEC - B #### mentioned next
 
