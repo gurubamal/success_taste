@@ -59,7 +59,7 @@ You would be able to see that glance has been confirgured by the script to make 
     Post setup ceph storage Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
     Setup install node6 (acts as node01, admin+mon node), node7 (acts as osd node02) and node8 (acts as osd node03)
 
-NOTE: All ceph commands will need sudo privileges. Scripts creates & uses "/dev/sdb" in each node (while installation) for ceph storage pool
+NOTE: All ceph commands will need sudo privileges. Scripts creates & uses "/dev/sdc" in each node (while installation) for ceph storage pool
 
 If it gets interrupted, it will be some issue at your end (scripts are already ok tested); check for its output; it is either a resources issue in your device or vagrant related most of the time. You can re-run commands if it looks intermittent.
 
