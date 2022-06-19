@@ -13,9 +13,9 @@ ceph osd pool create images
 rbd pool init images
 sudo mkdir /ceph-deploy ; cd /ceph-deploy
 ceph auth get-or-create client.glance mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=images' > ceph.client.glance.keyring
-ceph auth get-or-create client.glance | ssh root@192.168.58.6 sudo tee /etc/ceph/ceph.client.glance.keyring
+#ceph auth get-or-create client.glance | ssh root@192.168.58.6 sudo tee /etc/ceph/ceph.client.glance.keyring
 ceph auth get-or-create client.glance | sudo tee /etc/ceph/ceph.client.glance.keyring
-ssh root@192.168.58.6 \ "sudo chown glance:glance /etc/ceph/ceph.client.glance.keyring ; sudo chmod 0640 /etc/ceph/ceph.client.glance.keyring"
+#ssh root@192.168.58.6 \ "sudo chown glance:glance /etc/ceph/ceph.client.glance.keyring ; sudo chmod 0640 /etc/ceph/ceph.client.glance.keyring"
 chown glance:glance /etc/ceph/ceph.client.glance.keyring ; sudo chmod 0640 /etc/ceph/ceph.client.glance.keyring
 cp /etc/glance/glance-api.conf /etc/glance/glance-api.conf.bak
 
