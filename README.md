@@ -40,6 +40,10 @@ NOTE: In each section, It can take upto 30-60 minutes of time to run it complete
 
 You can get in touch with me at : gurubamal@gmail.com
 
+########################
+
+NOTE: For "Openstack with ceph setup practical" use "https://github.com/gurubamal/success_taste/blob/main/openstack_with_ceph/README.md"
+
 ############# SEC - A - CEPH (v15) MULTINODE Install#########################
 
 NOTE: If you are here for k8s setup then use ###### SEC - B ####  mentioned next 
