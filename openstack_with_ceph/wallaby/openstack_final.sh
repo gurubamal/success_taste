@@ -70,7 +70,7 @@ chown root:glance /etc/glance/glance-api.conf
 su -s /bin/bash glance -c "glance-manage db_sync"
 systemctl restart glance-api
 systemctl enable glance-api
-
+source /root/admin-openrc.sh
 wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
 openstack image create "cirros-ceph" --file cirros-0.3.4-x86_64-disk.img --disk-format qcow2 --container-format bare --public
 rbd -p images ls
