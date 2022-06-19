@@ -63,7 +63,7 @@ If it gets interrupted, it will be some issue at your end (scripts are already o
 3)  Post setup Dashboard "https://192.168.58.6:8443/#/dashboard" will be available "ubuntu will be user and password will be password"
 4)  Setup install node6 (acts as node01, admin+mon node), node7 (acts as osd node02) and node8 (acts as osd node03)  
 
-NOTE: All ceph commands will need sudo privileges. Scripts creates & uses "/dev/sdb" in each node (while installation) for ceph storage pool 
+NOTE: All ceph commands will need sudo privileges. Scripts creates & uses "/dev/sdc" in each node (while installation) for ceph storage pool 
 
 NOTE (For WINDOWS Hosts):
 If you are running "vagrant up" in windows, then you need to ssh to node6 (vagrant ssh node6) and then execute "sudo bash /vagrant/03ceph.sh" once to setup ceph
