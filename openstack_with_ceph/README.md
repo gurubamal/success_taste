@@ -32,7 +32,7 @@ NOTE: In each section, It can take upto 30-60 minutes of time to run it complete
 
 You can get in touch with me at : gurubamal@gmail.com
 
-############# Openstack with Ceph - (Glance as an example) Install#########################
+############# Openstack (Wallaby) with Ceph - (Glance as an example) Install#########################
 
 CEPH (v15) MULTINODE VMS Install SETUP:
 
