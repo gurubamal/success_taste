@@ -49,7 +49,11 @@ Instructions for K8s Installation:
 
 2)  Run :
 	
-	vagrant up ; ./final_touch.sh
+	vagrant up 
+	./final_touch.sh  #You need to wait for cluster to be ready, Check nodes and pods for verification after this script  
+	./final_r_ceph_touch.sh #It sets up rook ceph cluster -ready to use 
+	
+	
 	
 
 NOTE: I have observed that script (2nd command "vagrant ssh node6  -c '/vagrant/05_post_join_control.sh'" ) sometimes can have issue in windows, so you can directly use following commands in node6 (ssh to node6 using "vagrant ssh node6" from you local machine):
