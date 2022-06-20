@@ -1,6 +1,9 @@
 if ! [ $HOSTNAME = node6 ]; then
 	if ! [ -e /etc/kubernetes/kubelet.conf ] ; then
-	sudo kubeadm join 192.168.58.6:6443 --token dt0n3u.u8cg014jh2hszfu2 --discovery-token-ca-cert-hash sha256:87ce34c89210c06fb53176cc1ba8caabc1e8e572768f1aa5c5420ea8f36de454
+	sudo rm /etc/containerd/config.toml
+	sudo systemctl restart containerd
+	sudo systemctl enable containerd
+	sudo kubeadm join 192.168.58.6:6443 --token xhefw2.wm5kp2m8rle44rzk --discovery-token-ca-cert-hash sha256:017e7ce8788cd9adc7245d50a965f5a1306d904efceaed4743979bc6e872febc
 	fi
 	else exit 0
 	fi
