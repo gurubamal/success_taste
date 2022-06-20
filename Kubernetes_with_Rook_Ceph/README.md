@@ -45,8 +45,10 @@ Instructions for K8s Installation:
 2)  Run :
 	
 	vagrant up 
-	./final_touch.sh  #You need to wait for cluster to be ready, Check nodes and pods for verification after this script  
-	./final_r_ceph_touch.sh #It sets up rook ceph cluster -ready to use 
+	
+	./final_touch.sh             #You need to wait for cluster to be ready, Check nodes and pods for verification after this script  
+	
+	./final_r_ceph_touch.sh      #It sets up rook ceph cluster -ready to use 
 	
 	
 	
