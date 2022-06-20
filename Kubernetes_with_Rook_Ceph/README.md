@@ -11,7 +11,7 @@ Pre-requisites:
 
 > Basic Linux Skills are expected
 
-> On your hardware (laptop, desktop, server) Secure boot must be disabled from BIOS; also, virtualization should be enabled.
+> On your hardware (laptop, desktop, server) Secure boot must be disabled from BIOS; also, virtualization should be enabled. 24GB os system RAM is expected
 
 > Vagrant, VirtualBox, and git should be pre-installed (restart device once after virtual box install)
 
