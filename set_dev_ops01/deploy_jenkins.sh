@@ -1,3 +1,7 @@
 cat jenkins_install.sh| vagrant ssh node6  -c 'sudo tee jenkins_install.sh'
+cat deployment.yaml | vagrant ssh node6  -c 'sudo tee deployment.yaml'
+cat service.yaml | vagrant ssh node6  -c 'sudo tee service.yaml'
+cat serviceAccount.yaml | vagrant ssh node6  -c 'sudo tee serviceAccount.yaml'
+cat volume.yaml | vagrant ssh node6  -c 'sudo tee volume.yaml'
 vagrant ssh node6  -c 'sudo chmod +x jenkins_install.sh'
 vagrant ssh node6  -c './jenkins_install.sh'
