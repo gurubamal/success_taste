@@ -44,8 +44,10 @@ Instructions for K8s Installation:
 
 2)  Run :
 	
-	vagrant up 
+	vagrant up
+	
 	./final_touch.sh  #You need to wait for cluster to be ready, Check nodes and pods for verification after this script  
+	
 	./deploy_jenkins.sh #It sets up jenkins -ready to use 
 	
 	
