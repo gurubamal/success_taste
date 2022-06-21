@@ -1,5 +1,7 @@
 git clone https://github.com/scriptcamp/kubernetes-jenkins
+
 kubectl create namespace devops-tools
+
 echo "---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -142,10 +144,10 @@ spec:
           persistentVolumeClaim:
               claimName: jenkins-pv-claim"|tee deployment.yaml
    
-   kubectl apply -f deployment.yaml
+kubectl apply -f deployment.yaml
 
-echo "Getting everything ready..."
-sleep 300
+#echo "Getting everything ready..."
+#sleep 300
   
 echo "apiVersion: v1
 kind: Service
@@ -166,14 +168,15 @@ spec:
       nodePort: 32000"|tee service.yaml
 
 kubectl apply -f service.yaml
-kubectl get pods -n jenkins|grep '1/1'jenkins
-STATUS=$(echo $?)
-if  [[ $STATUS == 0 ]]
-	then	echo "Runnning next Steps..."
-	else	sleep 60
-fi
+#kubectl get pods -n jenkins|grep '1/1'jenkins
+#STATUS=$(echo $?)
+#if  [[ $STATUS == 0 ]]
+#	then	echo "Runnning next Steps..."
+#	else	sleep 60
+#fi
 
 
 JENKINS_POD=$(kubectl get pods --namespace=devops-tools|tail -1|awk '{print $1}')
+
 echo 'use http://192.168.58.6:32000/login URL for jenkins login with password mentioned below:'
 kubectl exec $JENKINS_POD -n devops-tools -- cat  /var/jenkins_home/secrets/initialAdminPassword
