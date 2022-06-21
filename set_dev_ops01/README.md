@@ -34,7 +34,7 @@ You can get in touch with me at : gurubamal@gmail.com
 
 
 
-######################### Kubernetes with Ceph HA #########################
+######################### Kubernetes & CICD #########################
 
 Instructions for K8s Installation:
 
@@ -46,7 +46,7 @@ Instructions for K8s Installation:
 	
 	vagrant up 
 	./final_touch.sh  #You need to wait for cluster to be ready, Check nodes and pods for verification after this script  
-	./final_r_ceph_touch.sh #It sets up rook ceph cluster -ready to use 
+	./deploy_jenkins.sh #It sets up jenkins -ready to use 
 	
 	
 	
