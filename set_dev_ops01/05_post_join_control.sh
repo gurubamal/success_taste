@@ -7,6 +7,10 @@
 	sudo chown vagrant:vagrant /home/vagrant/.kube
         sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
         sudo chown vagrant:vagrant  /home/vagrant/.kube/config
+	sudo mkdir -p /root/.kube
+#        sudo chown vagrant:vagrant /home/vagrant/.kube
+        sudo cp -i /etc/kubernetes/admin.conf /root/.kube/config
+#        sudo chown vagrant:vagrant  /root/.kube/config
 #echo "sleeping for 2 minutes"
 #sleep 120
 	sudo snap install helm --classic
