@@ -9,7 +9,7 @@ kubectl apply -f deployment.yaml
 #echo "Getting everything ready..."
 #sleep 300
 kubectl apply -f service.yaml
-#kubectl get pods --namespace=devops-tools|grep '1/1'
+kubectl get pods --namespace=devops-tools|grep '1/1'
 STATUS=$(echo $?)
 if  [[ $STATUS == 0 ]]
 	then	echo "Runnning next Steps..."
