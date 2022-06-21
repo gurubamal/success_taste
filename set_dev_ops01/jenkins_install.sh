@@ -166,6 +166,14 @@ spec:
       nodePort: 32000"|tee service.yaml
 
 kubectl apply -f service.yaml
+kubectl get pods -n jenkins|grep '1/1'jenkins
+STATUS=$(echo $?)
+if  [[ $STATUS == 0 ]]
+	then	echo "Runnning next Steps..."
+	else	sleep 60
+fi
+
+
 JENKINS_POD=$(kubectl get pods --namespace=devops-tools|tail -1|awk '{print $1}')
 echo 'use http://192.168.58.6:32000/login URL for jenkins login with password mentioned below:'
 kubectl exec $JENKINS_POD -n devops-tools -- cat  /var/jenkins_home/secrets/initialAdminPassword
