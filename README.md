@@ -18,7 +18,10 @@ Pre-requisites:
 
 > Vagrant, VirtualBox, and git should be pre-installed (restart device once after virtual box install)
 
-> It is expected that you are connected to internet 
+> It is expected that you are connected to internet
+> On Windows, You can use Git bash and run below command:
+		vagrant plugin update
+		 vagrant plugin install vagrant-vbguest
 
 > Run the all the commands from success_taste Directory (clone it using: git clone https://github.com/gurubamal/success_taste.git)
 
