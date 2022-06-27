@@ -4,7 +4,7 @@ Given CODE (only with instructions below) is working fine now (when uploaded), i
 NOTE: Following is just for hands-on and learning practicals. In production, you will have to follow security practices in scripts and implementations (which is not applicable in these practicals).
 
 
-Tutorial videos:  (I intend to make (upload) some youtube videos on container security with examples once I complete some of my urgent work)
+Tutorial videos:  (I intend to make (upload) some youtube videos on container security with hands-on examples once I complete some of my urgent work)
 
 Part 1  - https://youtu.be/BNnTaX3cR2k
 
