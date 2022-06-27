@@ -1,7 +1,7 @@
 NOTE:
 Given CODE (only with instructions below) is working fine now (when uploaded), it installs the latest version of everything. In future, if software versions get significant changes or updates in the code, these scripts would also need updates. 
 
-NOTE: Following is just for hands-on and learning practicals. In production, you will have to follow security in scripts and implementations (which is not applicable in these practicals).
+NOTE: Following is just for hands-on and learning practicals. In production, you will have to follow security practices in scripts and implementations (which is not applicable in these practicals).
 
 
 Tutorial videos:  (I intend to make (upload) some youtube videos on container security with examples as soon as I complete some of my urgent work)
