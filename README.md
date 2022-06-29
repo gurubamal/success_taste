@@ -19,7 +19,7 @@ Pre-requisites:
 > Vagrant, VirtualBox, and git should be pre-installed (restart device once after virtual box install)
 
 > It is expected that you are connected to internet
-> On Windows, You can use Git bash and run below commands:
+> On Windows, You can use Git bash and run below commands (must be administrator) on powershell:
 		
 		vagrant plugin update
 		
