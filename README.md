@@ -25,7 +25,7 @@ Pre-requisites:
 		
 		vagrant plugin install vagrant-vbguest
 
-Also, ensure your current windows User has full control (default permissions will not work) on the downloaded folder "success_taste" and uncheck setting "virtualbox ndis6  bridged networking driver" in both virtualbox host-only adaptors along with disable and then enable your adaptor for refresh.
+Also, ensure your current windows User has full control (default permissions will not work) on the downloaded folder "success_taste" and uncheck setting "virtualbox ndis6  bridged networking driver" in both virtualbox host-only network interfaces along with disable and then enable them for a refresh.
 
 > Run the all the commands from success_taste Directory (clone it using: git clone https://github.com/gurubamal/success_taste.git)
 
