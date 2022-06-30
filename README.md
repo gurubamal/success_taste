@@ -34,7 +34,7 @@ In Windows (solutions for various issues from users):
 >  then disable and then enable Adapter for a refresh.
 
 In Windows (After installation starts -- (solutions for various issues from users):
-> you need to open virtual box and go to File > select > Host Network manager  > select device  (with 192.168.58.0/24 subnet) and specify IPv4 Netmask as 255.255.0.0 and apply Also NOTE down it's name and ensure all VMs should have it 2nd network adaptor (what you NOTED) in their VM settings, in 2nd adaptor's advanced settings use promiscuous mode as "Allow All".
+> you need to open virtual box and go to File > select > Host Network manager  > select device  (with 192.168.58.0/24 subnet) and specify IPv4 Netmask as 255.255.0.0 and apply Also, NOTE it down it's name and ensure all VMs should have it as. 2nd network adaptor (what you NOTED) in their VM settings, in 2nd adaptor's advanced settings use promiscuous mode as "Allow All".
 
 > Run the all the vagarant commands from success_taste Directory (clone it using: git clone https://github.com/gurubamal/success_taste.git)
 
