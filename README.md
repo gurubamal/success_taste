@@ -25,10 +25,16 @@ Pre-requisites:
 		vagrant plugin update
 		
 		vagrant plugin install vagrant-vbguest
-In Windows: 
->  Ensure your current windows User has full control (default permissions will not work) on the downloaded folder "success_taste" and 
->  Networks adapters properoties for "virtualbox host-only network" interfaces uncheck setting "virtualbox ndis6  bridged networking driver"  along with disable and then enable adapter for a refresh.
->  Along with that, once after you have executed "vagrant up" command; you need to open virtual box and go to File > select > Host Network manager and specify IPv4 Netmask to 255.255.0.0 and apply
+		
+In Windows (solutions for various issues from users): 
+>  Ensure your current windows User has full control (default permissions will not work) on the downloaded folder "success_taste" 
+>   
+>  Once after you have executed "vagrant up" command;  if your see (VERR_INTNET_FLT_IF_NOT_FOUND) when you run it for the first-time then in windows Run option type "ncpa.cpl" and look for new virtual adaptor Network "virtualbox host-only network" interface;
+>  Go to it's properties and uncheck setting "virtualbox ndis6  bridged networking driver"   
+>  then disable and then enable Adapter for a refresh.
+
+After installation starts:
+> you need to open virtual box and go to File > select > Host Network manager (with 192.168.58.0/24 subnet) and specify IPv4 Netmask to 255.255.0.0 and apply Also note down it's name and ensure all VMs should have it 2nd network adaptor in their VM settings.  
 
 > Run the all the vagarant commands from success_taste Directory (clone it using: git clone https://github.com/gurubamal/success_taste.git)
 
