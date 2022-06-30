@@ -17,6 +17,7 @@ Pre-requisites:
 > On your hardware (laptop, desktop, server) Secure boot must be disabled from BIOS; also, virtualization should be enabled.
 
 > Vagrant, VirtualBox, and git should be pre-installed (restart device once after virtual box install)
+> Ensure you device doesn't go to sleep when it's idle (while scripts are running), change power, battery settings whereever applicable
 
 > It is expected that you are connected to internet
 > On Windows, You can use Powershell and run below commands (must be administrator) on powershell:
