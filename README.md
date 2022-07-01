@@ -16,25 +16,15 @@ Pre-requisites:
 
 > On your hardware (laptop, desktop, server) Secure boot must be disabled from BIOS; also, virtualization should be enabled.
 
-> Vagrant, VirtualBox, and git should be pre-installed (restart device once after virtual box install).
+> Vagrant, VirtualBox (On Windows 10 - use VirtualBox version 5.4.2 only), and git should be pre-installed (restart device once after virtual box install).
 > Ensure your device doesn't go to sleep when it's idle (while scripts are running), change power, battery settings whereever applicable
 
 > It is expected that you are connected to internet
-> On Windows, You can use Powershell and run below commands (must be administrator) on powershell:
+> On Windows 10 - use VirtualBox version 5.4.2 only, You can use Powershell and run below commands (must be administrator) on powershell:
 		
 		vagrant plugin update
 		
-		vagrant plugin install vagrant-vbguest
-		
-In Windows (solutions for various issues from users): 
->  Ensure your current windows User has full control (default permissions will not work) on the downloaded folder "success_taste" 
->   
->  Once after you have executed "vagrant up" command;  if your see (VERR_INTNET_FLT_IF_NOT_FOUND) when you run it for the first-time then in windows Run option type "ncpa.cpl" and look for new virtual adaptor Network "virtualbox host-only network" interface;
->  Go to it's properties and uncheck setting "virtualbox ndis6  bridged networking driver"   
->  then disable and then enable Adapter for a refresh.
-
-In Windows (After installation starts -- (solutions for various issues from users):
-> you need to open virtual box and go to File > select > Host Network manager  > select device  (with 192.168.58.0/24 subnet) and specify IPv4 Netmask as 255.255.0.0 and apply Also, NOTE it down it's name and ensure all VMs should have it as. 2nd network adaptor (what you NOTED) in their VM settings, in 2nd adaptor's advanced settings use promiscuous mode as "Allow All".
+		vagrant plugin install vagrant-vbguest 
 
 > Run the all the vagarant commands from success_taste Directory (clone it using: git clone https://github.com/gurubamal/success_taste.git)
 
