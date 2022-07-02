@@ -18,7 +18,7 @@ Pre-requisites:
 > Ensure your device doesn't go to sleep when it's idle (while scripts are running), change power, battery settings whereever applicable
 
 > It is expected that you are connected to internet
-> On Windows 10 - use VirtualBox version 5.4.2 only, You can use Powershell and run below commands (must be administrator) on powershell:
+> On Windows 10 - use VirtualBox version 5.4.2 only, for best fuctionality in windows follow and set environment : https://www.vagrantup.com/docs/other/wsl; optionally, You can use Powershell and run below commands (must be administrator) on powershell:
 		
 		vagrant plugin update
 		
