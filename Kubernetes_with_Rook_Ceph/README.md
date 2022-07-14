@@ -58,9 +58,11 @@ RUN FOLLOWING IN node6 COMMANDLINE:
 
 	sudo mkdir -p /home/vagrant/.kube
 	sudo chown vagrant:vagrant /home/vagrant/.kube
+	sudo mkdir -p /root/.kube
 	sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+	sudo cp -i /etc/kubernetes/admin.conf /root/.kube/config
 	sudo chown vagrant:vagrant  /home/vagrant/.kube/config
-	kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
+	kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
 
 
  (Rest for next 3-5 minutes after all commands; Once you have completed the above commands, your Kubernetes cluster would be ready.
