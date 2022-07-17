@@ -107,6 +107,10 @@ RUN FOLLOWING IN node6 COMMANDLINE:
 	sudo cp -i /etc/kubernetes/admin.conf /root/.kube/config
 	sudo chown vagrant:vagrant  /home/vagrant/.kube/config
 	kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
+	
+	
+In case you want to practice k8s network-policies use (weave-net instead of flannel) : 
+	kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
 
 NOTE : If it gets interrupted, it will be some issue at your end (scripts are already ok tested); check for its output; it is either a resources issue in your device or vagrant related most of the time. You can re-run commands if it looks intermittent. 
 
