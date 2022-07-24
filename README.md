@@ -6,7 +6,7 @@ NOTE: Following is just for hands-on and learning practicals. In production, you
 
 Tutorial videos:  (I intend to make (upload) some youtube videos on "practicals on container security" and "k8 network made simple" with hands-on practice examples once I complete some of my urgent work successfully)
 
-https://youtu.be/aCqQ-5APRlE
+https://www.youtube.com/watch?v=Hqkujcop3NE&t=5s
 
 Pre-requisites:
 
