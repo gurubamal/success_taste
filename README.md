@@ -89,36 +89,11 @@ Instructions for K8s Installation:
 
 3)  Run :
 	
-	vagrant up 
-	
-	./final_touch.sh 
+		cd .\success_taste\Practice-Setup-CKA\
+		vagrant up
 
 once commands are executed, go to vagrant@192.168.58.6 (password is vagrant) and check pods if calico and coredns are running or not. use command: 
 	kubectl get pods -A -w
-			
-
-NOTE: I have observed that script (2nd command "vagrant ssh node6  -c '/vagrant/05_post_join_control.sh'" ) sometimes can have issue in windows, so you can directly use following commands in node6 (ssh to node6 using "vagrant ssh node6" from you local machine):
-RUN FOLLOWING IN node6 COMMANDLINE:
-
-	sudo mkdir -p /home/vagrant/.kube
-	sudo chown vagrant:vagrant /home/vagrant/.kube
-	sudo mkdir -p /root/.kube
-	sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
-	sudo cp -i /etc/kubernetes/admin.conf /root/.kube/config
-	sudo chown vagrant:vagrant  /home/vagrant/.kube/config
-	kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
-	
-	
-In case you want to practice k8s network-policies use (weave-net instead of flannel) : 
-	kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
-
-NOTE : If it gets interrupted, it will be some issue at your end (scripts are already ok tested); check for its output; it is either a resources issue in your device or vagrant related most of the time. You can re-run commands if it looks intermittent. 
-
- (Rest for next 3-5 minutes after all commands; Once you have completed the above commands, your Kubernetes cluster would be ready.
- 
- IMPORTANT_NOTE: I have observed that if all nodes stay in not-ready for more than 5 minutes then it is only if network plugin image was not pulled from internet (may be they keep it down for some updates), in that case delete existing net-plugin deployment and respective pods and deploy alternative network plugin from node6:
- 
-kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 
 
 
