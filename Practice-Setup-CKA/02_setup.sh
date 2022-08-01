@@ -1,4 +1,6 @@
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+wget https://packages.cloud.google.com/apt/doc/apt-key.gpg  --no-check-certificate
+sudo apt-key add apt-key.gpg
 add-apt-repository \
 "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
 $(lsb_release -cs) \
