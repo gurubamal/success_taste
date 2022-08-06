@@ -1,0 +1,29 @@
+---
+- name: deploy
+  hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+    - name: create user
+      user:
+        name: ram
+        state: present
+        shell: /bin/bash
+        password: '{{ ''vagrant'' | password_hash(''sha512'') }}'
+        update_password: on_create
+    - name: ssh password
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication '
+        insertafter: '#PasswordAuthentication'
+        line: PasswordAuthentication yes
+      notify: restart_sshd
+    - name: Setting up base K8s control and compute nodes.......
+      ansible.builtin.script: ./01_setup.sh
+    - name: Running Setup script to install docker and k8s packages.......
+      ansible.builtin.script: ./02_setup.sh
+  handlers:
+    - name: restart_sshd
+      service:
+        name: sshd
+        state: restarted
