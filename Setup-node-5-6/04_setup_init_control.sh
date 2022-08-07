@@ -9,7 +9,44 @@ if [ "$HOSTNAME" = node5 ]; then
 	sudo rm /etc/containerd/config.toml
 	sudo systemctl restart containerd
 	sudo systemctl enable containerd
-	sudo kubeadm init --apiserver-advertise-address=192.168.58.5 --pod-network-cidr=192.168.0.0/16 |tee init.txt ; echo sudo $(tail -2 init.txt|head -1| cut -d'\' -f1)  $(tail -1 init.txt| cut -d'[' -f1) |tee -a  compute_add.sh
+	echo 'apiVersion: kubeadm.k8s.io/v1beta3
+bootstrapTokens:
+- groups:
+  - system:bootstrappers:kubeadm:default-node-token
+  token: abcdef.0123456789abcdef
+  ttl: 24h0m0s
+  usages:
+  - signing
+  - authentication
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: 192.168.58.5
+  bindPort: 6443
+nodeRegistration:
+  criSocket: unix:///var/run/containerd/containerd.sock
+  imagePullPolicy: IfNotPresent
+  name: node5
+  taints: null
+---
+apiServer:
+  timeoutForControlPlane: 4m0s
+apiVersion: kubeadm.k8s.io/v1beta3
+certificatesDir: /etc/kubernetes/pki
+clusterName: cluster1
+controllerManager: {}
+dns: {}
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+imageRepository: k8s.gcr.io
+kind: ClusterConfiguration
+kubernetesVersion: 1.24.0
+networking:
+  dnsDomain: cluster.local
+  serviceSubnet: 192.168.0.0/12
+scheduler: {}'> cluster1.conf
+
+        kubeadm init  --config cluster1.conf  |tee init.txt ; echo sudo $(tail -2 init.txt|head -1| cut -d'\' -f1)  $(tail -1 init.txt| cut -d'[' -f1) |tee -a  compute_add.sh
 	JOIN_CMD=$(cat compute_add.sh)
 	echo   "if ! [ $HOSTNAME = node5 ]; then
 	if ! [ -e /etc/kubernetes/kubelet.conf ] ; then
@@ -24,7 +61,6 @@ if [ "$HOSTNAME" = node5 ]; then
 	chmod +x /vagrant/*.sh
 	else exit 0
 	fi
-fi
 #JOIN_CMD=$(cat compute_add.sh)
 #echo "if ! [ "$HOSTNAME" = node6 ]; then
 #$JOIN_CMD
