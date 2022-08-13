@@ -9,5 +9,7 @@ if [ "$HOSTNAME" = node5 ]; then
         sudo chown vagrant:vagrant  /home/vagrant/.kube/config
         kubectl create -f https://projectcalico.docs.tigera.io/manifests/tigera-operator.yaml
         kubectl create -f https://projectcalico.docs.tigera.io/manifests/custom-resources.yaml
+        kubectl taint node node5 node-role.kubernetes.io/control-plane:NoSchedule-
+        kubectl taint node node5 node-role.kubernetes.io/master-
         fi
 fi
