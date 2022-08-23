@@ -26,7 +26,7 @@ etcd
 
 #### Step 4: Verification - Adding and Removing Data to ETCD
 ```sh
-etcdctl put course "kplabs-cks course is awesome"
+etcdctl put course "cks course is awesome"
 ```
 ```sh
  etcdctl get course
