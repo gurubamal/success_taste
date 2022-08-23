@@ -16,9 +16,10 @@ This is a central document which contains all the commands and code files used t
 
 
 
-   [PlDa]: <https://github.com/zealvora/certified-kubernetes-security-specialist/tree/master/domain-1-cluster-setup>
-   [PlDb]: <https://github.com/zealvora/certified-kubernetes-security-specialist/tree/master/domain-2-cluster-hardening>
-   [PlDc]: <https://github.com/zealvora/certified-kubernetes-security-specialist/tree/master/domain-3-minimize-microservice-vulnerability>
-   [PlDe]: <https://github.com/zealvora/certified-kubernetes-security-specialist/tree/master/domain-4-system-hardening>
-   [PlDf]: <https://github.com/zealvora/certified-kubernetes-security-specialist/tree/master/domain-5-supply-chain-security>
-   [PlDg]: <https://github.com/zealvora/certified-kubernetes-security-specialist/tree/master/domain-6-monitor-log-runtimesec>
+
+   [PlDa]: <https://github.com/gurubamal/success_taste/tree/main/certified-kubernetes-security-specialist/domain-1-cluster-setup>
+   [PlDb]: <https://github.com/gurubamal/success_taste/tree/main/certified-kubernetes-security-specialist/domain-2-cluster-hardening>
+   [PlDc]: <https://github.com/gurubamal/success_taste/tree/main/certified-kubernetes-security-specialist/domain-3-minimize-microservice-vulnerability>
+   [PlDe]: <https://github.com/gurubamal/success_taste/tree/main/certified-kubernetes-security-specialist/domain-4-system-hardening>
+   [PlDf]: <https://github.com/gurubamal/success_taste/tree/main/certified-kubernetes-security-specialist/domain-5-supply-chain-security>
+   [PlDg]: <https://github.com/gurubamal/success_taste/tree/main/certified-kubernetes-security-specialist/domain-6-monitor-log-runtimesec>
