@@ -1,4 +1,4 @@
-# Certified Kubernetes Security Specialist - KPLABS Course
+# Certified Kubernetes Security Specialist
 
 This is a central document which contains all the commands and code files used throughout the video course.
 
