@@ -1,6 +1,6 @@
 # Certified Kubernetes Security Specialist
 
-This is a central document which contains all the commands and code files used throughout the video course.
+This is a central document which contains all the commands and code files used throughout the course.
 
 # Video-Document Mapper
 
