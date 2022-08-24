@@ -1,0 +1,16 @@
+HTTrack3.49-2+htsswf+htsjava launched on Wed, 24 Aug 2022 11:29:31 at https://thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/ +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f0#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" https://thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/ -O1 "C:\Python_in_an_interactive_way\python-projects-with-source-code" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+11:29:59	Error: 	"Not Found" (404) at link https://thecleverprogrammer.com/detroitchicago/tulsa.js (from https://thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/)
+11:30:00	Error: 	"Not Found" (404) at link https://thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/https: (from https://thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/)
+11:30:00	Error: 	"Not Found" (404) at link https://thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/audins.js (from https://thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/)
+11:30:00	Error: 	"Not Found" (404) at link https://thecleverprogrammer.com/tardisrocinante/vitals.js (from https://thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/)
+11:30:00	Error: 	"Not Found" (404) at link https://thecleverprogrammer.com/beardeddragon/drake.js (from https://thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/)
+
+HTTrack Website Copier/3.49-2 mirror complete in 29 seconds : 46 links scanned, 40 files written (921912 bytes overall) [692555 bytes received at 23881 bytes/sec], 806409 bytes transferred using HTTP compression in 27 files, ratio 27%, 2.3 requests per connection
+(5 errors, 0 warnings, 0 messages)
