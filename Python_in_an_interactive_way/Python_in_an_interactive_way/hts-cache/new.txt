@@ -1,3 +1,0 @@
-date	size'/'remotesize	flags(request:Update,Range state:File response:Modified,Chunked,gZipped)	statuscode	status ('servermsg')	MIME	Etag|Date	URL	localfile	(from URL)
-11:27:21	162/162	---M--	301	error ('Moved%20Permanently')	text/html	date:Wed,%2024%20Aug%202022%2005:57:20%20GMT	http://thecleverprogrammer.com/robots.txt		(from )
-11:27:21	162/162	---M--	301	error ('Moved%20Permanently')	text/html	date:Wed,%2024%20Aug%202022%2005:57:20%20GMT	http://thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/	C:/Python_in_an_interactive_way/Python_in_an_interactive_way/thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/index.html	(from )
