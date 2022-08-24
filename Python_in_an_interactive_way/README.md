@@ -1,5 +1,5 @@
 
 
-Please make use of below website to learn Python in an interactive way:
+Please visit the following website to learn Python interactively:
 
-https://thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/
+www.thecleverprogrammer.com/2021/01/14/python-projects-with-source-code/
