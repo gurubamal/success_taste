@@ -61,7 +61,7 @@ metadata:
   namespace: $NS2
 rules:
   - apiGroups: [""]
-    resources: ["pods", "services", "pods/exec", "pods/log"]
+    resources: ["pods", "services", "pods/exec", "pods/log", "secrets", "configmaps"]
     verbs: ["create", "get", "update", "list", "delete", "watch", "patch"]
   - apiGroups: ["apps"]
     resources: ["deployments", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets"]
@@ -79,7 +79,7 @@ metadata:
   namespace: $NS1
 rules:
   - apiGroups: [""]
-    resources: ["pods", "services", "pods/exec", "pods/log"]
+    resources: ["pods", "services", "pods/exec", "pods/log", "secrets", "configmaps"]
     verbs: ["create", "get", "update", "list", "delete", "watch", "patch"]
   - apiGroups: ["apps"]
     resources: ["deployments", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets"]
