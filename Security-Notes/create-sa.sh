@@ -64,7 +64,7 @@ rules:
     resources: ["pods", "services", "pods/exec", "pods/log"]
     verbs: ["create", "get", "update", "list", "delete", "watch", "patch"]
   - apiGroups: ["apps"]
-    resources: ["deployment"]
+    resources: ["deployments", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets"]
     verbs: ["create", "get", "update", "list", "delete", "watch", "patch"]
 EOF
 
@@ -82,7 +82,7 @@ rules:
     resources: ["pods", "services", "pods/exec", "pods/log"]
     verbs: ["create", "get", "update", "list", "delete", "watch", "patch"]
   - apiGroups: ["apps"]
-    resources: ["deployment"]
+    resources: ["deployments", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets"]
     verbs: ["create", "get", "update", "list", "delete", "watch", "patch"]
 EOF
 
