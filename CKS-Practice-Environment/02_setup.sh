@@ -1,6 +1,7 @@
 #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 ##wget https://packages.cloud.google.com/apt/doc/apt-key.gpg  --no-check-certificate
 #sudo apt-key add apt-key.gpg
+sudo sed -i '/swap/d' /etc/fstab
 if ! grep net.bridge.bridge-nf-call-ip6tables /etc/sysctl.d/kubernetes.conf
 then
 sudo tee /etc/sysctl.d/kubernetes.conf <<EOF
