@@ -61,14 +61,11 @@ metadata:
   namespace: $NS2
 rules:
   - apiGroups: [""]
-    resources: ["pods", "services", "namespaces", "nodes", "pods/exec", "pods/log"]
-    verbs: ["create", "get", "update", "list", "watch", "patch"]
+    resources: ["pods", "services", "pods/exec", "pods/log"]
+    verbs: ["create", "get", "update", "list", "delete", "watch", "patch"]
   - apiGroups: ["apps"]
     resources: ["deployment"]
     verbs: ["create", "get", "update", "list", "delete", "watch", "patch"]
-  - apiGroups: ["rbac.authorization.k8s.io"]
-    resources: ["clusterroles", "clusterrolebindings"]
-    verbs: ["create", "get", "list", "watch"]
 EOF
 
 kubectl apply -f $NS2.role.yaml
@@ -82,14 +79,11 @@ metadata:
   namespace: $NS1
 rules:
   - apiGroups: [""]
-    resources: ["pods", "services", "namespaces", "nodes", "pods/exec", "pods/log"]
-    verbs: ["create", "get", "update", "list", "watch", "patch"]
+    resources: ["pods", "services", "pods/exec", "pods/log"]
+    verbs: ["create", "get", "update", "list", "delete", "watch", "patch"]
   - apiGroups: ["apps"]
     resources: ["deployment"]
     verbs: ["create", "get", "update", "list", "delete", "watch", "patch"]
-  - apiGroups: ["rbac.authorization.k8s.io"]
-    resources: ["clusterroles", "clusterrolebindings"]
-    verbs: ["create", "get", "list", "watch"]
 EOF
 
 kubectl apply -f $NS1.role.yaml
