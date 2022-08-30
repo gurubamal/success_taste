@@ -163,3 +163,4 @@ then
 	sudo systemctl daemon-reload
 	sudo systemctl daemon-reload && sudo systemctl restart kubelet
 fi
+sudo systemctl mask "dev-sda3.swap"
