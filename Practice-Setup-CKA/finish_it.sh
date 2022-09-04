@@ -9,10 +9,10 @@ if [ "$HOSTNAME" = node6 ]; then
         sudo chown vagrant:vagrant  /home/vagrant/.kube/config
 	sleep 120
 	kubectl apply -f /vagrant/calico.yaml
-	#sudo cp /vagrant/bashrc.local /root/.bashrc
-	#sudo chmod +x /root/.bashrc
-	#cp /vagrant/bashrc.local /home/vagrant/.bashrc
-	#chmod +x /home/vagrant/.bashrc
+        cat /vagrant/bashrc.local | tr -d '\r' |sudo tee /root/.bashrc
+	sudo chmod +x /root/.bashrc
+	cat /vagrant/bashrc.local | tr -d '\r' |tee /home/vagrant/.bashrc
+	chmod +x /home/vagrant/.bashrc
 	#sudo kubectl apply -f /vagrant/tigera-operator.yaml
 	#sudo kubectl apply -f /vagrant/custom-resources.yaml
         #kubectl create -f https://projectcalico.docs.tigera.io/manifests/tigera-operator.yaml
