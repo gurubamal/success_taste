@@ -10,7 +10,7 @@ if [ "$HOSTNAME" = node6 ]; then
 	sleep 120
 	kubectl apply -f /vagrant/calico.yaml
 	sudo cp /vagrant/bashrc.local /root/.bashrc
-	sudo chmod +X /root/.bashrc
+	sudo chmod +x /root/.bashrc
 	cp /vagrant/bashrc.local /home/vagrant/.bashrc
 	chmod +x /home/vagrant/.bashrc
 	#sudo kubectl apply -f /vagrant/tigera-operator.yaml
