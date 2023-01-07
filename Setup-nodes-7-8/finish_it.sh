@@ -13,3 +13,4 @@ if [ "$HOSTNAME" = node7 ]; then
         kubectl taint node node7 node-role.kubernetes.io/master-
         fi
 fi
+#check01
