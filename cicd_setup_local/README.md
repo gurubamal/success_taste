@@ -60,7 +60,7 @@ Instructions for K8s Installation:
 	
 	chmod +x *.sh
 
-2)  Run :
+2)  Run : 
 	
 	cp Vagrantfile_k8s_node6n7  Vagrantfile
 	
@@ -70,7 +70,8 @@ Instructions for K8s Installation:
 	
 	check kubectl commands
 	
-NOTE : node6 will be master node whereas node7 will be worker node
+NOTE 1: node6 will be master node whereas node7 will be worker node
+NOTE 2: please note that following info "value: "interface=eth1"  in calico.yaml was set by me because my Virtualbox VMs are aquiring eth1 as default network device with IP 192.168.58.x for my VMs. You need to set it in case it's eth name varies in your machines. you can leave it as it is if it works all great already.
 
 ######################### Ansible SETUP #########################
 
