@@ -49,6 +49,8 @@ Instructions for Jenkins Installation:
 	vagrant up 
 	
 	Browse jenkins at http://192.168.58.8:8080
+	Fetch password with Below command:
+	sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 	
 ######################### K8S SETUP #########################
 
