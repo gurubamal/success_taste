@@ -67,6 +67,8 @@ Instructions for K8s Installation:
 	ssh vagrant@192.168.58.6 (password = vagrant)
 	
 	check kubectl commands
+	
+NOTE : node6 will be master node whereas node7 will be worker node
 
 ######################### Ansible SETUP #########################
 
