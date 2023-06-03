@@ -24,7 +24,7 @@ Pre-requisites:
 
 NOTE: Most of the commands work in success_taste directory as the present working directory. Complete setup downloads packages from internet. 
 
-NOTE: Linux admin User (with sudo perms) & password will be vagrant (password is vagrant as well) (K8s VM IPs : 192.168.58.6 - master node/ 192.168.58.7 - compute node / 192.168.58.8 - compute node)
+NOTE: Linux admin User (with sudo perms) & password will be vagrant (password is vagrant as well) (K8s VM IPs : 192.168.58.6 - master node/ 192.168.58.7 - compute node / 192.168.58.8 - Jenkins Node,  192.168.58.9 - Jenkins anisble Controller)
 
 NOTE: You just need to run the above commands once (you need not repeat them for the second time in the same environment). 
 
@@ -34,51 +34,68 @@ You can get in touch with me at : gurubamal@gmail.com
 
 
 
-######################### Kubernetes with Ceph HA #########################
+######################### JENKINS SETUP #########################
 
-Instructions for K8s Installation:
+Instructions for Jenkins Installation:
 
-1) Switch to success_taste directory and ensure all scripts are executable already:
+1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
 	
 	chmod +x *.sh
 
 2)  Run :
 	
+	cp Vagrantfile_jenkins_node8 Vagrantfile
+	
 	vagrant up 
 	
-	./final_touch.sh             #You need to wait for cluster to be ready, Check nodes and pods for verification after this script  
+	Browse jenkins at http://192.168.58.8:8080
 	
-	./final_r_ceph_touch.sh      #It sets up rook ceph cluster -ready to use 
+######################### K8S SETUP #########################
+
+Instructions for K8s Installation:
+
+1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
 	
+	chmod +x *.sh
+
+2)  Run :
 	
+	cp Vagrantfile_k8s_node6n7  Vagrantfile
 	
+	vagrant up 
+	
+	ssh vagrant@192.168.58.6 (password = vagrant)
+	
+	check kubectl commands
 
-NOTE: I have observed that script (2nd command "vagrant ssh node6  -c '/vagrant/05_post_join_control.sh'" ) sometimes can have issue in windows, so you can directly use following commands in node6 (ssh to node6 using "vagrant ssh node6" from you local machine):
-RUN FOLLOWING IN node6 COMMANDLINE:
+######################### Ansible SETUP #########################
 
-	sudo mkdir -p /home/vagrant/.kube
-	sudo chown vagrant:vagrant /home/vagrant/.kube
-	sudo mkdir -p /root/.kube
-	sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
-	sudo cp -i /etc/kubernetes/admin.conf /root/.kube/config
-	sudo chown vagrant:vagrant  /home/vagrant/.kube/config
-	kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
+Instructions for Ansible Installation:
+
+1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
+	
+	chmod +x *.sh
+
+2)  Run :
+	
+	cp Vagrantfile_ansible_node9  Vagrantfile
+	
+	vagrant up 
+	
+	ssh vagrant@192.168.58.9 (password = vagrant)
+	
+	check ansible commands
 
 
- (Rest for next 3-5 minutes after all commands; Once you have completed the above commands, your Kubernetes cluster would be ready.
 
-t code>
-
-
-######################### SEC - C #########################
-
+	
 VAGRANT CLEAN UP:
 
 To clean any previously implemented setup, use the below command:
 
 	vagrant destroy
 
-Ensure the right Vagrantfile for which you are running vagrant commands. Note that vagrant commands read  Vagrantfile for any of your sonarqube  actions.
+Ensure the right Vagrantfile for which you are running vagrant commands. Note that vagrant commands read  Vagrantfile. You may have to copy or Rename right Vagrant file to ensure your VMs are removed properly (vagrant command only acts on current Vagrantfile)
 
 
 
