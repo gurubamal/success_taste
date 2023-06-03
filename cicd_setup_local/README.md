@@ -59,15 +59,15 @@ Instructions for K8s Installation:
 
 1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
 	
-	chmod +x *.sh
+		chmod +x *.sh
 
 2)  Run : 
 	
-	cp Vagrantfile_k8s_node6n7  Vagrantfile
+		cp Vagrantfile_k8s_node6n7  Vagrantfile
 	
-	vagrant up 
+		vagrant up 
 	
-	ssh vagrant@192.168.58.6 (password = vagrant)
+		ssh vagrant@192.168.58.6 (password = vagrant)
 	
 	check kubectl commands
 	
@@ -81,15 +81,15 @@ Instructions for Ansible Installation:
 
 1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
 	
-	chmod +x *.sh
+		chmod +x *.sh
 
 2)  Run :
 	
-	cp Vagrantfile_ansible_node9  Vagrantfile
+		cp Vagrantfile_ansible_node9  Vagrantfile
 	
-	vagrant up 
+		vagrant up 
 	
-	ssh vagrant@192.168.58.9 (password = vagrant)
+		ssh vagrant@192.168.58.9 (password = vagrant)
 	
 	check ansible commands
 
