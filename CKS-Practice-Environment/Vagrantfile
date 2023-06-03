@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
 #  end
        # Virtual Machine Name
        vb.name = "node#{i}"
-       vb.memory = "2512"
+       vb.memory = "2560"
        vb.cpus = "2"
  #   file_to_disk = "node#{i}.vdi"
  #   unless File.exist?(file_to_disk)
