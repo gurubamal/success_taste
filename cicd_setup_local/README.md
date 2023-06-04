@@ -1,5 +1,5 @@
 NOTE:
-Given CODE is working fine at the moment (when uploaded), it installs the latest version of everything. It is possible that later sonarqube or k8s versions may have massive changes in the code and installation method, and the code would need an update at that point in time!
+While CODE is currently working fine, it installs the latest version of everything. However, it is possible that future software versions may have significant changes to the code or installation method. In such cases, CODE may need to be updated.
 
 
 Pre-requisites:
