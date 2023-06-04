@@ -1,5 +1,5 @@
 NOTE:
-While CODE is currently working fine, it installs the latest version of everything. However, it is possible that future software versions may have significant changes to the code or installation method. In such cases, CODE may need to be updated.
+Currently, the provided code is functioning all well, showcasing its flawless ability to install the most up-to-date revisions of all components. It is of paramount importance to acknowledge that software versions are susceptible to substantial advancements in both code structure and installation procedures as time progresses. Consequently, it becomes imperative to meticulously scrutinize the code and effectuate any essential enhancements to guarantee seamless compatibility with forthcoming upgrades.
 
 NOTE: Following is just for hands-on and learning practicals. In production, you will have to follow security practices in scripts and implementations (which is not applicable in these practicals).
 
