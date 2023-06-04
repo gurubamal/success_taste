@@ -8,7 +8,7 @@ Pre-requisites:
 
 > On your hardware (laptop, desktop, server) Secure boot must be disabled from BIOS; also, virtualization should be enabled. 24GB system RAM is expected
 
-> '''VAGRANT''', '''VirtualBox''', and '''git''' should be pre-installed (restart device once after virtual box install)
+> ''VAGRANT'', ''VirtualBox'', and ''git'' should be pre-installed (restart device once after virtual box install)
 
 > It is expected that you are connected to internet 
 
