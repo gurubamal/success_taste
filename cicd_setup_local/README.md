@@ -22,7 +22,7 @@ Pre-requisites:
 
      chmod +x *.sh
 
-NOTE: Most of the commands work in success_taste directory as the present working directory. Complete setup downloads packages from internet. 
+NOTE: Most of the commands work in success_taste/cicd_setup_local directory as the present working directory. Complete setup downloads packages from internet. 
 
 NOTE: Linux admin User (with sudo perms) & password will be vagrant (password is vagrant as well) (K8s VM IPs : 192.168.58.6 - master node/ 192.168.58.7 - compute node / 192.168.58.8 - Jenkins Node,  192.168.58.9 - Jenkins anisble Controller)
 
