@@ -9,7 +9,7 @@ sudo apt-get update ; sudo apt -y install openjdk-11-jre
 sudo apt-get -y  install jenkins
 
 if [ $(echo $?) = 0 ]
-then echo "Jenkins server is available at http://192.168.58.6:8080"
+then echo "Jenkins server is available at http://192.168.58.8:8080"
 	  JENKIN8_PASSWD=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
 	  echo $JENKIN8_PASSWD is your first time jenkins password
   else sudo apt -y remove jenkins ; sudo apt -y install jenkins
