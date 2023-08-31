@@ -34,28 +34,7 @@ NOTE: In each section, It can take upto 30-60 minutes of time to run it complete
 
 You can get in touch with me at : gurubamal@gmail.com
 
-
-
-######################### JENKINS SETUP #########################
-
-Instructions for Jenkins Installation:
-
-1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
-	
-		chmod +x *.sh
-
-2)  Run :
-	
-		cp Vagrantfile_jenkins_node8 Vagrantfile
-	
-		vagrant up 
-	
-	Browse jenkins at 
-		http://192.168.58.8:8080
-	Fetch password with following command:
-		sudo cat /var/lib/jenkins/secrets/initialAdminPassword
-	
-######################### K8S SETUP #########################
+######################### kubernetes SETUP #########################
 
 Instructions for K8s Installation:
 
@@ -77,9 +56,28 @@ NOTE 1: node6 will be master node whereas node7 will be worker node
 
 NOTE 2: please note that following info "value: "interface=eth1"  in calico.yaml was set by me because my Virtualbox VMs are aquiring eth1 as default network device with IP 192.168.58.x for my VMs. You need to set it in case it's eth name varies in your machines. you can leave it as it is if it works all great already.
 
+######################### JENKINS SETUP #########################
+
+Instructions for Jenkins Installation:
+
+1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
+	
+		chmod +x *.sh
+
+2)  Run :
+	
+		cp Vagrantfile_jenkins_node8 Vagrantfile
+	
+		vagrant up 
+	
+	Browse jenkins at 
+		http://192.168.58.8:8080
+	Fetch password with following command:
+		sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
 ######################### Ansible SETUP #########################
 
-Instructions for Ansible Installation:
+Instructions for Ansible & Docker Repo Installation:
 
 1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
 	
