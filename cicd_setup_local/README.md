@@ -77,7 +77,7 @@ Instructions for Jenkins Installation:
 
 ######################### Ansible SETUP #########################
 
-Instructions for Ansible & Docker Repo Installation:
+Instructions for Ansible & Docker Repository Installation:
 
 1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
 	
@@ -91,7 +91,12 @@ Instructions for Ansible & Docker Repo Installation:
 	
 		ssh vagrant@192.168.58.9 (password = vagrant)
 	
-	check ansible commands
+	check ansible and docker commands for automations and repository
+
+vagrant@node9:~$ docker ps
+CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+484668f20499   registry:2   "/entrypoint.sh /etc…"   15 minutes ago   Up 15 minutes   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry
+
 
 
 
