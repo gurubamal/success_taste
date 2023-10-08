@@ -1,8 +1,6 @@
 Latest -- tested code --> https://github.com/gurubamal/success_taste/tree/main/cicd_setup_local
 
-
-
-
+Written by: Ram Nath (gurubamal)
 
 NOTE:
 Currently, the provided code is functioning all well, showcasing its flawless ability to install the most up-to-date revisions of all components. It is of paramount importance to acknowledge that software versions are susceptible to substantial advancements in both code structure and installation procedures as time progresses. Consequently, it becomes imperative to meticulously scrutinize the code and effectuate any essential enhancements to guarantee seamless compatibility with forthcoming upgrades.
