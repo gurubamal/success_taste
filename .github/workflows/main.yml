@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: gurubamal/checkout@v1
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: gurubamal/setup-python@v1
         with:
           python-version: '3.x'  # Specify the Python version you need
 
@@ -46,7 +46,7 @@ jobs:
 
       - name: Archive production artifacts
         if: success()
-        uses: actions/upload-artifact@v2
+        uses: gurubamal/upload-artifact@v1
         with:
           name: production-artifacts
           path: |
