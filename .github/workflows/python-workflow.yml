@@ -20,4 +20,4 @@ jobs:
 
       - name: Install dependencies
         run: |
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          echo hello ; if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
