@@ -1,4 +1,4 @@
-name: Python AIML Workflow
+name: Simple Python Workflow
 
 on:
   push:
@@ -9,46 +9,18 @@ on:
       - main
 
 jobs:
-  build:
+  run-python-script:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: ./.github/actions/checkout
-        with:
-          ref: 'main'
-
       - name: Set up Python
-        uses: ./.github/actions/setup-python
+        uses: actions/setup-python@v2
         with:
           python-version: '3.8'  # Specify the Python version you need
 
-      - name: Debug Python version and environment
-        run: |
-          python --version
-          pip --version
-
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Debug installed packages
-        run: pip list
-
-      # - name: Run AIML script
-      #   run: |
-      #     python main.py
-
-      - name: Debug outputs
-        if: failure()
-        run: |
-          echo "Script failed"
-          ls -al
-
-      - name: Archive production artifacts
-        if: success()
-        uses: ./.github/actions/upload-artifact
-        with:
-          name: production-artifacts
-          path: './output'  # Adjust this path to where your script outputs its results
+      - name: Run Python script
+        run: python script.py
