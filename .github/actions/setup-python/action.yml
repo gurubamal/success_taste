@@ -1,0 +1,20 @@
+# .github/actions/setup-python/action.yml
+name: 'Setup Python'
+description: 'Set up a specific version of Python'
+inputs:
+  python-version:
+    description: 'The version of Python to install'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Python
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python${{ inputs.python-version }}
+        sudo apt-get install -y python3-pip
+    - name: Set Python version
+      shell: bash
+      run: |
+        sudo update-alternatives --install /usr/bin/python python /usr/bin/python${{ inputs.python-version }} 1
