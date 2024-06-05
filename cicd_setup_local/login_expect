@@ -1,5 +1,29 @@
 #!/usr/bin/expect -f
-spawn ssh-copy-id $argv
-expect "password:"
-send "vagrant\n"
-expect eof
+
+# Authored by: Ram Nath Bamal (Guru)
+
+# Check if an argument is provided
+if { $argc < 1 } {
+    puts "Usage: ./ssh-copy-id <user@host>"
+    exit 1
+}
+
+set user_host [lindex $argv 0]
+
+# Spawn ssh-copy-id process
+spawn ssh-copy-id $user_host
+
+expect {
+    "password:" {
+        send "vagrant\r"
+        exp_continue
+    }
+    eof {
+        if { [catch wait result] } {
+            puts "Error: ssh-copy-id failed."
+            exit 1
+        } else {
+            puts "ssh-copy-id completed successfully."
+        }
+    }
+}
