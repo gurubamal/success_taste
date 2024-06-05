@@ -71,9 +71,24 @@ curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --de
 echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 # Install Kubernetes packages
+#!/bin/bash
+
+# Install dependencies
 sudo apt-get update
-sudo apt-get install -y kubelet kubeadm kubectl
-sudo apt-mark hold kubelet kubeadm kubectl
+sudo apt-get install -y apt-transport-https ca-certificates curl
+
+# Download Kubernetes binaries
+cd /usr/local/bin
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubeadm"
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubelet"
+
+# Make the binaries executable
+sudo chmod +x /usr/local/bin/kubectl /usr/local/bin/kubeadm /usr/local/bin/kubelet
+
+# Verify installation
+kubectl version --client && kubeadm version && kubelet --version
+
 
 # Configure containerd
 sudo mkdir -p /etc/containerd
