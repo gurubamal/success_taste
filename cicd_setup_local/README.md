@@ -1,116 +1,143 @@
-Written by: Ram Nath (gurubamal)
 
+**Written by: Ram Nath (gurubamal)**
 
-NOTE:
-Currently, the provided code is functioning all well, showcasing its flawless ability to install the most up-to-date revisions of all components. It is of paramount importance to acknowledge that software versions are susceptible to substantial advancements in both code structure and installation procedures as time progresses. Consequently, it becomes imperative to meticulously scrutinize the code and effectuate any essential enhancements to guarantee seamless compatibility with forthcoming upgrades.
+---
 
-My youtube channel : https://www.youtube.com/@iySetsfineWorkc
+### NOTE:
+The provided code currently functions flawlessly, ensuring the installation of the most up-to-date revisions of all components. However, it is crucial to recognize that software versions may undergo significant advancements in both code structure and installation procedures over time. Therefore, it is essential to periodically review and update the code to ensure compatibility with future upgrades.
 
+Please ignore any error messages when you run the vagrant up command. I have included extensive error handling, so errors may appear as part of the pre-requisite checks.
 
-Pre-requisites:
+**My YouTube Channel**: [https://www.youtube.com/@iySetsfineWorkc](https://www.youtube.com/@iySetsfineWorkc)
 
-> Basic Linux Skills are expected
+---
 
-> On your hardware (laptop, desktop, server) Secure boot must be disabled from BIOS; also, virtualization should be enabled. 24GB system RAM is expected
+### Pre-requisites:
 
-> ''**VAGRANT**'', ''**VIRTUALBOX**'', and ''**GIT**'' should be pre-installed (restart device once after virtual box install)
+- Basic Linux skills are expected.
+- On your hardware (laptop, desktop, server), ensure Secure Boot is disabled in the BIOS and virtualization is enabled. 24GB system RAM is required.
+- **VAGRANT**, **VIRTUALBOX**, and **GIT** should be pre-installed. (Restart your device once after installing VirtualBox.)
+- Ensure you are connected to the internet.
+- Run all commands from the `success_taste` directory (clone it using: `git clone https://github.com/gurubamal/success_taste.git`).
 
-> It is expected that you are connected to internet 
+    ```sh
+    vagrant plugin install vagrant-vbguest
+    ```
 
-> Run the all the commands from success_taste Directory (clone it using: git clone https://github.com/gurubamal/success_taste.git)
+- For Linux or Mac terminal users:
 
-     vagrant plugin install vagrant-vbguest
- 
-> RUN below only if you are in Linux or Mac terminal:
+    ```sh
+    echo "export VAGRANT_DEFAULT_PROVIDER=virtualbox" >> ~/.bashrc ; source ~/.bashrc
+    chmod +x *.sh
+    ```
 
-     echo "export VAGRANT_DEFAULT_PROVIDER=virtualbox" >> ~/.bashrc ; source ~/.bashrc
+### Notes:
 
-     chmod +x *.sh
+1. Most commands should be executed from the `success_taste/cicd_setup_local` directory as the present working directory. The complete setup will download packages from the internet.
+2. The Linux admin user (with sudo permissions) and password will be `vagrant` (both username and password). 
+   - K8s VM IPs:
+     - Master Node: 192.168.58.6
+     - Compute Node: 192.168.58.7
+     - Jenkins Node: 192.168.58.8
+     - Jenkins Ansible Controller: 192.168.58.9
+3. The above commands need to be run only once in the same environment.
+4. Each section may take 30-60 minutes to complete, depending on your internet speed.
 
-NOTE: Most of the commands work in success_taste/cicd_setup_local directory as the present working directory. Complete setup downloads packages from internet. 
+You can reach out to me at: [gurubamal@gmail.com](mailto:gurubamal@gmail.com)
 
-NOTE: Linux admin User (with sudo perms) & password will be vagrant (password is vagrant as well) (K8s VM IPs : 192.168.58.6 - master node/ 192.168.58.7 - compute node / 192.168.58.8 - Jenkins Node,  192.168.58.9 - Jenkins anisble Controller)
+---
 
-NOTE: You just need to run the above commands once (you need not repeat them for the second time in the same environment). 
+### Kubernetes Setup
 
-NOTE: In each section, It can take upto 30-60 minutes of time to run it completely (based on your internet speed).
+**Instructions for K8s Installation:**
 
-You can get in touch with me at : gurubamal@gmail.com
+1. Switch to the `success_taste/cicd_setup_local` directory and ensure all scripts are executable:
 
-######################### kubernetes SETUP #########################
+    ```sh
+    chmod +x *.sh
+    ```
 
-Instructions for K8s Installation:
+2. Run the following commands:
 
-1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
-	
-		chmod +x *.sh
+    ```sh
+    cp Vagrantfile_k8s_node6n7 Vagrantfile
+    vagrant up 
+    ssh vagrant@192.168.58.6 (password: vagrant)
+    ```
 
-2)  Run : 
-	
-		cp Vagrantfile_k8s_node6n7  Vagrantfile
-	
-		vagrant up 
-	
-		ssh vagrant@192.168.58.6 (password = vagrant)
-	
-	check kubectl commands
-	
-NOTE 1: node6 will be master node whereas node7 will be worker node
+    Check `kubectl` commands.
 
-NOTE 2: please note that following info "value: "interface=eth1"  in calico.yaml was set by me because my Virtualbox VMs are aquiring eth1 as default network device with IP 192.168.58.x for my VMs. You need to set it in case it's eth name varies in your machines. you can leave it as it is if it works all great already.
+    - Node 6 will be the master node, whereas Node 7 will be the worker node.
+    - Note: The value `interface=eth1` in `calico.yaml` was set because my VirtualBox VMs use `eth1` as the default network device with IP `192.168.58.x`. Adjust this setting if the `eth` name varies on your machines.
 
-######################### JENKINS SETUP #########################
+---
 
-Instructions for Jenkins Installation:
+### Jenkins Setup
 
-1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
-	
-		chmod +x *.sh
+**Instructions for Jenkins Installation:**
 
-2)  Run :
-	
-		cp Vagrantfile_jenkins_node8 Vagrantfile
-	
-		vagrant up 
-	
-	Browse jenkins at 
-		http://192.168.58.8:8080
-	Fetch password with following command:
-		sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+1. Switch to the `success_taste/cicd_setup_local` directory and ensure all scripts are executable:
 
-######################### Ansible SETUP #########################
+    ```sh
+    chmod +x *.sh
+    ```
 
-Instructions for Ansible & Docker Repository Installation:
+2. Run the following commands:
 
-1) Switch to success_taste/cicd_setup_local directory and ensure all scripts are executable already:
-	
-		chmod +x *.sh
+    ```sh
+    cp Vagrantfile_jenkins_node8 Vagrantfile
+    vagrant up 
+    ```
 
-2)  Run :
-	
-		cp Vagrantfile_ansible_node9  Vagrantfile
-	
-		vagrant up 
-	
-		ssh vagrant@192.168.58.9 (password = vagrant)
-	
-	check ansible and docker commands for automations and repository
+    Browse Jenkins at [http://192.168.58.8:8080](http://192.168.58.8:8080).
 
-vagrant@node9:~$ docker ps
-CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS          PORTS                                       NAMES
-484668f20499   registry:2   "/entrypoint.sh /etc…"   15 minutes ago   Up 15 minutes   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry
+    Fetch the password with the following command:
 
+    ```sh
+    sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+    ```
 
+---
 
+### Ansible & Docker Repository Setup
 
-	
-VAGRANT CLEAN UP:
+**Instructions for Ansible & Docker Repository Installation:**
 
-To clean any previously implemented setup, use the below command:
+1. Switch to the `success_taste/cicd_setup_local` directory and ensure all scripts are executable:
 
-	vagrant destroy
+    ```sh
+    chmod +x *.sh
+    ```
 
-Ensure the right Vagrantfile for which you are running vagrant commands. Note that vagrant commands read  Vagrantfile. You may have to copy or Rename right Vagrant file to ensure your VMs are removed properly (vagrant command only acts on current Vagrantfile)
+2. Run the following commands:
 
+    ```sh
+    cp Vagrantfile_ansible_node9 Vagrantfile
+    vagrant up 
+    ssh vagrant@192.168.58.9 (password: vagrant)
+    ```
 
+    Check Ansible and Docker commands for automations and repository:
 
+    ```sh
+    docker ps
+    ```
+
+    Example output:
+
+    ```
+    CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+    484668f20499   registry:2   "/entrypoint.sh /etc…"   15 minutes ago   Up 15 minutes   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry
+    ```
+
+---
+
+### Vagrant Cleanup
+
+To clean any previously implemented setup, use the following command:
+
+```sh
+vagrant destroy
+```
+
+Ensure the correct Vagrantfile is in use when running Vagrant commands, as Vagrant reads the current Vagrantfile. You may need to copy or rename the appropriate Vagrantfile to ensure your VMs are removed properly (Vagrant commands only act on the current Vagrantfile).
