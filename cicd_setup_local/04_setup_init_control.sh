@@ -17,11 +17,22 @@ if [ "$HOSTNAME" = "node6" ]; then
         sudo kubeadm init --apiserver-advertise-address=192.168.58.6 --pod-network-cidr=192.168.0.0/16 | tee init.txt
         if [ $? -ne 0 ]; then
             echo "Error: kubeadm init failed."
+            exit 1
         fi
 
-        echo sudo $(tail -2 init.txt | head -1 | cut -d'\' -f1) $(tail -1 init.txt | cut -d'[' -f1) | tee -a compute_add.sh
-        JOIN_CMD=$(cat compute_add.sh)
-        
+        if [ ! -s init.txt ]; then
+            echo "Error: init.txt is empty."
+            exit 1
+        fi
+
+        JOIN_CMD=$(tail -2 init.txt | head -1 | cut -d'\' -f1)
+        if [ -z "$JOIN_CMD" ]; then
+            echo "Error: JOIN_CMD is empty."
+            exit 1
+        fi
+
+        echo "sudo $JOIN_CMD $(tail -1 init.txt | cut -d'[' -f1)" | tee compute_add.sh
+
         echo "if ! [ \$HOSTNAME = node6 ]; then
         if ! [ -e /etc/kubernetes/kubelet.conf ]; then
             sudo rm /etc/containerd/config.toml
@@ -31,28 +42,11 @@ if [ "$HOSTNAME" = "node6" ]; then
         fi
         else
             exit 0
-        fi" | tee compute_add.sh
-        
+        fi" | tee -a compute_add.sh
+
         sed 's/node6 = node6/\$HOSTNAME = node6/g' compute_add.sh | tee /vagrant/compute_add.sh
         chmod +x /vagrant/*.sh
     else
         exit 0
     fi
 fi
-
-# The following lines are commented out and seem to be alternative commands or notes:
-# JOIN_CMD=$(cat compute_add.sh)
-# echo "if ! [ "$HOSTNAME" = node6 ]; then
-# $JOIN_CMD
-# fi" | tee compute_add.sh
-# chmod +x compute_add.sh
-# sed 's/node6 = node6/\$HOSTNAME = node6/g' compute_add.sh | tee /vagrant/compute_add.sh
-# rm join.info
-# sudo kubeadm init --apiserver-advertise-address=10.0.3.6 --pod-network-cidr=10.244.0.0/16
-# sudo kubeadm init --pod-network-cidr=10.244.0.0/16
-# sudo -i vagrant
-# mkdir -p ~/.kube
-# sudo cp -i /etc/kubernetes/admin.conf ~/.kube/config
-# sudo chown vagrant:vagrant /home/vagrant/.kube/config
-# kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
-# kubectl apply -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
