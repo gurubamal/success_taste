@@ -71,7 +71,6 @@ curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --de
 echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 # Install Kubernetes packages
-#!/bin/bash
 
 # Install dependencies
 sudo apt-get update
