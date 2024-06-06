@@ -194,3 +194,78 @@ fi
 if [ -e /dev/sda3.swap ]; then
     sudo systemctl mask "dev-sda3.swap"
 fi
+
+
+###
+#!/bin/bash
+
+# Variables
+KUBELET_CONFIG_DIR="/etc/systemd/system/kubelet.service.d"
+KUBELET_SERVICE_FILE="${KUBELET_CONFIG_DIR}/10-kubeadm.conf"
+GRUB_CONFIG_FILE="/etc/default/grub"
+GRUB_CONFIG_BACKUP_FILE="${GRUB_CONFIG_FILE}.bak"
+
+# Function to check if a command exists
+command_exists() {
+    command -v "$1" &> /dev/null
+}
+
+# Function to check if a line exists in a file
+line_exists_in_file() {
+    grep -qF "$1" "$2"
+}
+
+# Ensure the necessary directories exist
+sudo mkdir -p "$KUBELET_CONFIG_DIR"
+
+# Check and update the kubelet cgroup driver configuration
+echo "Checking kubelet cgroup driver configuration..."
+if ! line_exists_in_file 'Environment="KUBELET_KUBEADM_ARGS=--cgroup-driver=systemd"' "$KUBELET_SERVICE_FILE"; then
+    echo "Configuring kubelet to use systemd cgroup driver..."
+    sudo tee "$KUBELET_SERVICE_FILE" > /dev/null <<EOF
+[Service]
+Environment="KUBELET_KUBEADM_ARGS=--cgroup-driver=systemd"
+ExecStart=
+ExecStart=/usr/local/bin/kubelet \$KUBELET_KUBEADM_ARGS \$KUBELET_EXTRA_ARGS
+EOF
+else
+    echo "Kubelet cgroup driver configuration is already set to systemd."
+fi
+
+# Verify cgroups are enabled
+echo "Verifying cgroups..."
+REQUIRED_CGROUPS=("cpu" "memory" "cpuset")
+MISSING_CGROUPS=()
+
+for CGROUP in "${REQUIRED_CGROUPS[@]}"; do
+    if ! lssubsys -a | grep -q "$CGROUP"; then
+        MISSING_CGROUPS+=("$CGROUP")
+    fi
+done
+
+if [ ${#MISSING_CGROUPS[@]} -eq 0 ]; then
+    echo "All required cgroups are enabled."
+else
+    echo "Missing cgroups detected: ${MISSING_CGROUPS[*]}"
+    echo "Checking if GRUB configuration already updated for cgroups..."
+
+    if ! line_exists_in_file 'cgroup_enable=memory' "$GRUB_CONFIG_FILE"; then
+        echo "Updating GRUB configuration to enable cgroups..."
+
+        # Backup existing GRUB configuration if not already backed up
+        if [ ! -f "$GRUB_CONFIG_BACKUP_FILE" ]; then
+            sudo cp "$GRUB_CONFIG_FILE" "$GRUB_CONFIG_BACKUP_FILE"
+        fi
+
+        # Update GRUB configuration to enable cgroups
+        sudo sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cgroup_enable=memory swapaccount=1"/' "$GRUB_CONFIG_FILE"
+
+        # Update GRUB and reboot
+        sudo update-grub
+        echo "System needs to reboot to apply cgroup changes."
+        sudo reboot
+    else
+        echo "GRUB configuration already updated for cgroups."
+    fi
+fi
+
