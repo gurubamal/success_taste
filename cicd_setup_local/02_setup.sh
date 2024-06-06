@@ -80,34 +80,86 @@ sudo rm -f /etc/apt/sources.list.d/home:alvistack.list
 # Remove the corresponding GPG key
 sudo apt-key del 4BECC97550D0B1FD
 
-# Update package list
-sudo apt-get update
+# Define versions
+KUBERNETES_VERSION="v1.29.5"
+KUBERNETES_BINARIES=("kubeadm" "kubelet" "kubectl")
 
-# Remove duplicate Docker repository entries
-sudo rm -f /etc/apt/sources.list.d/archive_uri-https_download_docker_com_linux_ubuntu-jammy.list
-sudo apt-get update
+# Function to check if a command exists
+command_exists() {
+    command -v "$1" &> /dev/null
+}
 
-# Install snapd
-sudo apt-get install -y snapd
+# Check if Kubernetes binaries are installed
+install_required=false
+for binary in "${KUBERNETES_BINARIES[@]}"; do
+    if ! command_exists "$binary"; then
+        install_required=true
+        break
+    fi
+done
 
-# Add the correct Kubernetes apt repository
-sudo curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+if [ "$install_required" = true ]; then
+    echo "Kubernetes binaries not found. Installing..."
 
-# Update package lists
-sudo apt-get update
+    # Download Kubernetes binaries
+    cd /tmp
+    curl -LO "https://dl.k8s.io/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubeadm"
+    curl -LO "https://dl.k8s.io/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubelet"
+    curl -LO "https://dl.k8s.io/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl"
 
-# Install kubelet, kubectl, and kubernetes-cni
-sudo apt-get install -y kubelet kubeadm kubectl cri-tools
+    # Make the binaries executable
+    chmod +x kubeadm kubelet kubectl
+
+    # Move binaries to /usr/local/bin
+    sudo mv kubeadm kubelet kubectl /usr/local/bin/
+else
+    echo "Kubernetes binaries are already installed."
+fi
+
+# Check if kubelet service is available and running
+if systemctl list-units --type=service --all | grep -q 'kubelet.service'; then
+    echo "kubelet service already exists."
+else
+    echo "Creating kubelet systemd service..."
+
+    # Create kubelet systemd service file
+    cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
+[Unit]
+Description=kubelet: The Kubernetes Node Agent
+Documentation=https://kubernetes.io/docs/home/
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/kubelet
+Restart=always
+StartLimitInterval=0
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+    # Create kubelet service environment file
+    sudo mkdir -p /etc/systemd/system/kubelet.service.d
+    cat <<EOF | sudo tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+[Service]
+Environment="KUBELET_KUBEADM_ARGS=--cgroup-driver=systemd"
+ExecStart=
+ExecStart=/usr/local/bin/kubelet \$KUBELET_KUBEADM_ARGS \$KUBELET_EXTRA_ARGS
+EOF
+
+    # Reload systemd, enable and start kubelet
+    sudo systemctl daemon-reload
+    sudo systemctl enable kubelet
+    sudo systemctl start kubelet
+fi
 
 # Verify installations
+echo "Verifying installations..."
 kubectl version --client
 kubeadm version
 kubelet --version
-
-# Enable and start kubelet service
-sudo systemctl enable kubelet.service
-sudo systemctl start kubelet.service
 
 # Configure containerd
 sudo mkdir -p /etc/containerd
