@@ -43,7 +43,7 @@ sudo apt-get update
 
 # Install socat and conntrack
 sudo apt-get install -y socat conntrack
-sudo kubeadm config images pull --image-repository registry.aliyuncs.com/google_containers --kubernetes-version 1.28.0
+sudo kubeadm config images pull --image-repository registry.aliyuncs.com/google_containers --kubernetes-version 1.29.0
 # Install crictl
 CRICTL_VERSION="v1.24.1"
 wget https://github.com/kubernetes-sigs/cri-tools/releases/download/${CRICTL_VERSION}/crictl-${CRICTL_VERSION}-linux-amd64.tar.gz
@@ -78,7 +78,7 @@ if [ "$HOSTNAME" = node6 ]; then
 	sudo rm /etc/containerd/config.toml
 	sudo systemctl restart containerd
 	sudo systemctl enable containerd
-	sudo kubeadm init --apiserver-advertise-address=192.168.58.6 --kubernetes-version v1.28.0 --image-repository registry.aliyuncs.com/google_containers --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=all |tee init.txt ; echo sudo $(tail -2 init.txt|head -1| cut -d'\' -f1)  $(tail -1 init.txt| cut -d'[' -f1) |tee -a  compute_add.sh
+	sudo kubeadm init --apiserver-advertise-address=192.168.58.6 --kubernetes-version v1.29.0 --image-repository registry.aliyuncs.com/google_containers --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=all |tee init.txt ; echo sudo $(tail -2 init.txt|head -1| cut -d'\' -f1)  $(tail -1 init.txt| cut -d'[' -f1) |tee -a  compute_add.sh
 	JOIN_CMD=$(cat compute_add.sh)
 	echo   "if ! [ $HOSTNAME = node6 ]; then
 	if ! [ -e /etc/kubernetes/kubelet.conf ] ; then
