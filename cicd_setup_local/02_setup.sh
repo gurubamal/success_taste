@@ -70,7 +70,6 @@ sudo sysctl --system
 curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/k8s.gpg
 echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-# Install Kubernetes packages
 # Install dependencies
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl wget vim git gnupg2 software-properties-common
@@ -111,8 +110,14 @@ install_k8s_packages() {
     fi
 }
 
-# Try direct download first, fall back to package installation if needed
-install_k8s_binaries
+# Check if any of the Kubernetes binaries are already installed
+if command -v kubectl >/dev/null && command -v kubeadm >/dev/null && command -v kubelet >/dev/null; then
+    echo "Kubernetes binaries already installed."
+    kubectl version --client && kubeadm version && kubelet --version
+else
+    # Try direct download first, fall back to package installation if needed
+    install_k8s_binaries
+fi
 
 # Configure containerd
 sudo mkdir -p /etc/containerd
