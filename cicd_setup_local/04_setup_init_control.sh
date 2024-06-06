@@ -38,6 +38,40 @@ stop_kubelet_service
 
 echo "Kubelet process and service have been stopped."
 
+# Update package list
+sudo apt-get update
+
+# Install socat and conntrack
+sudo apt-get install -y socat conntrack
+
+# Install crictl
+CRICTL_VERSION="v1.24.1"
+wget https://github.com/kubernetes-sigs/cri-tools/releases/download/${CRICTL_VERSION}/crictl-${CRICTL_VERSION}-linux-amd64.tar.gz
+sudo tar zxvf crictl-${CRICTL_VERSION}-linux-amd64.tar.gz -C /usr/local/bin
+rm crictl-${CRICTL_VERSION}-linux-amd64.tar.gz
+
+# Verify installations
+echo "Verifying installations..."
+if ! command -v socat &> /dev/null; then
+    echo "socat installation failed."
+else
+    echo "socat installed successfully."
+fi
+
+if ! command -v conntrack &> /dev/null; then
+    echo "conntrack installation failed."
+else
+    echo "conntrack installed successfully."
+fi
+
+if ! command -v crictl &> /dev/null; then
+    echo "crictl installation failed."
+else
+    echo "crictl installed successfully."
+fi
+
+echo "All required dependencies have been installed."
+
 if [ "$HOSTNAME" = node6 ]; then
 	if ! [ -e /etc/kubernetes/pki/ca.crt ]
 	then
