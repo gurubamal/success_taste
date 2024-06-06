@@ -197,8 +197,6 @@ fi
 
 
 ###
-#!/bin/bash
-
 # Variables
 KUBELET_CONFIG_DIR="/etc/systemd/system/kubelet.service.d"
 KUBELET_SERVICE_FILE="${KUBELET_CONFIG_DIR}/10-kubeadm.conf"
