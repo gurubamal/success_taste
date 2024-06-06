@@ -74,50 +74,31 @@ echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl wget vim git gnupg2 software-properties-common
 
-# Function to install Kubernetes binaries directly
-install_k8s_binaries() {
-    echo "Attempting to install Kubernetes binaries directly..."
-    cd /usr/local/bin
-    sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubeadm"
-    sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubelet"
+# Remove the specific repository file
+sudo rm -f /etc/apt/sources.list.d/home:alvistack.list
 
-    if [ -f kubectl ] && [ -f kubeadm ] && [ -f kubelet ]; then
-        sudo chmod +x /usr/local/bin/kubectl /usr/local/bin/kubeadm /usr/local/bin/kubelet
-        echo "Direct download and installation of Kubernetes binaries successful."
-        kubectl version --client && kubeadm version && kubelet --version
-    else
-        echo "Direct download failed. Falling back to package installation..."
-        install_k8s_packages
-    fi
-}
+# Remove the corresponding GPG key
+sudo apt-key del 4BECC97550D0B1FD
 
-# Function to install Kubernetes packages using apt
-install_k8s_packages() {
-    echo "Attempting to install Kubernetes packages via apt..."
-    sudo curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-    echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-    sudo apt-get update
-    sudo apt-get install -y kubelet kubeadm kubectl
-    sudo apt-mark hold kubelet kubeadm kubectl
+# Update package list
+sudo apt-get update
 
-    if command -v kubectl >/dev/null && command -v kubeadm >/dev/null && command -v kubelet >/dev/null; then
-        echo "Package installation of Kubernetes tools successful."
-        kubectl version --client && kubeadm version && kubelet --version
-    else
-        echo "Package installation of Kubernetes tools failed."
-        exit 1
-    fi
-}
+# Remove duplicate Docker repository entries
+sudo rm -f /etc/apt/sources.list.d/archive_uri-https_download_docker_com_linux_ubuntu-jammy.list
+sudo apt-get update
 
-# Check if any of the Kubernetes binaries are already installed
-if command -v kubectl >/dev/null && command -v kubeadm >/dev/null && command -v kubelet >/dev/null; then
-    echo "Kubernetes binaries already installed."
-    kubectl version --client && kubeadm version && kubelet --version
-else
-    # Try direct download first, fall back to package installation if needed
-    install_k8s_binaries
-fi
+# Install snapd
+sudo apt-get install -y snapd
+
+# Install kubectl, kubeadm, and kubelet using snap
+sudo snap install kubectl --classic
+sudo snap install kubeadm --classic
+sudo snap install kubelet --classic
+
+# Verify installations
+kubectl version --client
+kubeadm version
+kubelet --version
 
 # Configure containerd
 sudo mkdir -p /etc/containerd
