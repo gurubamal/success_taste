@@ -3,6 +3,41 @@ if ! [ "$HOSTNAME" = node6 ]; then
 	exit 0
 fi
 
+# Function to check if kubelet is running, identify its ports, and kill the process
+check_and_kill_kubelet() {
+    if pgrep -x "kubelet" > /dev/null; then
+        echo "Kubelet is running. Checking the ports it is using..."
+        # Find the ports used by kubelet
+        sudo lsof -i -P -n | grep kubelet | grep LISTEN
+        # Get the PID of kubelet
+        PID=$(pgrep -x "kubelet")
+        if [ -n "$PID" ]; then
+            echo "Killing kubelet process with PID $PID..."
+            sudo kill -9 $PID
+            echo "Process $PID killed."
+        else
+            echo "No process found for kubelet."
+        fi
+    else
+        echo "Kubelet is not running."
+    fi
+}
+
+# Function to stop kubelet service
+stop_kubelet_service() {
+    echo "Stopping kubelet service..."
+    sudo systemctl stop kubelet
+    echo "Kubelet service stopped."
+}
+
+# Check and kill kubelet if running
+check_and_kill_kubelet
+
+# Stop kubelet service
+stop_kubelet_service
+
+echo "Kubelet process and service have been stopped."
+
 if [ "$HOSTNAME" = node6 ]; then
 	if ! [ -e /etc/kubernetes/pki/ca.crt ]
 	then
