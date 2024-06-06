@@ -90,15 +90,24 @@ sudo apt-get update
 # Install snapd
 sudo apt-get install -y snapd
 
-# Install kubectl, kubeadm, and kubelet using snap
-sudo snap install kubectl --classic
-sudo snap install kubeadm --classic
-sudo snap install kubelet --classic
+# Add the correct Kubernetes apt repository
+sudo curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+# Update package lists
+sudo apt-get update
+
+# Install kubelet, kubectl, and kubernetes-cni
+sudo apt-get install -y kubelet kubeadm kubectl cri-tools
 
 # Verify installations
 kubectl version --client
 kubeadm version
 kubelet --version
+
+# Enable and start kubelet service
+sudo systemctl enable kubelet.service
+sudo systemctl start kubelet.service
 
 # Configure containerd
 sudo mkdir -p /etc/containerd
