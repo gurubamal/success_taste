@@ -5,8 +5,8 @@ sudo sed -i '/swap/d' /etc/fstab
 sudo swapoff -a
 
 # Ensure bridge network settings
-if ! grep -q 'net.bridge.bridge-nf-call-ip6tables' /etc/sysctl.d/kubernetes.conf; then
-    cat <<EOF | sudo tee /etc/sysctl.d/kubernetes.conf
+if ! grep -q net.bridge.bridge-nf-call-ip6tables /etc/sysctl.d/kubernetes.conf; then
+    sudo tee /etc/sysctl.d/kubernetes.conf <<EOF
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
@@ -14,8 +14,8 @@ EOF
 fi
 
 # Load necessary kernel modules
-if ! grep -q 'br_netfilter' /etc/modules-load.d/containerd.conf; then
-    cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
+if ! grep -q br_netfilter /etc/modules-load.d/containerd.conf; then    
+    sudo tee /etc/modules-load.d/containerd.conf <<EOF
 overlay
 br_netfilter
 EOF
@@ -39,7 +39,7 @@ sudo apt-get install -y containerd.io docker-ce docker-ce-cli
 
 # Create Docker configuration
 sudo mkdir -p /etc/systemd/system/docker.service.d
-cat <<EOF | sudo tee /etc/docker/daemon.json
+sudo tee /etc/docker/daemon.json <<EOF
 {
   "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
@@ -56,8 +56,8 @@ sudo systemctl restart docker
 sudo systemctl enable docker
 
 # Configure persistent loading of modules
-if ! grep -q 'overlay' /etc/modules-load.d/k8s.conf; then
-    cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+if ! grep -q overlay /etc/modules-load.d/k8s.conf; then
+    sudo tee /etc/modules-load.d/k8s.conf <<EOF
 overlay
 br_netfilter
 EOF
@@ -116,7 +116,12 @@ else
     echo "Kubernetes binaries are already installed."
 fi
 
-if ! systemctl list-units --type=service --all | grep -q 'kubelet.service'; then
+# Check if kubelet service is available and running
+if systemctl list-units --type=service --all | grep -q 'kubelet.service'; then
+    echo "kubelet service already exists."
+else
+    echo "Creating kubelet systemd service..."
+
     # Create kubelet systemd service file
     cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
 [Unit]
@@ -134,21 +139,21 @@ RestartSec=10
 [Install]
 WantedBy=multi-user.target
 EOF
-fi
 
-# Create kubelet service environment file
-sudo mkdir -p /etc/systemd/system/kubelet.service.d
-cat <<EOF | sudo tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+    # Create kubelet service environment file
+    sudo mkdir -p /etc/systemd/system/kubelet.service.d
+    cat <<EOF | sudo tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 [Service]
 Environment="KUBELET_KUBEADM_ARGS=--cgroup-driver=systemd"
 ExecStart=
 ExecStart=/usr/local/bin/kubelet \$KUBELET_KUBEADM_ARGS \$KUBELET_EXTRA_ARGS
 EOF
 
-# Reload systemd, enable and start kubelet
-sudo systemctl daemon-reload
-sudo systemctl enable kubelet
-sudo systemctl start kubelet
+    # Reload systemd, enable and start kubelet
+    sudo systemctl daemon-reload
+    sudo systemctl enable kubelet
+    sudo systemctl start kubelet
+fi
 
 # Verify installations
 echo "Verifying installations..."
@@ -168,14 +173,16 @@ sudo systemctl status containerd
 
 # Additional configurations for Docker
 FILE=/etc/docker/daemon.json
-if [ ! -f "$FILE" ]; then
+if [ -f "$FILE" ]; then
+    echo "$FILE exists."
+else
     echo '{
   "exec-opts": ["native.cgroupdriver=systemd"]
 }' | sudo tee /etc/docker/daemon.json
     sudo systemctl daemon-reload && sudo systemctl restart kubelet
 fi
 
-if ! grep -q 'native.cgroupdriver=systemd' /etc/systemd/system/multi-user.target.wants/docker.service; then
+if ! grep -q native.cgroupdriver=systemd /etc/systemd/system/multi-user.target.wants/docker.service; then
     sudo systemctl stop docker
     sudo sed -i 's/containerd.sock/containerd.sock --exec-opt native.cgroupdriver=systemd/g' /etc/systemd/system/multi-user.target.wants/docker.service
     sudo systemctl daemon-reload
