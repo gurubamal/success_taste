@@ -116,11 +116,11 @@ else
     echo "Kubernetes binaries are already installed."
 fi
 
-# Check if kubelet service is available and running
 if systemctl list-units --type=service --all | grep -q 'kubelet.service'; then
     echo "kubelet service already exists."
 else
-    echo "Creating kubelet systemd service..."
+    echo "kubelet service does not exist."
+fi
 
     # Create kubelet systemd service file
     cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
@@ -152,7 +152,6 @@ EOF
     # Reload systemd, enable and start kubelet
     sudo systemctl daemon-reload
     sudo systemctl enable kubelet
-    sudo systemctl start kubelet
 fi
 
 # Verify installations
