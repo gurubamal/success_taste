@@ -42,7 +42,16 @@ if [ "$HOSTNAME" = "node6" ]; then
         sleep 120
 
         # Apply Calico network plugin
-        kubectl apply -f /vagrant/calico.yaml
+        FILE=/vagrant/scripts/calico.yaml
+        
+        if [ ! -f "$FILE" ]; then
+            echo "$FILE does not exist. Downloading..."
+            wget https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml -O "$FILE"
+        else
+            echo "$FILE already exists."
+        fi
+
+        kubectl apply -f /vagrant/scripts/calico.yaml
         if [ $? -ne 0 ]; then
             echo "Error: Failed to apply Calico network plugin."
         fi
