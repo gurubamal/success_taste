@@ -80,87 +80,54 @@ sudo rm -f /etc/apt/sources.list.d/home:alvistack.list
 # Remove the corresponding GPG key
 sudo apt-key del 4BECC97550D0B1FD
 
-# Define versions
-KUBERNETES_VERSION="v1.29.5"
-KUBERNETES_BINARIES=("kubeadm" "kubelet" "kubectl")
-
-# Function to check if a command exists
-command_exists() {
-    command -v "$1" &> /dev/null
-}
-
-# Check if Kubernetes binaries are installed
-install_required=false
-for binary in "${KUBERNETES_BINARIES[@]}"; do
-    if ! command_exists "$binary"; then
-        install_required=true
-        break
-    fi
-done
-
-if [ "$install_required" = true ]; then
-    echo "Kubernetes binaries not found. Installing..."
-
-    # Download Kubernetes binaries
-    cd /tmp
-    curl -LO "https://dl.k8s.io/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubeadm"
-    curl -LO "https://dl.k8s.io/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubelet"
-    curl -LO "https://dl.k8s.io/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl"
-
-    # Make the binaries executable
-    chmod +x kubeadm kubelet kubectl
-
-    # Move binaries to /usr/local/bin
-    sudo mv kubeadm kubelet kubectl /usr/local/bin/
-else
-    echo "Kubernetes binaries are already installed."
-fi
-
-# Check if kubelet service is available and running
-if systemctl list-units --type=service --all | grep -q 'kubelet.service'; then
-    echo "kubelet service already exists."
-else
-    echo "Creating kubelet systemd service..."
-
-    # Create kubelet systemd service file
-    cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
-[Unit]
-Description=kubelet: The Kubernetes Node Agent
-Documentation=https://kubernetes.io/docs/home/
-Wants=network-online.target
-After=network-online.target
-
-[Service]
-ExecStart=/usr/local/bin/kubelet
-Restart=always
-StartLimitInterval=0
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
+# Step 1: Prepare your system
+echo "Loading necessary kernel modules..."
+sudo tee /etc/modules-load.d/containerd.conf <<EOF
+overlay
+br_netfilter
 EOF
+sudo modprobe overlay
+sudo modprobe br_netfilter
 
-    # Create kubelet service environment file
-    sudo mkdir -p /etc/systemd/system/kubelet.service.d
-    cat <<EOF | sudo tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-[Service]
-Environment="KUBELET_KUBEADM_ARGS=--cgroup-driver=systemd"
-ExecStart=
-ExecStart=/usr/local/bin/kubelet \$KUBELET_KUBEADM_ARGS \$KUBELET_EXTRA_ARGS
+echo "Applying sysctl params without reboot..."
+sudo tee /etc/sysctl.d/k8s.conf <<EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
 EOF
+sudo sysctl --system
 
-    # Reload systemd, enable and start kubelet
-    sudo systemctl daemon-reload
-    sudo systemctl enable kubelet
-    sudo systemctl start kubelet
-fi
+# Step 2: Install Containerd
+echo "Setting up the Docker repository and installing containerd..."
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install -y containerd.io
 
-# Verify installations
-echo "Verifying installations..."
-kubectl version --client
-kubeadm version
-kubelet --version
+echo "Configuring containerd to use systemd as the cgroup driver..."
+sudo mkdir -p /etc/containerd
+containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
+sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
+sudo systemctl restart containerd
+sudo systemctl enable containerd
 
+# Step 3: Add Kubernetes Repositories
+echo "Adding Kubernetes repositories..."
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.27/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.27/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+# Step 4: Install Kubernetes Components
+echo "Installing Kubernetes components..."
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+
+echo "Kubernetes installation is complete!"
 # Configure containerd
 sudo mkdir -p /etc/containerd
 containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
