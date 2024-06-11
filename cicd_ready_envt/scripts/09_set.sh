@@ -13,14 +13,6 @@ if [ "$HOSTNAME" = "node4" ]; then
             echo "Error: Failed to create /home/vagrant/.kube directory."
         fi
 
-        # Install Helm
-        sudo snap install helm --classic
-        if [ $? -eq 0 ]; then
-            echo "Successfully installed Helm."
-        else
-            echo "Error: Failed to install Helm."
-        fi
-
         sudo chown vagrant:vagrant /home/vagrant/.kube
         if [ $? -eq 0 ]; then
             echo "Successfully changed ownership of /home/vagrant/.kube directory."
@@ -62,21 +54,21 @@ if [ "$HOSTNAME" = "node4" ]; then
         sleep 120
 
         # Apply Calico network plugin
-        FILE=/vagrant/scripts/calico.yaml
+        #FILE=/vagrant/scripts/calico.yaml
 
-        if [ ! -f "$FILE" ]; then
-            echo "$FILE does not exist. Downloading..."
-            wget https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml -O "$FILE"
-        else
-            echo "$FILE already exists."
-        fi
+        #if [ ! -f "$FILE" ]; then
+         #   echo "$FILE does not exist. Downloading..."
+         #   wget https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml -O "$FILE"
+        #else
+        #    echo "$FILE already exists."
+        #fi
 
-        kubectl apply -f /vagrant/scripts/calico.yaml
-        if [ $? -eq 0 ]; then
-            echo "Successfully applied Calico network plugin."
-        else
-            echo "Error: Failed to apply Calico network plugin."
-        fi
+        #kubectl apply -f /vagrant/scripts/calico.yaml
+        #if [ $? -eq 0 ]; then
+        #    echo "Successfully applied Calico network plugin."
+        #else
+        #    echo "Error: Failed to apply Calico network plugin."
+        #fi
 
         # Update bashrc for root
         cat /vagrant/bashrc.local | tr -d '\r' | sudo tee /root/.bashrc
