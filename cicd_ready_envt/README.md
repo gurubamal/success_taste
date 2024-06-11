@@ -62,7 +62,7 @@ For any queries, reach out to me at: [gurubamal@gmail.com](mailto:gurubamal@gmai
 
 ## Vagrant Cleanup
 To clean any previously implemented setup, use the command:
-\`\`\`bash
+\`\`\`
 vagrant destroy -f
 \`\`\`
 Ensure you are in the `success_taste/cicd_ready_envt/` directory where the `Vagrantfile` is located when running Vagrant commands.
