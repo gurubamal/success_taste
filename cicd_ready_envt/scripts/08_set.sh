@@ -141,3 +141,8 @@ fi
 
 sleep 60
 sudo kubectl --kubeconfig /etc/kubernetes/admin.conf apply -f "https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s-1.11.yaml"
+if [ $? -ne 0 ]; then
+            wget https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml -O /vagrant/scripts/calico.yaml
+            sudo kubectl apply -f /vagrant/scripts/calico.yaml
+fi
+        fi
