@@ -141,4 +141,4 @@ fi
 
 sleep 60
 sudo kubectl --kubeconfig /etc/kubernetes/admin.conf apply -f "https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s-1.11.yaml"
-
+sleep 60; sudo reboot
