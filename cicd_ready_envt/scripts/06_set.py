@@ -44,7 +44,6 @@ nodes = {
     "node4": "192.168.56.4",
     "node5": "192.168.56.5",
     "node6": "192.168.56.6",
-    "node7": "192.168.56.7",
 }
 
 # Check SSH connectivity and update the Ansible hosts file
