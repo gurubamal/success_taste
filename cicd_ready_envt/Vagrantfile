@@ -17,6 +17,16 @@ Vagrant.configure("2") do |config|
           vb.memory = "2048"  # Assign 2GB to others
         end
       end
+      # Command to clean and make all files executable
+      node.vm.provision 'shell', inline: <<-SHELL
+        for file in /vagrant/scripts/*; do 
+          [ -e "$file" ] || continue
+          sed -i 's/\\r//g' "$file"
+          sed -i 's/[^[:print:]\\t]//g' "$file"
+          chmod +x "$file"
+          echo "Cleaned and made executable: $file"
+        done
+      SHELL
       node.vm.provision 'shell', path: './scripts/01_set.sh', run: 'always'
       node.vm.provision 'shell', inline: 'sudo python3 /vagrant/scripts/02_set.py', run: 'always'
       node.vm.provision 'shell', inline: 'sudo python3 /vagrant/scripts/03_set.py', run: 'always'
