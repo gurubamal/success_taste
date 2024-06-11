@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
       node.vm.provision 'shell', path: './scripts/09_set.sh', run: 'always'
       node.vm.provision 'shell', path: './scripts/compute_add.sh', run: 'always'
       # Reboot the VM after all scripts have completed
-      node.vm.provision 'shell', inline: 'sudo reboot', run: 'always'
+      node.vm.provision 'shell', inline: 'sudo reboot -f', run: 'always'
     end
   end
 end
