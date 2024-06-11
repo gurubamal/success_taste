@@ -2,7 +2,7 @@ Vagrant.configure("2") do |config|
   (4..6).each do |i|
     config.vm.define "node#{i}" do |node|
       node.vm.box = "alvistack/ubuntu-22.04"
-      node.vm.boot_timeout = 600
+      node.vm.boot_timeout = 488 # Increased timeout to 488 seconds
       node.vm.network "private_network", ip: "192.168.56.#{i}"
       node.vm.network "private_network", ip: "192.168.57.#{i}" # Additional network interface
       node.vm.provider "virtualbox" do |vb|
@@ -26,6 +26,7 @@ Vagrant.configure("2") do |config|
       node.vm.provision 'shell', path: './scripts/08_set.sh', run: 'always'
       node.vm.provision 'shell', path: './scripts/09_set.sh', run: 'always'
       node.vm.provision 'shell', path: './scripts/compute_add.sh', run: 'always'
+      # Reboot the VM after all scripts have completed
       node.vm.provision 'shell', inline: 'sudo reboot', run: 'always'
     end
   end
