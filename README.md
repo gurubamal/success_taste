@@ -41,18 +41,18 @@ For any queries, reach out to me at: [gurubamal@gmail.com](mailto:gurubamal@gmai
 ## Kubernetes Installation Instructions
 
 1. Navigate to the `success_taste/cicd_ready_envt/` directory and ensure all scripts are executable:
-    \`\`\`bash
+    \`\`\`
     chmod +x *.sh
     \`\`\`
 2. Run the setup:
-    \`\`\`bash
+    \`\`\`
     vagrant up
     \`\`\`
 ### K8s Cluster
 - Access the master node at 192.168.56.4 using the `vagrant` or `root` user.
 - Jenkins server is available at `192.168.56.4:8080`; the password can be found in the specified file at this URL.
 - To complete the Ansible setup and start using it for practice, run:
-    \`\`\`bash
+    \`\`\`
     sudo python3 /vagrant/scripts/06_set.py
     \`\`\`
 
@@ -60,7 +60,7 @@ For any queries, reach out to me at: [gurubamal@gmail.com](mailto:gurubamal@gmai
 
 ## Vagrant Cleanup
 To clean any previously implemented setup, use the command:
-\`\`\`bash
+\`\`\`
 vagrant destroy -f
 \`\`\`
 Ensure you are in the `success_taste/cicd_ready_envt/` directory where the `Vagrantfile` is located when running Vagrant commands.
