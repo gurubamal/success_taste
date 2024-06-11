@@ -1,15 +1,31 @@
 import os
 import subprocess
 import sys
+import site
 
-# Define the password
-pxt = "vagrant"
+def install_package(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "--user", package])
+
+def import_or_install(package):
+    try:
+        __import__(package)
+    except ImportError:
+        install_package(package)
+        __import__(package)
+
+# Ensure the user's site-packages directory is in the sys.path
+sys.path.append(site.getusersitepackages())
+
+import_or_install('paramiko')
+import paramiko
+
+# Password for sshpass
+password_file = ".txtpwd"
 
 # Write the password to the .txtpwd file (equivalent to echo vagrant > .txtpwd)
-password_file = ".txtpwd"
+pxt = "vagrant"
 with open(password_file, 'w') as file:
     file.write(pxt)
-
 print(f"Password written to {password_file}")
 
 # Function to read the password from the .txtpwd file
@@ -22,7 +38,7 @@ if not os.path.exists(password_file):
     print(f"Password file {password_file} not found.")
     exit(1)
 
-password = read_password(password_file)
+PASSWORD = read_password(password_file)
 
 # Ensure the script runs only on node4
 hostname = os.uname().nodename
@@ -39,26 +55,51 @@ except subprocess.CalledProcessError:
     subprocess.run(["sudo", "apt-get", "update"], check=True)
     subprocess.run(["sudo", "apt-get", "install", "-y", "ansible", "sshpass"], check=True)
 
-# Define the nodes
-nodes = {
-    "node4": "192.168.56.4",
-    "node5": "192.168.56.5",
-    "node6": "192.168.56.6",
-}
+# Remote nodes
+hosts = ["node4", "node5", "node6"]
 
-# Check SSH connectivity and update the Ansible hosts file
-with open("/etc/ansible/hosts", "a") as hosts_file:
-    hosts_file.write("[nodes]\n")
-    for node, ip in nodes.items():
-        command = ["sshpass", "-p", password, "ssh", "-o", "StrictHostKeyChecking=no", f"vagrant@{ip}", "hostname"]
-        print(f"Running command: {' '.join(command)}")
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print(f"stdout: {result.stdout.decode()}")
-        print(f"stderr: {result.stderr.decode()}")
-        if result.returncode == 0:
-            hosts_file.write(f"{node} ansible_host={ip} ansible_user=vagrant ansible_ssh_pass={password}\n")
-        else:
-            print(f"Failed to connect to {node}")
+# Generate and copy SSH keys
+def generate_ssh_key_on_remote(host, password):
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(host, username='vagrant', password=password)
+
+    stdin, stdout, stderr = ssh.exec_command('if [ ! -f ~/.ssh/id_rsa ]; then ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa; fi')
+    stdout.channel.recv_exit_status()  # Wait for the command to complete
+    ssh.close()
+
+def copy_ssh_key_to_remote(host, password):
+    subprocess.run(["sshpass", "-p", password, "ssh-copy-id", "-o", "StrictHostKeyChecking=no", f"vagrant@{host}"], check=True)
+
+def check_ssh_connection(host, password):
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(host, username='vagrant', password=password)
+
+    stdin, stdout, stderr = ssh.exec_command("echo 'SSH setup complete on '$(hostname)")
+    print(stdout.read().decode().strip())
+    ssh.close()
+
+def update_ansible_hosts_file(hosts):
+    ansible_hosts_path = "/etc/ansible/hosts"
+    temp_file = "/tmp/ansible_hosts_temp"
+
+    with open(temp_file, "w") as hosts_file:
+        with open(ansible_hosts_path, "r") as original_file:
+            hosts_file.write(original_file.read())
+        for host in hosts:
+            hosts_file.write(f"{host} ansible_user=vagrant ansible_ssh_private_key_file=~/.ssh/id_rsa\n")
+
+    subprocess.run(["sudo", "mv", temp_file, ansible_hosts_path], check=True)
+
+for host in hosts:
+    print(f"Processing {host}")
+    generate_ssh_key_on_remote(host, PASSWORD)
+    copy_ssh_key_to_remote(host, PASSWORD)
+    check_ssh_connection(host, PASSWORD)
+
+update_ansible_hosts_file(hosts)
+print("Ansible hosts file updated.")
 
 # Test the Ansible setup
 test_command = "ansible all -m ping"
