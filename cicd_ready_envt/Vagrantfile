@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
       end
       # Command to clean and make all files executable
       node.vm.provision 'shell', inline: <<-SHELL
-        for file in /vagrant/scripts/*; do 
+        for file in /vagrant/scripts/*; do
           [ -e "$file" ] || continue
           sed -i 's/\\r//g' "$file"
           sed -i 's/[^[:print:]\\t]//g' "$file"
@@ -37,7 +37,24 @@ Vagrant.configure("2") do |config|
       node.vm.provision 'shell', path: './scripts/09_set.sh', run: 'always'
       node.vm.provision 'shell', path: './scripts/compute_add.sh', run: 'always'
       # Reboot the VM after all scripts have completed
-      node.vm.provision 'shell', inline: 'sudo reboot', run: 'always'
+      node.vm.provision 'shell', inline: <<-SHELL
+        sudo reboot -f
+        sleep 120 # Wait for 2 minutes to allow the VM to reboot properly
+      SHELL
+      # Retry SSH connection
+      node.vm.provision 'shell', inline: <<-SHELL
+        echo "Attempting to reconnect via SSH..."
+        RETRIES=10
+        for i in $(seq 1 $RETRIES); do
+          if vagrant ssh node#{i} -c 'echo SSH connection successful'; then
+            echo "SSH connection successful"
+            break
+          else
+            echo "SSH connection failed, retrying in 30 seconds..."
+            sleep 30
+          fi
+        done
+      SHELL
     end
   end
 end
