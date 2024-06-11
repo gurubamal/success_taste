@@ -116,6 +116,8 @@ else
 fi
 
 # Install Helm
+sudo apt update
+sudo apt install snapd -y
 sudo snap install helm --classic
 if [ $? -eq 0 ]; then
     echo "Successfully installed Helm."
