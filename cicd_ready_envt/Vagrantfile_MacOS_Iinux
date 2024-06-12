@@ -2,22 +2,18 @@ Vagrant.configure("2") do |config|
   (4..6).each do |i|
     config.vm.define "node#{i}" do |node|
       node.vm.box = "alvistack/ubuntu-22.04"
-      node.vm.boot_timeout = 488 # Increased timeout to 488 seconds
+      node.vm.boot_timeout = 488
       node.vm.network "private_network", ip: "192.168.56.#{i}"
-      node.vm.network "private_network", ip: "192.168.57.#{i}" # Additional network interface
+      node.vm.network "private_network", ip: "192.168.57.#{i}"
       node.vm.provider "virtualbox" do |vb|
-        vb.gui = true # Enable GUI mode
+        vb.gui = true
         vb.cpus = "2"
         vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
         vb.customize ["modifyvm", :id, "--uart1", "0x3F8", 4]
-        if i == 4
-          vb.memory = "4096"  # Assign 4GB to node4
-        else
-          vb.memory = "2048"  # Assign 2GB to others
-        end
+        vb.memory = (i == 4) ? "4096" : "2048"
       end
-      # Command to clean and make all files executable
+
       node.vm.provision 'shell', inline: <<-SHELL
         for file in /vagrant/scripts/*; do
           [ -e "$file" ] || continue
@@ -27,6 +23,7 @@ Vagrant.configure("2") do |config|
           echo "Cleaned and made executable: $file"
         done
       SHELL
+
       node.vm.provision 'shell', path: './scripts/01_set.sh', run: 'always'
       node.vm.provision 'shell', inline: 'sudo python3 /vagrant/scripts/02_set.py', run: 'always'
       node.vm.provision 'shell', inline: 'sudo python3 /vagrant/scripts/03_set.py', run: 'always'
@@ -36,32 +33,21 @@ Vagrant.configure("2") do |config|
       node.vm.provision 'shell', path: './scripts/08_set.sh', run: 'always'
       node.vm.provision 'shell', path: './scripts/09_set.sh', run: 'always'
       node.vm.provision 'shell', path: './scripts/compute_add.sh', run: 'always'
-      # Log system status before reset
-      node.vm.provision 'shell', inline: <<-SHELL
-        if [ $(hostname) == "node4" ]; then
+
+      if i == 4
+        node.vm.provision 'shell', inline: <<-SHELL
           echo "Logging system status before reset..."
           sudo systemctl status sshd
           sudo journalctl -xe
-        fi
-      SHELL
-      # Schedule a reboot after 1 minute using shutdown command for node4
-      node.vm.provision 'shell', inline: <<-SHELL
-        if [ $(hostname) == "node4" ]; then
           echo "Scheduling reboot in 1 minute..."
           sudo shutdown -r +1
-        fi
-      SHELL
-      # Wait for the scheduled reboot to start for node4
-      node.vm.provision 'shell', inline: <<-SHELL
-        if [ $(hostname) == "node4" ]; then
           echo "Waiting 70 seconds for the scheduled reboot to start..."
           sleep 70
-        fi
-      SHELL
+        SHELL
+      end
     end
   end
 
-  # Trigger to reset node4 from the host
   config.trigger.after :up do |trigger|
     trigger.info = "Resetting node4 using VBoxManage from host..."
     trigger.run = {
@@ -69,7 +55,6 @@ Vagrant.configure("2") do |config|
     }
   end
 
-  # Retry SSH connection for node4
   config.trigger.after :provision do |trigger|
     trigger.info = "Attempting to reconnect to node4 via SSH..."
     trigger.run = {
