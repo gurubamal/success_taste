@@ -68,8 +68,12 @@ def generate_ssh_key_on_remote(host, password):
     stdout.channel.recv_exit_status()  # Wait for the command to complete
     ssh.close()
 
-def copy_ssh_key_to_remote(host, password):
-    subprocess.run(["sshpass", "-p", password, "ssh-copy-id", "-o", "StrictHostKeyChecking=no", f"vagrant@{host}"], check=True)
+def generate_and_copy_ssh_key_local():
+    ssh_key_path = os.path.expanduser("~/.ssh/id_rsa")
+    if not os.path.exists(ssh_key_path):
+        subprocess.run(["ssh-keygen", "-t", "rsa", "-N", "", "-f", ssh_key_path], check=True)
+    for host in hosts:
+        subprocess.run(["sshpass", "-p", PASSWORD, "ssh-copy-id", "-o", "StrictHostKeyChecking=no", f"vagrant@{host}"], check=True)
 
 def check_ssh_connection(host, password):
     ssh = paramiko.SSHClient()
@@ -92,10 +96,11 @@ def update_ansible_hosts_file(hosts):
 
     subprocess.run(["sudo", "mv", temp_file, ansible_hosts_path], check=True)
 
+generate_and_copy_ssh_key_local()
+
 for host in hosts:
     print(f"Processing {host}")
     generate_ssh_key_on_remote(host, PASSWORD)
-    copy_ssh_key_to_remote(host, PASSWORD)
     check_ssh_connection(host, PASSWORD)
 
 update_ansible_hosts_file(hosts)
