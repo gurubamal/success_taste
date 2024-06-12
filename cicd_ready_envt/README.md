@@ -22,6 +22,7 @@ The provided code currently functions flawlessly, ensuring the installation of t
 
 ## Notes
 - Most commands should be run with `success_taste/cicd_ready_envt/` as the present working directory.
+- For Windows Hosts make sure you validate VBoxManage.exe PATH and if needed modify Vagrantfile to right Path  like this :  "\"C:\\Program Files\\Oracle\\VirtualBox\\VBoxManage.exe\"  (as per your Virtualbox installation PATH in your windows system)
 - Please note that sometimes you need to restart VirtualBox VMs because the latest modeled laptops, systems, and OS features may restrict and block them if they detect no activity in it.
 - The setup downloads packages from the internet.
 - The Linux admin user with sudo permissions will be `vagrant` (password: `vagrant`).
