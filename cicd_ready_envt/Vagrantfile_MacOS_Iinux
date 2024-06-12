@@ -34,53 +34,6 @@ Vagrant.configure("2") do |config|
       node.vm.provision 'shell', path: './scripts/08_set.sh', run: 'always'
       node.vm.provision 'shell', path: './scripts/09_set.sh', run: 'always'
       node.vm.provision 'shell', path: './scripts/compute_add.sh', run: 'always'
-
-      if i == 4
-        node.vm.provision 'shell', inline: <<-SHELL
-          echo "Logging system status before reset..."
-          sudo systemctl status sshd
-          sudo journalctl -xe
-          echo "Scheduling reboot in 1 minute..."
-          sudo shutdown -r +1
-          echo "Waiting 70 seconds for the scheduled reboot to start..."
-          sleep 70
-        SHELL
-      end
     end
-  end
-
-  # Delay trigger to ensure VMs are created
-  config.trigger.after :up do |trigger|
-    trigger.info = "Waiting for VMs to be registered..."
-    trigger.run = {
-      inline: <<-SCRIPT
-        sleep 10
-        echo "Current VMs:"
-        VBoxManage list vms
-        echo "Attempting to reset node4..."
-        VBoxManage controlvm node4 reset || echo "Failed to find and reset node4."
-      SCRIPT
-    }
-  end
-
-  config.trigger.after :provision do |trigger|
-    trigger.info = "Attempting to reconnect to node4 via SSH..."
-    trigger.run = {
-      inline: <<-SCRIPT
-        RETRIES=20
-        for attempt in $(seq 1 $RETRIES); do
-          echo "Attempt $attempt: Trying to SSH into node4..."
-          if vagrant ssh node4 -c 'echo SSH connection successful'; then
-            echo "SSH connection successful"
-            exit 0
-          else
-            echo "SSH connection failed, retrying in 30 seconds..."
-            sleep 30
-          fi
-        done
-        echo "Finished SSH reconnection attempts for node4."
-        exit 0
-      SCRIPT
-    }
   end
 end
