@@ -79,7 +79,7 @@ Vagrant.configure("2") do |config|
           fi
         done
         echo "Finished SSH reconnection attempts for node4."
-        exit 1
+        exit 0
       SCRIPT
     }
   end
