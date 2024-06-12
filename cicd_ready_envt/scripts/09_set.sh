@@ -121,3 +121,5 @@ if [ $? -ne 0 ]; then
             wget https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml -O /vagrant/scripts/calico.yaml
             sudo kubectl apply -f /vagrant/scripts/calico.yaml
 fi
+
+sleep 80
