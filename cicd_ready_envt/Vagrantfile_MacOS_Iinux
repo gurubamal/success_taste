@@ -49,10 +49,17 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  # Delay trigger to ensure VMs are created
   config.trigger.after :up do |trigger|
-    trigger.info = "Resetting node4 using VBoxManage from host..."
+    trigger.info = "Waiting for VMs to be registered..."
     trigger.run = {
-      inline: "VBoxManage controlvm node4 reset"
+      inline: <<-SCRIPT
+        sleep 10
+        echo "Current VMs:"
+        VBoxManage list vms
+        echo "Attempting to reset node4..."
+        VBoxManage controlvm node4 reset || echo "Failed to find and reset node4."
+      SCRIPT
     }
   end
 
