@@ -57,10 +57,7 @@ Restart your new VMs (all nodes) after this setup is complete.
 ### K8s Cluster + Jenkins + Ansible
 - Access the master node at 192.168.56.4 using the `vagrant` or `root` user.
 - Jenkins server is available at `192.168.56.4:8080`; the password can be found in the specified file at this URL.
-- To complete the Ansible setup and start using it for practice, run (on node4 -- 192.168.56.4):
-    \`\`\`
-    sudo python3 /vagrant/scripts/06_set.py
-    \`\`\`
+- "Vagrant up" command will not setup Ansible for you. To complete the Ansible setup and start using it for practice, run following command (on node4 -- 192.168.56.4): ``` sudo python3 /vagrant/scripts/06_set.py ```
 
 ---
 
