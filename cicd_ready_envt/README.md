@@ -49,7 +49,7 @@ For any queries, reach out to me at: [gurubamal@gmail.com](mailto:gurubamal@gmai
     vagrant up
     \`\`\`
 
-If your setup was incomplete due to SSH connectivity or connection issues, you can reset/restart the VM (as per previous logs from vagrant up command) on the VirtualBox interface. After waiting for 2 minutes, run "vagrant up" again.
+Ensure you have restrted your machine/laptop before "vagrant up" command. If your setup was incomplete due to SSH connectivity or connection issues, you can reset/restart the Virtual box VMs (as per previous logs from vagrant up command) on the VirtualBox interface. After waiting for 2 minutes, run "vagrant up" again.
 
    Restart your new VMs (all nodes) after this setup is complete.
    
