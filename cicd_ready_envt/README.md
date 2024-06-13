@@ -44,7 +44,7 @@ For any queries, reach out to me at: [gurubamal@gmail.com](mailto:gurubamal@gmai
     \`\`\`
     chmod +x *.sh
     \`\`\`
-2. Run the setup:
+2. Run the setup (in case you are using MAC or Linux rename Vagrantfile_MacOS_linux to Vagrantfile:
     \`\`\`
     vagrant up
     \`\`\`
