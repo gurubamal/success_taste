@@ -11,12 +11,9 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
         vb.customize ["modifyvm", :id, "--uart1", "0x3F8", 4]
-        if i == 4
-          vb.memory = "4096"  # Assign 4GB to node4
-        else
-          vb.memory = "2048"  # Assign 2GB to others
-        end
+        vb.memory = (i == 4) ? "4096" : "2048" # Assign 4GB to node4, 2GB to others
       end
+
       # Command to clean and make all files executable
       node.vm.provision 'shell', inline: <<-SHELL
         for file in /vagrant/scripts/*; do
@@ -36,6 +33,7 @@ Vagrant.configure("2") do |config|
       node.vm.provision 'shell', path: './scripts/08_set.sh', run: 'always'
       node.vm.provision 'shell', path: './scripts/09_set.sh', run: 'always'
       node.vm.provision 'shell', path: './scripts/compute_add.sh', run: 'always'
+
       # Log system status before reset
       node.vm.provision 'shell', inline: <<-SHELL
         if [ $(hostname) == "node4" ]; then
@@ -44,6 +42,7 @@ Vagrant.configure("2") do |config|
           sudo journalctl -xe
         fi
       SHELL
+
       # Schedule a reboot after 1 minute using shutdown command for node4
       node.vm.provision 'shell', inline: <<-SHELL
         if [ $(hostname) == "node4" ]; then
@@ -51,6 +50,7 @@ Vagrant.configure("2") do |config|
           sudo shutdown -r +1
         fi
       SHELL
+
       # Wait for the scheduled reboot to start for node4
       node.vm.provision 'shell', inline: <<-SHELL
         if [ $(hostname) == "node4" ]; then
@@ -85,7 +85,7 @@ Vagrant.configure("2") do |config|
             sleep 30
           fi
         done
-        echo "Finished SSH reconnection attempts for node4."
+        echo "Finished SSH reconnection attempts for node4. Proceeding to next VM."
         exit 1
       SCRIPT
     }
