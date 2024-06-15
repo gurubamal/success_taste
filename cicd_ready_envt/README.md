@@ -61,6 +61,8 @@ Ensure you have restarted your machine/laptop before "vagrant up" command. If yo
     sudo python3 /vagrant/scripts/06_set.py
     \`\`\`
 
+You can use the code from https://github.com/gurubamal/project_work-Industry-Grade-Project-2/tree/master, where I have created a pipeline test on this setup for reference.
+
 Ensure all VMs are up and runnig (re-run if needed). 
 ---
 
