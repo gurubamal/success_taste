@@ -61,6 +61,7 @@ Ensure you have restarted your machine/laptop before "vagrant up" command. If yo
     sudo python3 /vagrant/scripts/06_set.py
     \`\`\`
 
+Ensure all VMs are up and runnig (re-run if needed). 
 ---
 
 ## Vagrant Cleanup
