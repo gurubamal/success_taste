@@ -1,10 +1,9 @@
 Vagrant.configure("2") do |config|
-  (4..6).each do |i|
+  (5..6).each do |i|
     config.vm.define "node#{i}" do |node|
       node.vm.box = "alvistack/ubuntu-22.04"
       node.vm.boot_timeout = 488 # Increased timeout to 488 seconds
       node.vm.network "private_network", ip: "192.168.56.#{i}"
-      node.vm.network "private_network", ip: "192.168.57.#{i}" # Additional network interface
       node.vm.provider "virtualbox" do |vb|
         vb.gui = true # Enable GUI mode
         vb.cpus = "2"
@@ -36,58 +35,68 @@ Vagrant.configure("2") do |config|
 
       # Log system status before reset
       node.vm.provision 'shell', inline: <<-SHELL
-        if [ $(hostname) == "node4" ]; then
-          echo "Logging system status before reset..."
-          sudo systemctl status sshd
-          sudo journalctl -xe
-        fi
+        echo "Logging system status before reset for node#{i}..."
+        sudo systemctl status sshd
+        sudo journalctl -xe
       SHELL
 
-      # Schedule a reboot after 1 minute using shutdown command for node4
+      # Schedule a reboot after 1 minute using shutdown command
       node.vm.provision 'shell', inline: <<-SHELL
-        if [ $(hostname) == "node4" ]; then
-          echo "Scheduling reboot in 1 minute..."
-          sudo shutdown -r +1
-        fi
+        echo "Scheduling reboot in 1 minute for node#{i}..."
+        sudo shutdown -r +1
       SHELL
 
-      # Wait for the scheduled reboot to start for node4
+      # Wait for the scheduled reboot to start
       node.vm.provision 'shell', inline: <<-SHELL
-        if [ $(hostname) == "node4" ]; then
-          echo "Waiting 70 seconds for the scheduled reboot to start..."
-          sleep 70
-        fi
+        echo "Waiting 70 seconds for the scheduled reboot to start for node#{i}..."
+        sleep 70
       SHELL
     end
   end
 
-  # Trigger to reset node4 from the host
-  config.trigger.after :up do |trigger|
-    trigger.info = "Resetting node4 using VBoxManage from host..."
-    trigger.run = {
-      inline: "\"C:\\Program Files\\Oracle\\VirtualBox\\VBoxManage.exe\" controlvm node4 reset" # Ensure the correct path to VBoxManage
-    }
+  # Function to reset VM using VBoxManage
+  def reset_vm(vm_name)
+    <<-SCRIPT
+      echo "Resetting #{vm_name} using VBoxManage..."
+      "C:\\Program Files\\Oracle\\VirtualBox\\VBoxManage.exe" controlvm #{vm_name} reset
+      echo "Attempting to reconnect to #{vm_name} via SSH..."
+      RETRIES=20
+      for attempt in $(seq 1 $RETRIES); do
+        echo "Attempt $attempt: Trying to SSH into #{vm_name}..."
+        if vagrant ssh #{vm_name} -c 'echo SSH connection successful'; then
+          echo "SSH connection successful for #{vm_name}"
+          exit 0
+        else
+          echo "SSH connection failed for #{vm_name}, retrying in 30 seconds..."
+          sleep 30
+        fi
+      done
+      echo "Finished SSH reconnection attempts for #{vm_name}. VM reset might be required again."
+      exit 1
+    SCRIPT
   end
 
-  # Retry SSH connection for node4
+  # Retry SSH connection and reset VM if necessary
   config.trigger.after :provision do |trigger|
-    trigger.info = "Attempting to reconnect to node4 via SSH..."
-    trigger.run = {
-      inline: <<-SCRIPT
-        RETRIES=20
-        for attempt in $(seq 1 $RETRIES); do
-          echo "Attempt $attempt: Trying to SSH into node4..."
-          if vagrant ssh node4 -c 'echo SSH connection successful'; then
-            echo "SSH connection successful"
-            exit 0
-          else
-            echo "SSH connection failed, retrying in 30 seconds..."
-            sleep 30
-          fi
-        done
-        echo "Finished SSH reconnection attempts for node4. Proceeding to next VM."
-        exit 1
-      SCRIPT
-    }
+    (4..6).each do |i|
+      trigger.info = "Attempting to reconnect to node#{i} via SSH and reset if necessary..."
+      trigger.run = {
+        inline: <<-SCRIPT
+          RETRIES=20
+          for attempt in $(seq 1 $RETRIES); do
+            echo "Attempt $attempt: Trying to SSH into node#{i}..."
+            if vagrant ssh node#{i} -c 'echo SSH connection successful'; then
+              echo "SSH connection successful for node#{i}"
+              exit 0
+            else
+              echo "SSH connection failed for node#{i}, retrying in 30 seconds..."
+              sleep 30
+            fi
+          done
+          echo "SSH connection failed after multiple attempts, resetting node#{i}..."
+          #{reset_vm("node#{i}")}
+        SCRIPT
+      }
+    end
   end
 end
