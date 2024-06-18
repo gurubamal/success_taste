@@ -49,6 +49,19 @@ For any queries, reach out to me at: [gurubamal@gmail.com](mailto:gurubamal@gmai
     vagrant up
     \`\`\`
 
+
+NOTE: If you find your setup (vagrant up command) stuck in the middle on any of the nodes, you can log in to the node and complete the setup by running these scripts manually as well.
+
+      node.vm.provision 'shell', path: './scripts/01_set.sh', run: 'always'
+      node.vm.provision 'shell', inline: 'sudo python3 /vagrant/scripts/02_set.py', run: 'always'
+      node.vm.provision 'shell', inline: 'sudo python3 /vagrant/scripts/03_set.py', run: 'always'
+      node.vm.provision 'shell', inline: 'sudo python3 /vagrant/scripts/04_set.py', run: 'always'
+      node.vm.provision 'shell', inline: 'sudo python3 /vagrant/scripts/05_set.py', run: 'always'
+      node.vm.provision 'shell', path: './scripts/07_set.sh', run: 'always'
+      node.vm.provision 'shell', path: './scripts/08_set.sh', run: 'always'
+      node.vm.provision 'shell', path: './scripts/09_set.sh', run: 'always'
+      node.vm.provision 'shell', path: './scripts/compute_add.sh', run: 'always'
+      
 Ensure you have restarted your machine/laptop before "vagrant up" command. If your setup was incomplete due to SSH connectivity or connection issues, you can reset/restart the Virtual box VMs (as per previous logs from vagrant up command) on the VirtualBox interface. After waiting for 2 minutes, run "vagrant up" again. you can alsways start fresh using "vagrant destroy -f" first and "vagrant up" command second.
 
    Restart your new VMs (all nodes) after this setup is complete.
