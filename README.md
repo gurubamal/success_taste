@@ -55,8 +55,8 @@ NOTE: If you find your setup (vagrant up command) stuck in the middle on any of 
       /vagrant/scripts/01_set.sh
       sudo python3 /vagrant/scripts/02_set.py
       sudo python3 /vagrant/scripts/03_set.py
-      sudo python3 /vagrant/scripts/04_set.py'
-      sudo python3 /vagrant/scripts/05_set.py'
+      sudo python3 /vagrant/scripts/04_set.py
+      sudo python3 /vagrant/scripts/05_set.py
       /vagrant/scripts/07_set.sh
       /vagrant/scripts/08_set.sh
       /vagrant/scripts/09_set.sh
