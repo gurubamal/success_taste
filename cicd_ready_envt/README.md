@@ -70,7 +70,7 @@ Ensure you have restarted your machine/laptop before "vagrant up" command. If yo
 - "Vagrant up" command will not setup Ansible for you. To complete the Ansible setup and start using it for practice, run following command (on node4 -- 192.168.56.4):
     \`\`\`
     sudo python3 /vagrant/scripts/06_set.py
-    \`\`\`
+    \`\`\`    Run it more than one time if you see issues.
 
 You can use the code from https://github.com/gurubamal/project_work-Industry-Grade-Project-2/tree/master, where I have created a pipeline test on this setup for reference.
 
