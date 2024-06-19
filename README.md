@@ -3,6 +3,10 @@
 
 **Written by: Ram Nath (gurubamal)**
 
+
+
+**Written by: Ram Nath (gurubamal)**
+
 ---
 
 ### NOTE:
@@ -18,8 +22,6 @@ My code (given here), currently (when I checked) functions flawlessly, ensuring 
 - On your hardware (laptop, desktop, server), ensure Secure Boot is disabled in the BIOS and virtualization is enabled.
 - **Vagrant**, **VirtualBox** and **Git** should be pre-installed. (Restart your device once after installing VirtualBox.)
 - Ensure your device doesn't go to sleep when idle (while scripts are running). Change power and battery settings as applicable.
-
-    **NOTE (for re-setup)**: Ensure you have given full control to your users on the `success_taste` directory as the Vagrant script will create a second disk for each VM in it. Also, run VirtualBox as an administrator to see current VMs, as you are running PowerShell (and then Vagrant commands) as an Administrator. To clean up a previously run Vagrant setup, delete VMs (either via `vagrant up` or manually). If you delete VMs manually, delete VDI files from the directory where you ran `vagrant up` and also delete the `.vagrant` folder from the same directory. Additionally, check `C:\Users\<Your User Name>\VirtualBox VMs` for any folders that should be deleted as VMs are created there by default. In case you encounter the issue "VBOX_E_FILE_ERROR" or an error related to VDI, comment out lines 25-30 in your Vagrantfile to disable additional disk creation.
 
 ## Notes
 - Most commands should be run with `success_taste/cicd_ready_envt/` as the present working directory.
@@ -45,10 +47,11 @@ For any queries, reach out to me at: [gurubamal@gmail.com](mailto:gurubamal@gmai
     \`\`\`
     chmod +x *.sh
     \`\`\`
-2. Run the setup:
+2. Run the setup (in case you are using MAC or Linux rename Vagrantfile_MacOS_linux to Vagrantfile:
     \`\`\`
     vagrant up
     \`\`\`
+
 
 NOTE: If you find your setup (vagrant up command) stuck in the middle on any of the nodes, you can log in to the node and complete the setup by running these scripts manually as well.
 
@@ -64,16 +67,22 @@ NOTE: If you find your setup (vagrant up command) stuck in the middle on any of 
       
 Ensure you have restarted your machine/laptop before "vagrant up" command. If your setup was incomplete due to SSH connectivity or connection issues, you can reset/restart the Virtual box VMs (as per previous logs from vagrant up command) on the VirtualBox interface. After waiting for 2 minutes, run "vagrant up" again. you can alsways start fresh using "vagrant destroy -f" first and "vagrant up" command second.
 
-Restart your new VMs (all nodes) after this setup is complete.
+   Restart your new VMs (all nodes) after this setup is complete.
    
 ### K8s Cluster + Jenkins + Ansible
 - Access the master node at 192.168.56.4 using the `vagrant` or `root` user.
 - Jenkins server is available at `192.168.56.4:8080`; the password can be found in the specified file at this URL.
-- "Vagrant up" command will not setup Ansible for you. To complete the Ansible setup and start using it for practice, run following command (on node4 -- 192.168.56.4): ``` sudo python3 /vagrant/scripts/06_set.py ```
+- "Vagrant up" command will not setup Ansible for you. To complete the Ansible setup and start using it for practice, run following command (on node4 -- 192.168.56.4):
+    \`\`\`
+    sudo python3 /vagrant/scripts/06_set.py
+    \`\`\`
 
 You can use the code from https://github.com/gurubamal/project_work-Industry-Grade-Project-2/tree/master, where I have created a pipeline test on this setup for reference.
 
+Ensure all VMs are up and runnig (re-run if needed). 
 ---
+
+**NOTE (for re-setup)**: Ensure you have given full control to your users on the `success_taste` directory as the Vagrant script will create a second disk for each VM in it. Also, run VirtualBox as an administrator to see current VMs, as you are running PowerShell (and then Vagrant commands) as an Administrator. To clean up a previously run Vagrant setup, delete VMs (either via `vagrant up` or manually). If you delete VMs manually, delete VDI files from the directory where you ran `vagrant up` and also delete the `.vagrant` folder from the same directory. Additionally, check `C:\Users\<Your User Name>\VirtualBox VMs` for any folders that should be deleted as VMs are created there by default. In case you encounter the issue "VBOX_E_FILE_ERROR" or an error related to VDI, comment out lines 25-30 in your Vagrantfile to disable additional disk creation.
 
 ## Vagrant Cleanup
 To clean any previously implemented setup, use the command:
