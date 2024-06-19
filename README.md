@@ -6,7 +6,7 @@
 ---
 
 ### NOTE:
-The provided code currently functions flawlessly, ensuring the installation of the most up-to-date revisions of all components. However, it is crucial to recognize that software versions may undergo significant advancements in both code structure and installation procedures over time.  It works currently, but future support depends on my availability to fix any issues.
+My code (given here), currently (when I checked) functions flawlessly, ensuring the installation of the most up-to-date revisions of all components. However, it is crucial to recognize that software versions may undergo significant advancements in both code structure and installation procedures over time.  It works currently, but future support depends on my availability to fix any issues.
 
 **NOTE**: The following is intended for hands-on learning and practicals. In production environments, follow security practices in scripts and implementations, which is not applicable to these practicals.
 
