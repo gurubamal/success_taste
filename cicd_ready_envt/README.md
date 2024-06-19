@@ -18,8 +18,6 @@ The provided code currently functions flawlessly, ensuring the installation of t
 - **Vagrant**, **VirtualBox** and **Git** should be pre-installed. (Restart your device once after installing VirtualBox.)
 - Ensure your device doesn't go to sleep when idle (while scripts are running). Change power and battery settings as applicable.
 
-    **NOTE (for re-setup)**: Ensure you have given full control to your users on the `success_taste` directory as the Vagrant script will create a second disk for each VM in it. Also, run VirtualBox as an administrator to see current VMs, as you are running PowerShell (and then Vagrant commands) as an Administrator. To clean up a previously run Vagrant setup, delete VMs (either via `vagrant up` or manually). If you delete VMs manually, delete VDI files from the directory where you ran `vagrant up` and also delete the `.vagrant` folder from the same directory. Additionally, check `C:\Users\<Your User Name>\VirtualBox VMs` for any folders that should be deleted as VMs are created there by default. In case you encounter the issue "VBOX_E_FILE_ERROR" or an error related to VDI, comment out lines 25-30 in your Vagrantfile to disable additional disk creation.
-
 ## Notes
 - Most commands should be run with `success_taste/cicd_ready_envt/` as the present working directory.
 - For Windows Hosts make sure you validate VBoxManage.exe PATH and if needed modify Vagrantfile to right Path  like this :  "\"C:\\Program Files\\Oracle\\VirtualBox\\VBoxManage.exe\"  (as per your Virtualbox installation PATH in your windows system)
@@ -78,6 +76,8 @@ You can use the code from https://github.com/gurubamal/project_work-Industry-Gra
 
 Ensure all VMs are up and runnig (re-run if needed). 
 ---
+
+**NOTE (for re-setup)**: Ensure you have given full control to your users on the `success_taste` directory as the Vagrant script will create a second disk for each VM in it. Also, run VirtualBox as an administrator to see current VMs, as you are running PowerShell (and then Vagrant commands) as an Administrator. To clean up a previously run Vagrant setup, delete VMs (either via `vagrant up` or manually). If you delete VMs manually, delete VDI files from the directory where you ran `vagrant up` and also delete the `.vagrant` folder from the same directory. Additionally, check `C:\Users\<Your User Name>\VirtualBox VMs` for any folders that should be deleted as VMs are created there by default. In case you encounter the issue "VBOX_E_FILE_ERROR" or an error related to VDI, comment out lines 25-30 in your Vagrantfile to disable additional disk creation.
 
 ## Vagrant Cleanup
 To clean any previously implemented setup, use the command:
