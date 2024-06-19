@@ -3,10 +3,6 @@
 
 **Written by: Ram Nath (gurubamal)**
 
-
-
-**Written by: Ram Nath (gurubamal)**
-
 ---
 
 ### NOTE:
