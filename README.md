@@ -1,5 +1,5 @@
 
-**Latest -- tested code**: [success_taste](https://github.com/gurubamal/success_taste/tree/main/cicd_ready_envt)
+**Recently tested code**: [success_taste](https://github.com/gurubamal/success_taste/tree/main/cicd_ready_envt)
 
 **Written by: Ram Nath (gurubamal)**
 
