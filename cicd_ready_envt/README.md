@@ -9,6 +9,8 @@ My code (given here), currently (when I checked) functions flawlessly, ensuring 
 
 **NOTE**: The following is intended for hands-on learning and practicals. In production environments, follow security practices in scripts and implementations, which is not applicable to these practicals.
 
+LINK: https://youtu.be/t8RRS3Gg-nk (video is for an old LABS. Currently, you only need to download this repo and run vagrant up from success_taste/cicd_ready_envt/. In case you are using Linux or Mac, rename Vagrantfile_MacOS_linux to Vagrantfile and run vagrant up.")
+
 ---
 
 ### Pre-requisites:
