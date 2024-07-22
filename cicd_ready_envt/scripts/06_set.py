@@ -96,6 +96,17 @@ def update_ansible_hosts_file(hosts):
 
     subprocess.run(["sudo", "mv", temp_file, ansible_hosts_path], check=True)
 
+def disable_host_key_checking():
+    ansible_config_path = "/etc/ansible/ansible.cfg"
+    with open(ansible_config_path, "r") as file:
+        config_lines = file.readlines()
+    with open(ansible_config_path, "w") as file:
+        for line in config_lines:
+            if line.strip().startswith("host_key_checking"):
+                file.write("host_key_checking = False\n")
+            else:
+                file.write(line)
+
 generate_and_copy_ssh_key_local()
 
 for host in hosts:
@@ -104,7 +115,8 @@ for host in hosts:
     check_ssh_connection(host, PASSWORD)
 
 update_ansible_hosts_file(hosts)
-print("Ansible hosts file updated.")
+disable_host_key_checking()
+print("Ansible hosts file updated and host key checking disabled.")
 
 # Test the Ansible setup
 test_command = "ansible all -m ping"
