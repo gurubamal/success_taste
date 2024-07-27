@@ -1,0 +1,74 @@
+Ansible + yaml Basics:
+
+When:
+
+Used for conditional execution of tasks.
+Syntax: when: condition
+Example: when: ansible_facts['distribution'] == 'Ubuntu'
+Loop:
+
+Iterates over a list of items.
+Syntax: loop: [item1, item2, item3]
+Example: loop: "{{ packages }}"
+Until:
+
+Creates a loop that retries until a condition is met.
+Syntax: until: condition
+Example: until: result.status == 200
+With:
+
+Includes several loop constructs: with_items, with_dict, with_fileglob, etc.
+Example: with_items: [item1, item2, item3]
+Vault:
+
+Encrypts sensitive data such as passwords and keys.
+Syntax: Use ansible-vault command to encrypt and decrypt files.
+Example: ansible-vault encrypt secrets.yml
+Decrypt in playbooks: vars_files: - secrets.yml
+Modules:
+
+Core building blocks that perform specific tasks.
+Written in Python, executed on target machines.
+Examples: apt, copy, file.
+Syntax:
+
+- name: Install package
+  apt:
+    name: "{{ package_name }}"
+    state: present
+Plugins:
+
+Extend Ansible's functionality.
+Types include action, lookup, callback, and connection.
+Written in Python or other languages.
+Example: vars_plugins, filter_plugins.
+General Characteristics:
+
+Indentation:
+
+Uses spaces for indentation. Tabs are not allowed.
+Example:
+
+tasks:
+  - name: Install package
+    apt:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - package1
+      - package2
+Case Sensitivity:
+
+YAML syntax is case-sensitive. Keywords and variable names must match exactly.
+Structure:
+
+Uses dictionaries, lists (arrays), and scalars for data representation.
+Example:
+
+- name: Install packages
+  packages:
+    - package1
+    - package2
+Personal Insight:
+
+Ansible's simplicity and readability make it a powerful tool for automation. Its use of YAML for configuration ensures that playbooks are easy to write and understand. Features like Vault for secure data, and the modular approach with modules and plugins, enhance its flexibility and capability for handling complex automation tasks.
