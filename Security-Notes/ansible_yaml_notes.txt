@@ -103,4 +103,43 @@ ansible-playbook playbook.yml --ask-vault-pass
 You can also use a vault password file with --vault-password-file instead of --ask-vault-pass.
 
 
+##Ansible Roles organize code into reusable components. They consist of directories like tasks, handlers, vars, and templates.
+
+Use Cases:
+Modularization: Break down a playbook into roles for web server setup, database configuration, etc.
+Reusability: Apply roles across multiple playbooks or projects.
+Shareability: Easily share roles with teams.
+Example:
+Role Directory Structure:
+
+roles/
+  webserver/
+    tasks/
+      main.yml
+    vars/
+      main.yml
+    templates/
+      httpd.conf.j2
+tasks/main.yml:
+
+ 
+- name: Install Apache
+  yum:
+    name: httpd
+    state: present
+- name: Start Apache
+  service:
+    name: httpd
+    state: started
+vars/main.yml:
+
+ 
+httpd_port: 80
+Playbook:
+
+ 
+- hosts: web
+  roles:
+    - webserver
+
 Ansible's simplicity and readability make it a powerful tool for automation. Its use of YAML for configuration ensures that playbooks are easy to write and understand. Features like Vault for secure data, and the modular approach with modules and plugins, enhance its flexibility and capability for handling complex automation tasks.
