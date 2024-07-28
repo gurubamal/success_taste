@@ -221,4 +221,6 @@ Notify the Handler:
   notify: Restart Apache
 Explanation: If the Update Apache config task changes the file, it notifies the Restart Apache handler to restart the service. Handlers run at the end of the playbook.
 
+Variable values are priortised --> 1. CMD line 2. Vars folder 3. default folder 4. other yamls
+
 Ansible's simplicity and readability make it a powerful tool for automation. Its use of YAML for configuration ensures that playbooks are easy to write and understand. Features like Vault for secure data, and the modular approach with modules and plugins, enhance its flexibility and capability for handling complex automation tasks.
