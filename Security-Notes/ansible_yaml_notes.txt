@@ -174,4 +174,33 @@ Playbook:
     - myrole
 This allows you to modularize and reuse tasks across different playbooks and roles.
 
+In Ansible, debug and msg are used to print messages for troubleshooting or informational purposes.
+
+debug Module
+The debug module is used to print debug messages or variables during playbook execution.
+
+Syntax:
+- name: Print a message
+  debug:
+    msg: "This is a debug message"
+
+Example:
+- hosts: all
+  tasks:
+    - name: Print a variable
+      debug:
+        msg: "The value of the variable is {{ my_var }}"
+msg
+The msg parameter in the debug module specifies the message or variable to print.
+
+Example:
+- hosts: all
+  tasks:
+    - name: Show a message
+      debug:
+        msg: "Server is running"
+
+This prints "Server is running" in the output, helping you understand what is happening during the playbook execution.
+
+
 Ansible's simplicity and readability make it a powerful tool for automation. Its use of YAML for configuration ensures that playbooks are easy to write and understand. Features like Vault for secure data, and the modular approach with modules and plugins, enhance its flexibility and capability for handling complex automation tasks.
