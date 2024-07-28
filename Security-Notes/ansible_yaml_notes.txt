@@ -138,4 +138,40 @@ Playbook:
   roles:
     - webserver
 
+In Ansible, include_tasks is used to include tasks from another file into your playbook or role. It’s useful for breaking down complex playbooks or roles into smaller, manageable files.
+
+Usage:
+Within a Playbook:
+
+- hosts: all
+  tasks:
+    - name: Include common tasks
+      include_tasks: tasks/common.yml
+
+Within a Role:
+
+Role Directory Structure:
+
+  
+roles/
+  myrole/
+    tasks/
+      main.yml
+      setup.yml
+
+tasks/main.yml:
+- name: Include setup tasks
+  include_tasks: setup.yml
+
+tasks/setup.yml:
+- name: Install package
+  yum:
+    name: httpd
+    state: present
+Playbook:
+- hosts: all
+  roles:
+    - myrole
+This allows you to modularize and reuse tasks across different playbooks and roles.
+
 Ansible's simplicity and readability make it a powerful tool for automation. Its use of YAML for configuration ensures that playbooks are easy to write and understand. Features like Vault for secure data, and the modular approach with modules and plugins, enhance its flexibility and capability for handling complex automation tasks.
