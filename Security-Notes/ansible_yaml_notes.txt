@@ -202,5 +202,23 @@ Example:
 
 This prints "Server is running" in the output, helping you understand what is happening during the playbook execution.
 
+##Handlers in Ansible are tasks that run only when notified by other tasks, typically for actions like restarting services.
+
+Usage:
+Define a Handler:
+# roles/myrole/handlers/main.yml
+- name: Restart Apache
+  service:
+    name: httpd
+    state: restarted
+
+Notify the Handler:
+# roles/myrole/tasks/main.yml
+- name: Update Apache config
+  template:
+    src: httpd.conf.j2
+    dest: /etc/httpd/conf/httpd.conf
+  notify: Restart Apache
+Explanation: If the Update Apache config task changes the file, it notifies the Restart Apache handler to restart the service. Handlers run at the end of the playbook.
 
 Ansible's simplicity and readability make it a powerful tool for automation. Its use of YAML for configuration ensures that playbooks are easy to write and understand. Features like Vault for secure data, and the modular approach with modules and plugins, enhance its flexibility and capability for handling complex automation tasks.
