@@ -111,7 +111,6 @@ Reusability: Apply roles across multiple playbooks or projects.
 Shareability: Easily share roles with teams.
 Example:
 Role Directory Structure:
-
 roles/
   webserver/
     tasks/
@@ -120,9 +119,8 @@ roles/
       main.yml
     templates/
       httpd.conf.j2
-tasks/main.yml:
 
- 
+tasks/main.yml:
 - name: Install Apache
   yum:
     name: httpd
@@ -131,13 +129,11 @@ tasks/main.yml:
   service:
     name: httpd
     state: started
+
 vars/main.yml:
-
- 
 httpd_port: 80
-Playbook:
 
- 
+Playbook:
 - hosts: web
   roles:
     - webserver
