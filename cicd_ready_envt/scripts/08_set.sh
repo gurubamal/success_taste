@@ -34,7 +34,7 @@ stop_kubelet_service() {
 # Function to install required packages if not already installed
 install_packages() {
     echo "Updating package list..."
-    sudo apt-get update
+    sudo apt-get update -y
     for pkg in socat conntrack; do
         if ! dpkg -s $pkg &> /dev/null; then
             echo "Installing $pkg..."
@@ -50,7 +50,7 @@ install_crictl() {
     local version="v1.24.1"
     if ! command -v crictl &> /dev/null; then
         echo "Installing crictl version $version..."
-        wget https://github.com/kubernetes-sigs/cri-tools/releases/download/${version}/crictl-${version}-linux-amd64.tar.gz
+        wget -q https://github.com/kubernetes-sigs/cri-tools/releases/download/${version}/crictl-${version}-linux-amd64.tar.gz
         sudo tar zxvf crictl-${version}-linux-amd64.tar.gz -C /usr/local/bin
         rm crictl-${version}-linux-amd64.tar.gz
     else
@@ -74,9 +74,9 @@ verify_installations() {
 install_packages
 install_crictl
 verify_installations
+
 if [ ! -e /etc/kubernetes/pki/ca.crt ]; then
-    echo "Pulling images..... it will take few minutes........"
-    timeout 188 sudo kubeadm config images pull --image-repository registry.aliyuncs.com/google_containers 2>/dev/null
+
     check_and_kill_kubelet
 
     if [ -e /etc/containerd/config.toml ]; then
@@ -105,36 +105,52 @@ if [ ! -e /etc/kubernetes/pki/ca.crt ]; then
     echo "Checking kubelet status..."
     sudo systemctl status kubelet
 
-    # Check kubelet logs
+    # Check kubelet logs without invoking the pager
     echo "Fetching kubelet logs..."
-    sudo journalctl -xeu kubelet
+    sudo journalctl -xeu kubelet --no-pager
 
     # Initialize Kubernetes control plane and save output to init.txt
     echo "Initializing Kubernetes control plane..."
-    sudo kubeadm init --control-plane-endpoint=$PRIMARY_IP --pod-network-cidr=$POD_CIDR --service-cidr=$SERVICE_CIDR --apiserver-advertise-address=$PRIMARY_IP --cri-socket=unix:///run/containerd/containerd.sock | tee init.txt
+    sudo kubeadm init \
+        --control-plane-endpoint=$PRIMARY_IP \
+        --pod-network-cidr=$POD_CIDR \
+        --service-cidr=$SERVICE_CIDR \
+        --apiserver-advertise-address=$PRIMARY_IP \
+        --cri-socket=unix:///run/containerd/containerd.sock | tee init.txt
 
-    # Generate the join command for compute nodes
-if [ $? -ne 0 ]; then
-            echo "Error: Failed to initialize Kubernetes with kubeadm."
-        fi
+    # Check if kubeadm init was successful
+    if [ ${PIPESTATUS[0]} -ne 0 ]; then
+        echo "Error: Failed to initialize Kubernetes with kubeadm."
+    else
+        # Set up local kubeconfig for the current user
+        mkdir -p $HOME/.kube
+#        sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+#        sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-        echo sudo $(tail -2 init.txt | head -1 | cut -d'\' -f1) $(tail -1 init.txt | cut -d'[' -f1) | tee -a compute_add.sh
-        JOIN_CMD=$(cat compute_add.sh)
+        # Generate the join command for compute nodes
+        echo "Generating join command for compute nodes..."
+        JOIN_CMD=$(kubeadm token create --print-join-command)
 
-        echo "if ! [ \$HOSTNAME = node4 ]; then
-        if ! [ -e /etc/kubernetes/kubelet.conf ]; then
-            sudo rm /etc/containerd/config.toml
-            sudo systemctl restart containerd
-            sudo systemctl enable containerd
-            sudo swapoff -a
-            $JOIN_CMD
-        fi
-        else
-            exit 0
-        fi" | tee compute_add.sh
+        # Create compute_add.sh script using a here document
+        cat <<EOF | tee /vagrant/scripts/compute_add.sh
+#!/bin/bash
 
-        sed 's/node4 = node4/\$HOSTNAME = node4/g' compute_add.sh | tee /vagrant/scripts/compute_add.sh
-        chmod +x /vagrant/scripts/*.sh
+if [ "\$HOSTNAME" != "node4" ]; then
+    if [ ! -e /etc/kubernetes/kubelet.conf ]; then
+        sudo rm -f /etc/containerd/config.toml
+        sudo systemctl restart containerd
+        sudo systemctl enable containerd
+        sudo swapoff -a
+        sudo $JOIN_CMD
+    fi
+else
+    exit 0
+fi
+EOF
+
+        # Ensure the script is executable
+        chmod +x /vagrant/scripts/compute_add.sh
+    fi
 else
     echo "/etc/kubernetes/pki/ca.crt already exists. Skipping setup."
 fi
