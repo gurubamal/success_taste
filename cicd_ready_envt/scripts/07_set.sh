@@ -35,7 +35,7 @@ curl -fsSL https://pkgs.k8s.io/core:/stable:/${KUBE_LATEST}/deb/Release.key | su
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/${KUBE_LATEST}/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 sudo apt-get update
-sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-get install -y kubelet=1.31.1-1 kubeadm=1.31.1-1 kubectl=1.31.1-1
 sudo apt-mark hold kubelet kubeadm kubectl
 
 sudo crictl config \
@@ -99,12 +99,12 @@ add_repo_and_install() {
   local repo_url=$1
   echo "deb [trusted=yes] $repo_url kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
   sudo apt-get update
-  sudo apt-get install -y kubelet kubeadm kubectl
+  sudo apt-get install -y kubelet=1.31.1-1 kubeadm=1.31.1-1 kubectl=1.31.1-1
   sudo apt-mark hold kubelet kubeadm kubectl
 }
 
 install_kubernetes_components() {
-  sudo apt-get install -y kubelet kubeadm kubectl
+  sudo apt-get install -y kubelet=1.31.1-1 kubeadm=1.31.1-1 kubectl=1.31.1-1
   sudo apt-mark hold kubelet kubeadm kubectl
 }
 
